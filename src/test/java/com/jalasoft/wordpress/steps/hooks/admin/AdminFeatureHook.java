@@ -1,0 +1,55 @@
+package com.jalasoft.wordpress.steps.hooks.admin;
+
+import api.methods.APIPostsMethods;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
+import io.restassured.internal.http.Status;
+import io.restassured.response.Response;
+import org.testng.Assert;
+import ui.controller.UIController;
+import ui.methods.CommonMethods;
+import utils.LoggerManager;
+
+public class AdminFeatureHook {
+    private static final LoggerManager log = LoggerManager.getInstance();
+    private final UIController controller;
+
+    public AdminFeatureHook(UIController controller) {
+        this.controller = controller;
+    }
+
+    @Before("@EditPublishPost or @DeleteDraftPost")
+    public void createPost() {
+        Response requestResponse = APIPostsMethods.createAPost();
+        Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "post was not created");
+
+        String title = requestResponse.jsonPath().getString("title.raw");
+        String id = requestResponse.jsonPath().getString("id");
+        controller.setTitle(title);
+        controller.setId(id);
+    }
+
+    @After("@LoginAdmin")
+    public void afterLoginAdmin() {
+        CommonMethods.logout();
+    }
+
+    @After("@CreatePublishPost")
+    public void afterPosts() {
+        CommonMethods.logout();
+        String title = controller.getTitle();
+        Response requestResponse = APIPostsMethods.deleteAPostByTitle(title);
+
+        Assert.assertNotNull(requestResponse, "post with title -> " + title + " was not found");
+        Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "post with title -> " + title + " was not deleted");
+    }
+
+    @After("@EditPublishPost or @DeleteDraftPost")
+    public void afterCreateAPost() {
+        CommonMethods.logout();
+        String id = controller.getId();
+        Response requestResponse = APIPostsMethods.deleteAPostById(id);
+
+        Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "post with id -> " + id + " was not deleted");
+    }
+}
