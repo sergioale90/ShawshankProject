@@ -1,5 +1,6 @@
 package com.jalasoft.wordpress.steps.hooks.admin;
 
+import api.methods.APIPagesMethods;
 import api.methods.APIPostsMethods;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -29,6 +30,18 @@ public class AdminFeatureHook {
         controller.setId(id);
     }
 
+    @Before("@EditPublishPage or @DeleteDraftPage")
+    public void createPage() {
+        Response requestResponse = APIPagesMethods.createAPage();
+        Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "page was not created");
+
+        String title = requestResponse.jsonPath().getString("title.raw");
+        String id = requestResponse.jsonPath().getString("id");
+        controller.setTitle(title);
+        controller.setId(id);
+    }
+
+
     @After("@LoginAdmin")
     public void afterLoginAdmin() {
         CommonMethods.logout();
@@ -44,6 +57,17 @@ public class AdminFeatureHook {
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "post with title -> " + title + " was not deleted");
     }
 
+    @After("@CreatePublishPage")
+    public void afterPages() {
+        CommonMethods.logout();
+        String title = controller.getTitle();
+        System.out.println("Delete Hooks: " + title);
+        Response requestResponse = APIPagesMethods.deleteAPageByTitle(title);
+
+        Assert.assertNotNull(requestResponse, "page with title -> " + title + " was not found");
+        Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "page with title -> " + title + " was not deleted");
+    }
+
     @After("@EditPublishPost or @DeleteDraftPost")
     public void afterCreateAPost() {
         CommonMethods.logout();
@@ -51,5 +75,14 @@ public class AdminFeatureHook {
         Response requestResponse = APIPostsMethods.deleteAPostById(id);
 
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "post with id -> " + id + " was not deleted");
+    }
+
+    @After("@EditPublishPage or @DeleteDraftPage")
+    public void afterCreateAPage() {
+        CommonMethods.logout();
+        String id = controller.getId();
+        Response requestResponse = APIPagesMethods.deleteAPageById(id);
+
+        Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "page with id -> " + id + " was not deleted");
     }
 }
