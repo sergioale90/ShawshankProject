@@ -40,7 +40,22 @@ public class APIPostsSteps {
     @Given("^I make a request to create a post with the following params$")
     public void createAPost(DataTable table) {
         List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
-        Map<String, Object> queryParams = queryParamsList.get(0);
+
+        Map<String, Object> queryParams = new HashMap<>();
+        queryParams.put("status", "publish");
+        queryParams.putAll(queryParamsList.get(0));
+
+        Response requestResponse = apiManager.post(postsEndpoint, queryParams, controller.getHeader("Authorization"));
+        controller.setResponse(requestResponse);
+        params = queryParams;
+    }
+
+    @Given("^I make a request to create a draft post with the following params$")
+    public void createADraftPost(DataTable table) {
+        List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
+        Map<String, Object> queryParams = new HashMap<>();
+        queryParams.put("status", "draft");
+        queryParams.putAll(queryParamsList.get(0));
 
         Response requestResponse = apiManager.post(postsEndpoint, queryParams, controller.getHeader("Authorization"));
         controller.setResponse(requestResponse);

@@ -23,7 +23,7 @@ public class APIPostsFeatureHook {
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "post was not created");
     }
 
-    @After("@CreateAPost or @RetrieveAPost or @RetrieveADraftPost or @UpdateAPost or @DeleteAPost")
+    @After("@CreateAPost or @CreateADraftPost or @RetrieveAPost or @RetrieveADraftPost or @UpdateAPost or @DeleteAPost")
     public void deleteAPostById() {
         String id = controller.getResponse().jsonPath().getString("id");
         Response requestResponse = APIPostsMethods.deleteAPostById(id);
