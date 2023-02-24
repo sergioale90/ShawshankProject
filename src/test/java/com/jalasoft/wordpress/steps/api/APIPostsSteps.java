@@ -115,6 +115,28 @@ public class APIPostsSteps {
         controller.setResponse(requestResponse);
     }
 
+    @Given("^I make a request to delete a post permanently$")
+    public void deletePostByIdPermanently() {
+        String id = controller.getResponse().jsonPath().getString("id");
+        Header authHeader = controller.getHeader("Authorization");
+        Response requestResponse = apiManager.delete(postByIdEndpoint.replace("<id>", id), authHeader);
+        Map<String, Object> queryParams = new HashMap<>();
+
+        String content = controller.getResponse().jsonPath().getString("content.raw");
+        String title = controller.getResponse().jsonPath().getString("title.raw");
+        String excerpt = controller.getResponse().jsonPath().getString("excerpt.raw");
+
+        queryParams.put("id", id);
+        queryParams.put("content", content);
+        queryParams.put("title", title);
+        queryParams.put("excerpt", excerpt);
+        queryParams.put("status", "trash");
+        queryParams.put("force", true);
+
+        params = queryParams;
+        controller.setResponse(requestResponse);
+    }
+
     @Then("^response should have a proper amount of posts$")
     public void verifyPostsAmount() {
         int expectedAmountOfPosts = Integer.parseInt(controller.getResponse().getHeaders().getValue("X-WP-Total"));

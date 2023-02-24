@@ -107,10 +107,23 @@ Feature: API Posts
       | administrator | HTTP/1.1 200 OK |
       | editor        | HTTP/1.1 200 OK |
 
-  @DeleteAPost
+  @DeleteAPostTrash
   Scenario Outline: A user with proper role should be able to delete a post
     Given I am authenticated with "<User Role>" role
     When I make a request to delete a post
+    Then the user should get a "<Status Line>" response
+    And the user should get a valid response and have a body
+    And post should have been deleted
+
+    Examples:
+      | User Role     | Status Line     |
+      | administrator | HTTP/1.1 200 OK |
+      | editor        | HTTP/1.1 200 OK |
+
+  @DeleteAPost
+  Scenario Outline: A user with proper role should be able to delete a post
+    Given I am authenticated with "<User Role>" role
+    When I make a request to delete a post permanently
     Then the user should get a "<Status Line>" response
      And the user should get a valid response and have a body
      And post should have been deleted
