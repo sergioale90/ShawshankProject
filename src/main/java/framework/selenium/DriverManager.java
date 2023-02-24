@@ -2,12 +2,15 @@ package framework.selenium;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeDriverService;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxDriverLogLevel;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.service.DriverService;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import utils.LoggerManager;
@@ -41,6 +44,9 @@ public class DriverManager {
         log.info("Initializing Selenium WebDriver Manager");
         switch (driverConfig.getBrowser()) {
             case CHROME -> {
+                DriverService.Builder<ChromeDriverService, ChromeDriverService.Builder> builder = new ChromeDriverService.Builder().withSilent(true);
+                ChromeDriverService service = builder.build();
+
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
                 chromeOptions.setExperimentalOption("useAutomationExtension", false);
@@ -55,10 +61,12 @@ public class DriverManager {
                 if (driverConfig.getHeadlessMode()) {
                     chromeOptions.addArguments("--headless");
                 }
-
-                driver = new ChromeDriver(chromeOptions);
+                driver = new ChromeDriver(service, chromeOptions);
             }
             case EDGE -> {
+                DriverService.Builder<EdgeDriverService, EdgeDriverService.Builder> builder = new EdgeDriverService.Builder().withSilent(true);
+                EdgeDriverService service = builder.build();
+
                 EdgeOptions edgeOptions = new EdgeOptions();
                 edgeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
                 edgeOptions.setExperimentalOption("useAutomationExtension", false);
@@ -74,7 +82,7 @@ public class DriverManager {
                     edgeOptions.addArguments("--headless");
                 }
 
-                driver = new EdgeDriver(edgeOptions);
+                driver = new EdgeDriver(service, edgeOptions);
             }
             case FIREFOX -> {
                 FirefoxOptions firefoxOptions = new FirefoxOptions();

@@ -59,4 +59,8 @@ public class APIConfig {
     public String getPostsByIdEndpoint() {
         return getAPISetting("api.endpoint.postsById");
     }
+
+    public String getPagesEndpoint() { return getAPISetting("api.endpoint.pages"); }
+
+    public String getPagesByIdEndpoint() { return getAPISetting("api.endpoint.pagesById"); }
 }
