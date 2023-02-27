@@ -37,7 +37,7 @@ public class APIPostsSteps {
         controller.setResponse(requestResponse);
     }
 
-    @Given("^I make a request to create a post with the following params$")
+    @Given("^the user makes a request to create a post with the following params$")
     public void createAPost(DataTable table) {
         List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
 
@@ -50,7 +50,7 @@ public class APIPostsSteps {
         params = queryParams;
     }
 
-    @Given("^I make a request to create a draft post with the following params$")
+    @Given("^the user makes a request to create a draft post with the following params$")
     public void createADraftPost(DataTable table) {
         List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
         Map<String, Object> queryParams = new HashMap<>();
@@ -62,7 +62,7 @@ public class APIPostsSteps {
         params = queryParams;
     }
 
-    @Given("^I make a request to retrieve a post$")
+    @Given("^the user makes a request to retrieve a post$")
     public void getPostById() {
         String id = controller.getResponse().jsonPath().getString("id");
         Header authHeader = controller.getHeader("Authorization");
@@ -81,7 +81,7 @@ public class APIPostsSteps {
         controller.setResponse(requestResponse);
     }
 
-    @Given("^I make a request to update a post with the following params$")
+    @Given("^the user makes a request to update a post with the following params$")
     public void updatePostById(DataTable table) {
         String id = controller.getResponse().jsonPath().getString("id");
         Header authHeader = controller.getHeader("Authorization");
@@ -94,7 +94,7 @@ public class APIPostsSteps {
         controller.setResponse(requestResponse);
     }
 
-    @Given("^I make a request to delete a post$")
+    @Given("^the user makes a request to delete a post$")
     public void deletePostById() {
         String id = controller.getResponse().jsonPath().getString("id");
         Header authHeader = controller.getHeader("Authorization");
@@ -115,7 +115,7 @@ public class APIPostsSteps {
         controller.setResponse(requestResponse);
     }
 
-    @Given("^I make a request to delete a post permanently$")
+    @Given("^the user makes a request to delete a post permanently$")
     public void deletePostByIdPermanently() {
         String id = controller.getResponse().jsonPath().getString("id");
         Header authHeader = controller.getHeader("Authorization");
