@@ -31,7 +31,6 @@ Feature: API Posts
       | User Role     | Status Line          |
       | administrator | HTTP/1.1 201 Created |
       | author        | HTTP/1.1 201 Created |
-#      | contributor   | HTTP/1.1 403 Forbidden |
       | editor        | HTTP/1.1 201 Created |
 
   @CreateADraftPost
