@@ -24,6 +24,14 @@ public class NewPagesPage extends BaseEditPage {
         panel.clickPublishButton();
     }
 
+    public void draftPage(String title, String content) {
+        setTitleTextBox(title);
+        setContentTextArea(content);
+
+        editHeader.clickSaveDraftButton();
+    }
+
+
     public boolean isPublishedMessageDisplayed() {
         String publishedMessageLocator = "//div[contains(@class, 'components-snackbar')][text()='Page published.']";
         return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(publishedMessageLocator))).isDisplayed();

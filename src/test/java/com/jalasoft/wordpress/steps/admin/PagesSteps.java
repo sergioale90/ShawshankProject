@@ -52,7 +52,23 @@ public class PagesSteps {
         newPagesPage.publishPage(title, content);
     }
 
-    @Given("^the user moves a Post to trash using the trash link on the Page page table$")
+    // draft page
+    @Given("^the user save as draft a new Page with the following values$")
+    public void draftPage(DataTable table) {
+        List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
+        Map<String, Object> values = queryParamsList.get(0);
+
+        String title = (String) values.get("title");
+        String content = (String) values.get("content");
+
+        controller.setTitle(title);
+        controller.setContent(content);
+         newPagesPage.draftPage(title, content);
+//        newPagesPage.publishPage(title, content);
+    }
+
+
+    @Given("^the user moves a Page to trash using the trash link on the Page page table$")
     public void movePageToTrashUsingLink() {
         String title = controller.getTitle();
         pagesPage = pagesPage.movePageToTrashUsingLink(title);
