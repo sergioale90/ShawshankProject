@@ -18,7 +18,6 @@ import static org.openqa.selenium.firefox.FirefoxDriver.SystemProperty.BROWSER_L
 
 public class ScenarioHooks {
     private static final LoggerManager log = LoggerManager.getInstance();
-    private static final DriverManager driverManager = DriverManager.getInstance();
     private static final String firefoxLogFilePath = System.getProperty("user.dir") + File.separator + "logs" + File.separator + "firefox.log";
     private static boolean isAUIScenario = false;
 
@@ -40,7 +39,7 @@ public class ScenarioHooks {
     public void afterScenario(Scenario scenario) {
         log.info("Scenario: --> " + scenario.getStatus() + " : " + scenario.getName());
         if (scenario.isFailed() && scenario.getSourceTagNames().contains("@UI")) {
-            TakesScreenshot screenshotManager = (TakesScreenshot) driverManager.getWebDriver();
+            TakesScreenshot screenshotManager = (TakesScreenshot) DriverManager.getInstance().getWebDriver();
             byte[] screenshot = screenshotManager.getScreenshotAs(OutputType.BYTES);
             scenario.attach(screenshot,"image/png", scenario.getId());
         }
@@ -49,7 +48,7 @@ public class ScenarioHooks {
     @AfterAll
     public static void afterAll() {
         if (isAUIScenario) {
-            driverManager.quitWebDriver();
+            DriverManager.getInstance().quitWebDriver();
         }
     }
 }

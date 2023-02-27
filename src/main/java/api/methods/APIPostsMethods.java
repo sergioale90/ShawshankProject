@@ -22,6 +22,19 @@ public class APIPostsMethods {
         jsonAsMap.put("content", "Test WAPI Post Content");
         jsonAsMap.put("title", "Test WAPI Title");
         jsonAsMap.put("excerpt", "Test WAPI Excerpt");
+        jsonAsMap.put("status", "publish");
+
+        return apiManager.post(postsEndpoint, jsonAsMap, authHeader);
+    }
+
+    public static Response createADraftPost() {
+        String postsEndpoint = apiConfig.getPostsEndpoint();
+        Header authHeader = APIAuthMethods.getAuthHeader("administrator");
+        Map<String, Object> jsonAsMap = new HashMap<>();
+        jsonAsMap.put("content", "Draft Test WAPI Post Content");
+        jsonAsMap.put("title", "Draft Test WAPI Title");
+        jsonAsMap.put("excerpt", "Draft Test WAPI Excerpt");
+        jsonAsMap.put("status", "draft");
 
         return apiManager.post(postsEndpoint, jsonAsMap, authHeader);
     }

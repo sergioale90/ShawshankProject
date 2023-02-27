@@ -37,17 +37,32 @@ public class APIPostsSteps {
         controller.setResponse(requestResponse);
     }
 
-    @Given("^I make a request to create a post with the following params$")
+    @Given("^the user makes a request to create a post with the following params$")
     public void createAPost(DataTable table) {
         List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
-        Map<String, Object> queryParams = queryParamsList.get(0);
+
+        Map<String, Object> queryParams = new HashMap<>();
+        queryParams.put("status", "publish");
+        queryParams.putAll(queryParamsList.get(0));
 
         Response requestResponse = apiManager.post(postsEndpoint, queryParams, controller.getHeader("Authorization"));
         controller.setResponse(requestResponse);
         params = queryParams;
     }
 
-    @Given("^I make a request to retrieve a post$")
+    @Given("^the user makes a request to create a draft post with the following params$")
+    public void createADraftPost(DataTable table) {
+        List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
+        Map<String, Object> queryParams = new HashMap<>();
+        queryParams.put("status", "draft");
+        queryParams.putAll(queryParamsList.get(0));
+
+        Response requestResponse = apiManager.post(postsEndpoint, queryParams, controller.getHeader("Authorization"));
+        controller.setResponse(requestResponse);
+        params = queryParams;
+    }
+
+    @Given("^the user makes a request to retrieve a post$")
     public void getPostById() {
         String id = controller.getResponse().jsonPath().getString("id");
         Header authHeader = controller.getHeader("Authorization");
@@ -66,7 +81,7 @@ public class APIPostsSteps {
         controller.setResponse(requestResponse);
     }
 
-    @Given("^I make a request to update a post with the following params$")
+    @Given("^the user makes a request to update a post with the following params$")
     public void updatePostById(DataTable table) {
         String id = controller.getResponse().jsonPath().getString("id");
         Header authHeader = controller.getHeader("Authorization");
@@ -79,7 +94,7 @@ public class APIPostsSteps {
         controller.setResponse(requestResponse);
     }
 
-    @Given("^I make a request to delete a post$")
+    @Given("^the user makes a request to delete a post$")
     public void deletePostById() {
         String id = controller.getResponse().jsonPath().getString("id");
         Header authHeader = controller.getHeader("Authorization");
@@ -95,6 +110,28 @@ public class APIPostsSteps {
         queryParams.put("title", title);
         queryParams.put("excerpt", excerpt);
         queryParams.put("status", "trash");
+
+        params = queryParams;
+        controller.setResponse(requestResponse);
+    }
+
+    @Given("^the user makes a request to delete a post permanently$")
+    public void deletePostByIdPermanently() {
+        String id = controller.getResponse().jsonPath().getString("id");
+        Header authHeader = controller.getHeader("Authorization");
+        Response requestResponse = apiManager.delete(postByIdEndpoint.replace("<id>", id), authHeader);
+        Map<String, Object> queryParams = new HashMap<>();
+
+        String content = controller.getResponse().jsonPath().getString("content.raw");
+        String title = controller.getResponse().jsonPath().getString("title.raw");
+        String excerpt = controller.getResponse().jsonPath().getString("excerpt.raw");
+
+        queryParams.put("id", id);
+        queryParams.put("content", content);
+        queryParams.put("title", title);
+        queryParams.put("excerpt", excerpt);
+        queryParams.put("status", "trash");
+        queryParams.put("force", true);
 
         params = queryParams;
         controller.setResponse(requestResponse);
