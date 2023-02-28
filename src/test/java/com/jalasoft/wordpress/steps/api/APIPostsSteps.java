@@ -3,8 +3,6 @@ package com.jalasoft.wordpress.steps.api;
 import api.APIConfig;
 import api.APIManager;
 import api.controller.APIController;
-import api.methods.APIAuthMethods;
-import api.methods.APIPostsMethods;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
