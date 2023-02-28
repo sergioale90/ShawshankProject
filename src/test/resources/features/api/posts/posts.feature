@@ -104,15 +104,18 @@ Feature: API Posts
     Examples:
       | User Role     | Status Line     |
       | administrator | HTTP/1.1 200 OK |
+      | author        | HTTP/1.1 200 OK |
+      | contributor   | HTTP/1.1 200 OK |
       | editor        | HTTP/1.1 200 OK |
+      | subscriber    | HTTP/1.1 200 OK |
 
   @DeleteAPostTrash
   Scenario Outline: A user with proper role should be able to delete a post
     Given the user is authenticated with "<User Role>" role
-    When the user makes a request to delete a post
+    When the user makes a request to delete a post by trash
     Then the user should get a "<Status Line>" response
     And the user should get a valid response and have a body
-    And post should have been deleted
+    And post should have been trashed
 
     Examples:
       | User Role     | Status Line     |
@@ -120,12 +123,12 @@ Feature: API Posts
       | editor        | HTTP/1.1 200 OK |
 
   @DeleteAPost
-  Scenario Outline: A user with proper role should be able to delete a post
+  Scenario Outline: A user with proper role should be able to delete a post permanently
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to delete a post permanently
     Then the user should get a "<Status Line>" response
     And the user should get a valid response and have a body
-    And post should have been deleted
+    And post should have been deleted permanently
 
     Examples:
       | User Role     | Status Line     |

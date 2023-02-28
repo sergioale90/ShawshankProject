@@ -19,15 +19,17 @@ public class AdminFeatureHook {
         this.controller = controller;
     }
 
-    @Before("@EditPublishPost or @DeleteDraftPost")
+    @Before("@EditPublishPost or @DeleteDraftPost or @OpenPost")
     public void createPost() {
-        Response requestResponse = APIPostsMethods.createAPost();
+        Response requestResponse = APIPostsMethods.createADraftPost();
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "post was not created");
 
-        String title = requestResponse.jsonPath().getString("title.raw");
         String id = requestResponse.jsonPath().getString("id");
-        controller.setTitle(title);
+        String title = requestResponse.jsonPath().getString("title.raw");
+        String content = requestResponse.jsonPath().getString("content.raw");
         controller.setId(id);
+        controller.setTitle(title);
+        controller.setContent(content);
     }
 
     @Before("@EditPublishPage or @DeleteDraftPage or @DeleteDraftPagePermanently or @RestoreDraftPage or @FindValidPage or @FindNoValidPage")
@@ -68,6 +70,7 @@ public class AdminFeatureHook {
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "post with title -> " + title + " was not deleted");
     }
 
+<<<<<<< HEAD
     @After("@CreatePublishPage or @UpdatePublishPage or @PagePublishSwitchDraft or @FindNoValidPage")
     public void afterPages() {
         CommonMethods.logout();
@@ -90,6 +93,9 @@ public class AdminFeatureHook {
 
 
     @After("@EditPublishPost or @DeleteDraftPost")
+=======
+    @After("@EditPublishPost or @DeleteDraftPost or @OpenPost")
+>>>>>>> 77975d7 (refactor in Post hooks and steps, verifies trashed and true delete)
     public void afterCreateAPost() {
         CommonMethods.logout();
         String id = controller.getId();

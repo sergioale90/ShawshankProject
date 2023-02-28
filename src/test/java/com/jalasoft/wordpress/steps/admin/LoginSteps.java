@@ -28,7 +28,7 @@ public class LoginSteps {
         homeAdminPage = loginAdminPage.loginWithUser(userRole);
     }
 
-    @Given("^the user logs in to the Admin page with the \"(.*?)\" role$")
+    @Given("^the user is logged in to Admin page with \"(.*?)\" role$")
     public void switchAdminPageUser(String userRole) {
         if (pageTransporter.isOnAdminPage()) {
             CommonMethods.logout();

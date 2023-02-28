@@ -23,29 +23,29 @@ public class PostsSteps {
         this.homeAdminPage = homeAdminPage;
     }
 
-    @Given("^I go to Posts page using the left side menu bar$")
+    @Given("^the user goes to Posts page using the left side menu bar$")
     public void gotToPostsPageUsingMenu() {
         postsPage = homeAdminPage.leftSideBarMenu.goToNewPostPage();
     }
 
-    @Given("^I go to New Post page using the Add New button on Posts page$")
+    @Given("^the user goes to New Post page using the Add New button on Posts page$")
     public void goToNewPostPageUsingButton() {
         newPostPage = postsPage.goToNewPostPage();
     }
 
-    @Given("^I open the Post using the post title link on the Post page table$")
-    public void goToPostUsingLink() {
+    @Given("^the user opens the Post using the post title link on the Post page table$")
+    public void goToPostUsingLink() {//
         String title = controller.getTitle();
         newPostPage = postsPage.goToPostPageUsingLink(title);
     }
 
-    @Given("^I move a Post to trash using the trash link on the Post page table$")
+    @Given("^the user moves a Post to trash using the trash link on the Post page table$")
     public void movePostToTrashUsingLink() {
         String title = controller.getTitle();
         postsPage = postsPage.movePostToTrashUsingLink(title);
     }
 
-    @Given("^I(?: publish a new | edit and publish the )Post with the following values$")
+    @Given("^the user(?: publish a new | edit and publish the )Post with the following values$")
     public void publishPost(DataTable table) {
         List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
         Map<String, Object> values = queryParamsList.get(0);
@@ -80,5 +80,17 @@ public class PostsSteps {
 
         Assert.assertTrue(isPostMovedToTrashMessageDisplayed, "post moved to trash message was not displayed");
         Assert.assertTrue(isPostTitleLinkPresent, "post title link was present");
+    }
+
+    @Then("^the Post should have the correct info$")
+    public void verifyPostInfo() {
+        String actualTitle = newPostPage.getTitleText();
+        String actualContent = newPostPage.getContentText();
+
+        String expectedTitle = controller.getTitle();
+        String expectedContent = controller.getContent();
+
+        Assert.assertEquals(actualTitle, expectedTitle, "wrong title found");
+        Assert.assertEquals(actualContent, expectedContent, "wrong content found");
     }
 }
