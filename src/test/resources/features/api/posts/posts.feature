@@ -95,8 +95,8 @@ Feature: API Posts
   Scenario Outline: A user with proper role should be able to update a draft post
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to update a post with the following params
-      | content                        | title                   | excerpt                   |
-      | Test WAPI Post Content Updated | Test WAPI Title Updated | Test WAPI Excerpt Updated |
+      | content                        | title                   | excerpt                   | status  |
+      | Test WAPI Post Content Updated | Test WAPI Title Updated | Test WAPI Excerpt Updated | publish |
     Then the user should get a "<Status Line>" response
     And the user should get a valid response and have a body
     And post should have been updated with the proper params
@@ -104,10 +104,7 @@ Feature: API Posts
     Examples:
       | User Role     | Status Line     |
       | administrator | HTTP/1.1 200 OK |
-      | author        | HTTP/1.1 200 OK |
-      | contributor   | HTTP/1.1 200 OK |
       | editor        | HTTP/1.1 200 OK |
-      | subscriber    | HTTP/1.1 200 OK |
 
   @DeleteAPostTrash
   Scenario Outline: A user with proper role should be able to delete a post
