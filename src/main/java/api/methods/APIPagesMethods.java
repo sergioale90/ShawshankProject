@@ -21,7 +21,7 @@ public class APIPagesMethods {
         String pagesEndpoint = apiConfig.getPagesEndpoint();
         Header authHeader = APIAuthMethods.getAuthHeader("administrator");
         Map<String, Object> queryParams = new HashMap<>();
-        queryParams.put("title", "Test WAPI Draft Page Hook Title");
+        queryParams.put("title", "Test WAPI Draft Page");
         queryParams.put("content", "Test WAPI Draft Page Hook Content");
         queryParams.put("excerpt", "Test WAPI Draft Page Hook Excerpt");
 

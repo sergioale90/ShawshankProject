@@ -3,7 +3,9 @@ package com.jalasoft.wordpress.steps.admin;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.restassured.response.Response;
 import org.testng.Assert;
+import ui.admin.components.Wrap;
 import ui.admin.pages.HomeAdminPage;
 import ui.admin.pages.NewPagesPage;
 import ui.admin.pages.PagesPage;
@@ -17,10 +19,13 @@ public class PagesSteps {
     private final HomeAdminPage homeAdminPage;
     private PagesPage pagesPage;
     private NewPagesPage newPagesPage;
+    private Wrap wrapPage;
+    private Response draftPages;
 
     public PagesSteps(UIController controller, HomeAdminPage homeAdminPage) {
         this.controller = controller;
         this.homeAdminPage = homeAdminPage;
+        this.wrapPage = new Wrap();
     }
 
     @Given("^the user goes to Pages using the left side menu bar$")
@@ -134,7 +139,20 @@ public class PagesSteps {
         Assert.assertTrue(isPageMovedToTrashMessageDisplayed, "page moved to trash message was not displayed");
         Assert.assertTrue(isPageTitleLinkPresent, "page title link was present");
     }
+    @Given("^the user deletes the Page using the Delete Permanently link on the Page page table$")
+    public void goToTrashSectionUsingTrashLink() {
+        wrapPage.getLinkTrash();
+        String title = controller.getTitle();
+        pagesPage = pagesPage.deletePagePermanentlyUsingLink(title);
+    }
+    @Given("^the user reviews that the Page should have been delete permanently$")
+    public void deletePagePermanently() {
+        String title = controller.getTitle();
+        // pagesPage = pagesPage.movePageToTrashUsingLink(title);
+        boolean isPagePermanentlyDeleteMessageDisplayed = pagesPage.isPagePermanentlyDeleteMessageDisplayed();
+       //  boolean isPageTitleLinkPresent = pagesPage.isPageTitleLinkPresentInTrashSection(title);
 
-
-
+        Assert.assertTrue(isPagePermanentlyDeleteMessageDisplayed, "page deleted permanently message was not displayed");
+        // Assert.assertTrue(isPageTitleLinkPresent, "page title link was present");
+    }
 }

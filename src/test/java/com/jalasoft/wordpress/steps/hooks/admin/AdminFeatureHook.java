@@ -68,7 +68,7 @@ public class AdminFeatureHook {
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "post with title -> " + title + " was not deleted");
     }
 
-    @After("@CreatePublishPage or @UpdatePublishPage or @DeleteDraftPagePermanently")
+    @After("@CreatePublishPage or @UpdatePublishPage")
     public void afterPages() {
         CommonMethods.logout();
         String title = controller.getTitle();

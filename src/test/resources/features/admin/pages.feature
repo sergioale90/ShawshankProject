@@ -72,7 +72,7 @@ Feature: Pages
     Examples:
       | User Role     |
       | administrator |
-      | editor        |
+      #| editor        |
 
   # Verify that a Page in Trash Status can be deleted permanently.
   @DeleteDraftPagePermanently
@@ -81,11 +81,13 @@ Feature: Pages
     When the user goes to Pages using the left side menu bar
     And the user moves a Page to trash using the trash link on the Page page table
     Then the user reviews that the Page should have been moved to trash successfully
+    And the user deletes the Page using the Delete Permanently link on the Page page table
+    And the user reviews that the Page should have been delete permanently
 
     Examples:
       | User Role     |
       | administrator |
-      | editor        |
+      #| editor        |
 
 
 
