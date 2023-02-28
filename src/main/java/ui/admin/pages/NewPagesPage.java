@@ -31,9 +31,25 @@ public class NewPagesPage extends BaseEditPage {
         editHeader.clickSaveDraftButton();
     }
 
+    public void updatePagePublished(String title, String content) {
+        setTitleTextBox(title);
+        setContentTextArea(content);
+
+        editHeader.clickUpdateButton();
+    }
 
     public boolean isPublishedMessageDisplayed() {
         String publishedMessageLocator = "//div[contains(@class, 'components-snackbar')][text()='Page published.']";
         return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(publishedMessageLocator))).isDisplayed();
+    }
+
+    public boolean isSaveDraftMessageDisplayed() {
+        String draftMessageLocator = "//div[contains(@class, 'components-snackbar')][text()='Draft saved.']";
+        return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(draftMessageLocator))).isDisplayed();
+    }
+
+    public boolean isUpdateMessageDisplayed() {
+        String updateMessageLocator = "//div[contains(@class, 'components-snackbar')][text()='Page Updated.']";
+        return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(updateMessageLocator))).isDisplayed();
     }
 }

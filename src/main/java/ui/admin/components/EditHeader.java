@@ -15,9 +15,11 @@ public class EditHeader extends BasePageObject {
     @FindBy(css = "button[class='components-button components-dropdown-menu__toggle has-icon']")
     WebElement optionsButton;
 
-    @FindBy(css = "button.editor-post-saved-state")
+    @FindBy(css = "button.editor-post-save-draft")
     WebElement saveDraftButton;
 
+    @FindBy(css = "button.editor-post-publish-button")
+    WebElement updateButton;
 
     public EditHeader() {
         PageFactory.initElements(driver, this);
@@ -28,7 +30,6 @@ public class EditHeader extends BasePageObject {
     public void waitUntilPageObjectIsLoaded() {
         publishButton = wait.until(ExpectedConditions.elementToBeClickable(publishButton));
         optionsButton = wait.until(ExpectedConditions.elementToBeClickable(optionsButton));
-        saveDraftButton = wait.until(ExpectedConditions.elementToBeClickable(saveDraftButton));
     }
 
     public PublishPanel clickPublishButton() {
@@ -36,10 +37,14 @@ public class EditHeader extends BasePageObject {
         return new PublishPanel();
     }
 
-    public PublishPanel clickSaveDraftButton() {
+    public void clickSaveDraftButton() {
         saveDraftButton.click();
-        return new PublishPanel();
     }
+
+    public void clickUpdateButton() {
+        updateButton.click();
+    }
+
     public EditOptionsPanel clickOptionsButton() {
         optionsButton.click();
         return new EditOptionsPanel();

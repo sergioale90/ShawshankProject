@@ -16,7 +16,6 @@ Feature: Pages
       | administrator   | Test GPage Admin       | Testing content page as admin     |
       #| editor          | Test GPage Editor      | Testing content page as editor    |
 
-  # Verify that a Page with draft status can be created.
   @CreateDraftPage
   Scenario Outline: A user with the proper role should be able to create a draft Page
     Given the user logs in to the Admin page with the "<User Role>" role
@@ -30,12 +29,10 @@ Feature: Pages
     Examples:
       | User Role       | Title                        | Content                                 |
       | administrator   | Test GPage Draft Admin       | Testing content draft page as admin     |
-      #| editor          | Test GPage Draft Editor      | Testing content draft page as editor    |
-
-
+      | editor          | Test GPage Draft Editor      | Testing content draft page as editor    |
 
   @EditPublishPage
-  Scenario Outline: A user with proper role should be able to edit and publish a Page
+  Scenario Outline: A user with proper role should be able to edit and publish a draft Page
     Given the user logs in to the Admin page with the "<User Role>" role
     When the user goes to Pages using the left side menu bar
     And the user opens the Page using the page title link on the Page page table
@@ -45,9 +42,27 @@ Feature: Pages
     Then the user reviews that the Page should have been published successfully
 
     Examples:
+      | User Role         | Title                          | Content                                   |
+      | administrator     | Test GPage Edit Admin          | Testing edit content page as admin        |
+      | editor            | Test GPage Edit Editor         | Testing edit content page as editor       |
+
+  # Verify that a Page published can be updated.
+  @UpdatePublishPage
+  Scenario Outline: A user with proper role should be able to update a publish Page
+    Given the user logs in to the Admin page with the "<User Role>" role
+    When the user goes to Pages using the left side menu bar
+    And the user opens the Page using the page title link on the Page page table
+    And the user updates the Page with the following values
+      | title   | content   |
+      | <Title> | <Content> |
+    Then the user reviews that the Page should have been updated successfully
+
+    Examples:
       | User Role         | Title                                     | Content                                     |
       | administrator     | Test GPage Update Admin                   | Testing update content page as admin        |
-      | editor            | Test GPage Update Editor                  | Testing update content page as editor       |
+      #| editor            | Test GPage Update Editor                  | Testing update content page as editor       |
+
+
 
   @DeleteDraftPage
   Scenario Outline: A user with proper role should be able to carry a draft Page to trash

@@ -52,7 +52,6 @@ public class PagesSteps {
         newPagesPage.publishPage(title, content);
     }
 
-    // draft page
     @Given("^the user save as draft a new Page with the following values$")
     public void draftPage(DataTable table) {
         List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
@@ -63,10 +62,21 @@ public class PagesSteps {
 
         controller.setTitle(title);
         controller.setContent(content);
-         newPagesPage.draftPage(title, content);
-//        newPagesPage.publishPage(title, content);
+        newPagesPage.draftPage(title, content);
     }
+    // update
+    @Given("^the user updates the Page with the following values$")
+    public void updatePublishPage(DataTable table) {
+        List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
+        Map<String, Object> values = queryParamsList.get(0);
 
+        String title = (String) values.get("title");
+        String content = (String) values.get("content");
+
+        controller.setTitle(title);
+        controller.setContent(content);
+        newPagesPage.updatePagePublished(title, content);
+    }
 
     @Given("^the user moves a Page to trash using the trash link on the Page page table$")
     public void movePageToTrashUsingLink() {
@@ -88,6 +98,34 @@ public class PagesSteps {
         Assert.assertEquals(actualContent, expectedContent, "wrong content found");
     }
 
+    // update
+    @Then("^the user reviews that the Page should have been updated successfully$")
+    public void verifyIfPagePublishedWasUpdate() {
+        boolean isUpdatedMessageDisplayed = newPagesPage.isUpdateMessageDisplayed();
+        String actualTitle = newPagesPage.getTitleText();
+        String actualContent = newPagesPage.getContentText();
+
+        String expectedTitle = controller.getTitle();
+        String expectedContent = controller.getContent();
+
+        Assert.assertTrue(isUpdatedMessageDisplayed, "page updated message was not displayed");
+        Assert.assertEquals(actualTitle, expectedTitle, "wrong title found");
+        Assert.assertEquals(actualContent, expectedContent, "wrong content found");
+    }
+
+    @Then("^the user reviews that the Page should have been saved successfully$")
+    public void verifyIfPageWasSavedAsDraft() {
+        boolean isDraftMessageDisplayed = newPagesPage.isSaveDraftMessageDisplayed();
+        String actualTitle = newPagesPage.getTitleText();
+        String actualContent = newPagesPage.getContentText();
+
+        String expectedTitle = controller.getTitle();
+        String expectedContent = controller.getContent();
+
+        Assert.assertTrue(isDraftMessageDisplayed, "draft message was not displayed");
+        Assert.assertEquals(actualTitle, expectedTitle, "wrong title found");
+        Assert.assertEquals(actualContent, expectedContent, "wrong content found");
+    }
     @Then("^the user reviews that the Page should have been moved to trash successfully$")
     public void verifyPageWasMovedToTrash() {
         String title = controller.getTitle();

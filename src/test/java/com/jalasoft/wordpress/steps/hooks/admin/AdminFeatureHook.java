@@ -41,6 +41,17 @@ public class AdminFeatureHook {
         controller.setId(id);
     }
 
+    @Before("@UpdatePublishPage")
+    public void createPagePublished() {
+        Response requestResponse = APIPagesMethods.createAPagePublished();
+        Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "page was not created");
+
+        String title = requestResponse.jsonPath().getString("title.raw");
+        String id = requestResponse.jsonPath().getString("id");
+        controller.setId(id);
+        controller.setTitle(title);
+    }
+
 
     @After("@LoginAdmin")
     public void afterLoginAdmin() {
@@ -61,12 +72,21 @@ public class AdminFeatureHook {
     public void afterPages() {
         CommonMethods.logout();
         String title = controller.getTitle();
-        System.out.println("Delete Hooks: " + title);
         Response requestResponse = APIPagesMethods.deleteAPageByTitle(title);
 
         Assert.assertNotNull(requestResponse, "page with title -> " + title + " was not found");
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "page with title -> " + title + " was not deleted");
     }
+
+    @After("@CreateDraftPage")
+    public void afterDeleteDraftPages() {
+        CommonMethods.logout();
+        String title = controller.getTitle();
+        Response requestResponse = APIPagesMethods.deleteADraftPageByTitle(title);
+        Assert.assertNotNull(requestResponse, "page with title -> " + title + " was not found");
+        Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "page with title -> " + title + " was not deleted");
+    }
+
 
     @After("@EditPublishPost or @DeleteDraftPost")
     public void afterCreateAPost() {
