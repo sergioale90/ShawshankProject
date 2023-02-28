@@ -64,7 +64,7 @@ public class PagesSteps {
         controller.setContent(content);
         newPagesPage.draftPage(title, content);
     }
-    // update
+
     @Given("^the user updates the Page with the following values$")
     public void updatePublishPage(DataTable table) {
         List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
@@ -98,7 +98,6 @@ public class PagesSteps {
         Assert.assertEquals(actualContent, expectedContent, "wrong content found");
     }
 
-    // update
     @Then("^the user reviews that the Page should have been updated successfully$")
     public void verifyIfPagePublishedWasUpdate() {
         boolean isUpdatedMessageDisplayed = newPagesPage.isUpdateMessageDisplayed();
@@ -135,4 +134,7 @@ public class PagesSteps {
         Assert.assertTrue(isPageMovedToTrashMessageDisplayed, "page moved to trash message was not displayed");
         Assert.assertTrue(isPageTitleLinkPresent, "page title link was present");
     }
+
+
+
 }

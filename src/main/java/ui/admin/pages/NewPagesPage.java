@@ -49,7 +49,7 @@ public class NewPagesPage extends BaseEditPage {
     }
 
     public boolean isUpdateMessageDisplayed() {
-        String updateMessageLocator = "//div[contains(@class, 'components-snackbar')][text()='Page Updated.']";
+        String updateMessageLocator = "//div[contains(@class, 'components-snackbar')][text()='Page updated.']";
         return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(updateMessageLocator))).isDisplayed();
     }
 }

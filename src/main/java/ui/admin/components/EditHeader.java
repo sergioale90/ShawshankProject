@@ -28,8 +28,8 @@ public class EditHeader extends BasePageObject {
 
     @Override
     public void waitUntilPageObjectIsLoaded() {
-        publishButton = wait.until(ExpectedConditions.elementToBeClickable(publishButton));
-        optionsButton = wait.until(ExpectedConditions.elementToBeClickable(optionsButton));
+        // publishButton = wait.until(ExpectedConditions.elementToBeClickable(publishButton));
+        // optionsButton = wait.until(ExpectedConditions.elementToBeClickable(optionsButton));
     }
 
     public PublishPanel clickPublishButton() {

@@ -46,7 +46,6 @@ Feature: Pages
       | administrator     | Test GPage Edit Admin          | Testing edit content page as admin        |
       | editor            | Test GPage Edit Editor         | Testing edit content page as editor       |
 
-  # Verify that a Page published can be updated.
   @UpdatePublishPage
   Scenario Outline: A user with proper role should be able to update a publish Page
     Given the user logs in to the Admin page with the "<User Role>" role
@@ -63,7 +62,6 @@ Feature: Pages
       #| editor            | Test GPage Update Editor                  | Testing update content page as editor       |
 
 
-
   @DeleteDraftPage
   Scenario Outline: A user with proper role should be able to carry a draft Page to trash
     Given the user logs in to the Admin page with the "<User Role>" role
@@ -75,6 +73,21 @@ Feature: Pages
       | User Role     |
       | administrator |
       | editor        |
+
+  # Verify that a Page in Trash Status can be deleted permanently.
+  @DeleteDraftPagePermanently
+  Scenario Outline: A user with proper role should be able to delete a draft page permanently
+    Given the user logs in to the Admin page with the "<User Role>" role
+    When the user goes to Pages using the left side menu bar
+    And the user moves a Page to trash using the trash link on the Page page table
+    Then the user reviews that the Page should have been moved to trash successfully
+
+    Examples:
+      | User Role     |
+      | administrator |
+      | editor        |
+
+
 
 
 

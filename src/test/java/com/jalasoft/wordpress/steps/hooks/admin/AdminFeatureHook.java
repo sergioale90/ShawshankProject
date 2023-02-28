@@ -30,7 +30,7 @@ public class AdminFeatureHook {
         controller.setId(id);
     }
 
-    @Before("@EditPublishPage or @DeleteDraftPage")
+    @Before("@EditPublishPage or @DeleteDraftPage or @DeleteDraftPagePermanently")
     public void createPage() {
         Response requestResponse = APIPagesMethods.createAPage();
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "page was not created");
@@ -46,8 +46,8 @@ public class AdminFeatureHook {
         Response requestResponse = APIPagesMethods.createAPagePublished();
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "page was not created");
 
-        String title = requestResponse.jsonPath().getString("title.raw");
         String id = requestResponse.jsonPath().getString("id");
+        String title = requestResponse.jsonPath().getString("title.raw");
         controller.setId(id);
         controller.setTitle(title);
     }
@@ -68,7 +68,7 @@ public class AdminFeatureHook {
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "post with title -> " + title + " was not deleted");
     }
 
-    @After("@CreatePublishPage")
+    @After("@CreatePublishPage or @UpdatePublishPage or @DeleteDraftPagePermanently")
     public void afterPages() {
         CommonMethods.logout();
         String title = controller.getTitle();
