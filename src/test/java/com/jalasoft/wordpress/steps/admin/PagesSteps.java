@@ -134,7 +134,7 @@ public class PagesSteps {
     public void verifyPageWasMovedToTrash() {
         String title = controller.getTitle();
         boolean isPageMovedToTrashMessageDisplayed = pagesPage.isPageMovedToTrashMessageDisplayed();
-        boolean isPageTitleLinkPresent = pagesPage.isPageTitleLinkPresent(title);
+        boolean isPageTitleLinkPresent = pagesPage.isPageTitleLinkNotPresent(title);
 
         Assert.assertTrue(isPageMovedToTrashMessageDisplayed, "page moved to trash message was not displayed");
         Assert.assertTrue(isPageTitleLinkPresent, "page title link was present");

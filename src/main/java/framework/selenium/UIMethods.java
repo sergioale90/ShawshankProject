@@ -52,10 +52,10 @@ public class UIMethods {
                 }""", cssLocator);
     }
 
-    public static boolean isWebElementPresentByXpathJs(String xpathLocator) {
+    public static boolean isWebElementNotPresentByXpathJs(String xpathLocator) {
         return (Boolean) js.executeScript("""
-                return isWebElementPresentByXpath(arguments[0]) == null;
-                function isWebElementPresentByXpath(path) {
+                return isWebElementNotPresentByXpath(arguments[0]) == null;
+                function isWebElementNotPresentByXpath(path) {
                 return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
                 }""", xpathLocator);
     }

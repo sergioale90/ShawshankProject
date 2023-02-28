@@ -74,7 +74,6 @@ Feature: Pages
       | administrator |
       #| editor        |
 
-  # Verify that a Page in Trash Status can be deleted permanently.
   @DeleteDraftPagePermanently
   Scenario Outline: A user with proper role should be able to delete a draft page permanently
     Given the user logs in to the Admin page with the "<User Role>" role

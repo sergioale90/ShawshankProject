@@ -65,9 +65,9 @@ public class PagesPage extends BaseAdminPage {
         return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(trashMessageLocator))).isDisplayed();
     }
 
-    public boolean isPageTitleLinkPresent(String title) {
+    public boolean isPageTitleLinkNotPresent(String title) {
         String titleLocator = String.format("//a[text()='%s']", title);
-        return UIMethods.isWebElementPresentByXpathJs(titleLocator);
+        return UIMethods.isWebElementNotPresentByXpathJs(titleLocator);
     }
 
     public boolean isPagePermanentlyDeleteMessageDisplayed() {
@@ -75,9 +75,9 @@ public class PagesPage extends BaseAdminPage {
         return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(deleteMessageLocator))).isDisplayed();
     }
 
-    public boolean isPageTitleLinkPresentInTrashSection(String title) {
+    public boolean isPageTitleLinkNotPresentInTrashSection(String title) {
         String titleLocator = String.format("//td[contains(@class, 'column-title')]//span[contains(.,'%s')]", title);
-        return UIMethods.isWebElementPresentByXpathJs(titleLocator);
+        return UIMethods.isWebElementNotPresentByXpathJs(titleLocator);
     }
 
 }
