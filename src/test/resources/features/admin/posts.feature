@@ -58,7 +58,7 @@ Feature: Posts
       | administrator |
       | editor        |
 
-  @EditPublishPost @Test
+  @EditPublishPost
   Scenario Outline: A user with proper role should be able to edit and publish a Post
     Given the user is logged in to Admin page with "<User Role>" role
     When the user goes to Posts page using the left side menu bar
