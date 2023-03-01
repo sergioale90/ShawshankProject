@@ -54,9 +54,19 @@ public class PagesPage extends BaseAdminPage {
         UIMethods.moveToWebElement(pagesTitleLink);
 
         String deleteLocator = String.format("//span[contains(@class, 'delete')]//a[text()='Delete Permanently']", title);
-
         WebElement deleteLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(deleteLocator)));
         deleteLink.click();
+        return this;
+    }
+
+    public PagesPage restorePageUsingLink(String title) {
+        String titleLocator = String.format("//td[contains(@class, 'column-title')]//span[contains(.,'%s')]", title);
+        WebElement pagesTitleLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(titleLocator)));
+        UIMethods.moveToWebElement(pagesTitleLink);
+
+        String restoreLocator = String.format("//span[contains(@class, 'untrash')]//a[text()='Restore']", title);
+        WebElement restoreLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(restoreLocator)));
+        restoreLink.click();
         return this;
     }
 
@@ -75,9 +85,13 @@ public class PagesPage extends BaseAdminPage {
         return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(deleteMessageLocator))).isDisplayed();
     }
 
+    public boolean isPageRestoredMessageDisplayed() {
+        String restoreMessageLocator = "//div[@id='message']/p[contains(text(), '1 page restored from the Trash.')]";
+        return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(restoreMessageLocator))).isDisplayed();
+    }
+
     public boolean isPageTitleLinkNotPresentInTrashSection(String title) {
         String titleLocator = String.format("//td[contains(@class, 'column-title')]//span[contains(.,'%s')]", title);
         return UIMethods.isWebElementNotPresentByXpathJs(titleLocator);
     }
-
 }

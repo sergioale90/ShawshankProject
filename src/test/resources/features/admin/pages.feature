@@ -14,7 +14,7 @@ Feature: Pages
     Examples:
       | User Role       | Title                  | Content                           |
       | administrator   | Test GPage Admin       | Testing content page as admin     |
-      #| editor          | Test GPage Editor      | Testing content page as editor    |
+      | editor          | Test GPage Editor      | Testing content page as editor    |
 
   @CreateDraftPage
   Scenario Outline: A user with the proper role should be able to create a draft Page
@@ -59,8 +59,7 @@ Feature: Pages
     Examples:
       | User Role         | Title                                     | Content                                     |
       | administrator     | Test GPage Update Admin                   | Testing update content page as admin        |
-      #| editor            | Test GPage Update Editor                  | Testing update content page as editor       |
-
+      | editor            | Test GPage Update Editor                  | Testing update content page as editor       |
 
   @DeleteDraftPage
   Scenario Outline: A user with proper role should be able to carry a draft Page to trash
@@ -72,7 +71,7 @@ Feature: Pages
     Examples:
       | User Role     |
       | administrator |
-      #| editor        |
+      | editor        |
 
   @DeleteDraftPagePermanently
   Scenario Outline: A user with proper role should be able to delete a draft page permanently
@@ -86,10 +85,21 @@ Feature: Pages
     Examples:
       | User Role     |
       | administrator |
-      #| editor        |
+      | editor        |
 
+  @RestoreDraftPage
+  Scenario Outline: A user with proper role should be able to restore a draft page
+    Given the user logs in to the Admin page with the "<User Role>" role
+    When the user goes to Pages using the left side menu bar
+    And the user moves a Page to trash using the trash link on the Page page table
+    Then the user reviews that the Page should have been moved to trash successfully
+    And the user restores the Page using the Restore link on the Page page table
+    And the user reviews that the Page should have been restored
 
-
+    Examples:
+      | User Role     |
+      | administrator |
+      | editor        |
 
 
 

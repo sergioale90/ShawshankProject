@@ -130,6 +130,7 @@ public class PagesSteps {
         Assert.assertEquals(actualTitle, expectedTitle, "wrong title found");
         Assert.assertEquals(actualContent, expectedContent, "wrong content found");
     }
+
     @Then("^the user reviews that the Page should have been moved to trash successfully$")
     public void verifyPageWasMovedToTrash() {
         String title = controller.getTitle();
@@ -139,20 +140,40 @@ public class PagesSteps {
         Assert.assertTrue(isPageMovedToTrashMessageDisplayed, "page moved to trash message was not displayed");
         Assert.assertTrue(isPageTitleLinkPresent, "page title link was present");
     }
+
     @Given("^the user deletes the Page using the Delete Permanently link on the Page page table$")
-    public void goToTrashSectionUsingTrashLink() {
+    public void deletePagePermanently() {
         wrapPage.getLinkTrash();
         String title = controller.getTitle();
         pagesPage = pagesPage.deletePagePermanentlyUsingLink(title);
     }
+
     @Given("^the user reviews that the Page should have been delete permanently$")
-    public void deletePagePermanently() {
+    public void verifyPageWasDeletedPermanently() {
         String title = controller.getTitle();
-        // pagesPage = pagesPage.movePageToTrashUsingLink(title);
         boolean isPagePermanentlyDeleteMessageDisplayed = pagesPage.isPagePermanentlyDeleteMessageDisplayed();
-       //  boolean isPageTitleLinkPresent = pagesPage.isPageTitleLinkPresentInTrashSection(title);
+        boolean isPageTitleLinkNotPresent = pagesPage.isPageTitleLinkNotPresentInTrashSection(title);
 
         Assert.assertTrue(isPagePermanentlyDeleteMessageDisplayed, "page deleted permanently message was not displayed");
-        // Assert.assertTrue(isPageTitleLinkPresent, "page title link was present");
+        Assert.assertTrue(isPageTitleLinkNotPresent, "page title link was present");
     }
+
+    @Given("^the user restores the Page using the Restore link on the Page page table$")
+    public void restorePage() {
+        wrapPage.getLinkTrash();
+        String title = controller.getTitle();
+        pagesPage = pagesPage.restorePageUsingLink(title);
+    }
+
+    @Given("^the user reviews that the Page should have been restored$")
+    public void verifyPageWasRestored() {
+        String title = controller.getTitle();
+        boolean isPageRestoreMessageDisplayed = pagesPage.isPageRestoredMessageDisplayed();
+        boolean isPageTitleLinkNotPresent = pagesPage.isPageTitleLinkNotPresentInTrashSection(title);
+
+        Assert.assertTrue(isPageRestoreMessageDisplayed, "page restore message was not displayed");
+        Assert.assertTrue(isPageTitleLinkNotPresent, "page title link was present");
+    }
+
+
 }
