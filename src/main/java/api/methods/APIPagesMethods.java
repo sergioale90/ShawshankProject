@@ -45,6 +45,7 @@ public class APIPagesMethods {
         Header authHeader = APIAuthMethods.getAuthHeader("administrator");
         Map<String, Object> queryParams = new HashMap<>();
         queryParams.put("per_page", 100);
+        queryParams.put("status", "any");
 
         return apiManager.get(pagesEndpoint, queryParams, authHeader);
     }
@@ -71,6 +72,7 @@ public class APIPagesMethods {
     public static Response deleteAPageByTitle(String title) {
         Response response = null;
         List<Object> objects = getAllPages().jsonPath().getList("$");
+
         int index = 0;
         for (Object object : objects) {
             if (object.toString().contains(title)) {

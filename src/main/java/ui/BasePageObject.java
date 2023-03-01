@@ -1,10 +1,14 @@
 package ui;
 
 import framework.selenium.DriverManager;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Wait;
+
+import java.util.Objects;
 
 public abstract class BasePageObject {
     protected WebDriver driver;
@@ -17,4 +21,62 @@ public abstract class BasePageObject {
     }
 
     public abstract void waitUntilPageObjectIsLoaded() throws WebDriverException;
+
+    public Alert getAlert() {
+        Alert alert;
+        try {
+            alert = driver.switchTo().alert();
+        } catch (NoAlertPresentException e) {
+            alert = null;
+        }
+        return alert;
+    }
+
+    public boolean alertIsPresent() {
+        //Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+        return Objects.nonNull(getAlert());
+    }
+
+    public void acceptAlert() {
+        Alert alert = getAlert();
+        if (Objects.nonNull(alert)) {
+            alert.accept();
+        }
+    }
+
+    public void dismissAlert() {
+        Alert alert = getAlert();
+        if (Objects.nonNull(alert)) {
+            alert.dismiss();
+        }
+    }
+
+    public String getAlertMessage() {
+        String message = "";
+        Alert alert = getAlert();
+        if (Objects.nonNull(alert)) {
+            message = alert.getText();
+        }
+        return message;
+    }
+
+    public String getAlertMessageAndAccept() {
+        String message = "";
+        Alert alert = getAlert();
+        if (Objects.nonNull(alert)) {
+            message = alert.getText();
+            alert.accept();
+        }
+        return message;
+    }
+
+    public String getAlertMessageAndDismiss() {
+        String message = "";
+        Alert alert = getAlert();
+        if (Objects.nonNull(alert)) {
+            message = alert.getText();
+            alert.dismiss();
+        }
+        return message;
+    }
 }

@@ -48,6 +48,13 @@ public class PagesPage extends BaseAdminPage {
         return this;
     }
 
+    public PagesPage switchToDraftPagePublished(String title) {
+        String titleLocator = String.format("//a[text()='%s']", title);
+        WebElement pagesTitleLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(titleLocator)));
+        UIMethods.moveToWebElement(pagesTitleLink);
+
+        return this;
+    }
     public PagesPage deletePagePermanentlyUsingLink(String title) {
         String titleLocator = String.format("//td[contains(@class, 'column-title')]//span[contains(.,'%s')]", title);
         WebElement pagesTitleLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(titleLocator)));
@@ -79,6 +86,7 @@ public class PagesPage extends BaseAdminPage {
         String titleLocator = String.format("//a[text()='%s']", title);
         return UIMethods.isWebElementNotPresentByXpathJs(titleLocator);
     }
+
 
     public boolean isPagePermanentlyDeleteMessageDisplayed() {
         String deleteMessageLocator = "//div[@id='message']/p[contains(text(), 'page permanently deleted.')]";

@@ -9,6 +9,12 @@ public class Wrap extends BaseAdminPage {
     @FindBy(css = "li.trash a")
     WebElement linkTrash;
 
+    @FindBy(css = "li.publish a")
+    WebElement linkPublished;
+
+    @FindBy(css = "li.draft a")
+    WebElement linkDraft;
+
     @FindBy(css = "input#post-search-input")
     WebElement inputSearch;
 
@@ -28,6 +34,13 @@ public class Wrap extends BaseAdminPage {
         linkTrash.click();
     }
 
+    public void getLinkPublish() {
+        linkPublished.click();
+    }
+
+    public void getLinkDraft() {
+        linkDraft.click();
+    }
     public void getButtonSearchSubmit() {
         buttonSearch.submit();
     }

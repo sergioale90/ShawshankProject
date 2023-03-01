@@ -1,6 +1,7 @@
 package ui.admin.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.admin.BaseEditPage;
@@ -51,5 +52,11 @@ public class NewPagesPage extends BaseEditPage {
     public boolean isUpdateMessageDisplayed() {
         String updateMessageLocator = "//div[contains(@class, 'components-snackbar')][text()='Page updated.']";
         return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(updateMessageLocator))).isDisplayed();
+    }
+
+    public boolean isPageRevertedToDraftMessageDisplayed() {
+        String pageRevertedMessageLocator = "div.components-snackbar";
+        WebElement notificationMessage = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(pageRevertedMessageLocator)));
+        return "Page reverted to draft.".equals(notificationMessage.getText());
     }
 }

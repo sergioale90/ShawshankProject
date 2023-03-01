@@ -125,6 +125,19 @@ Feature: Pages
       | administrator | PageInvalidTitle    | No pages found.        |
       | editor        | PageInvalidTitle    | No pages found.        |
 
+  @PagePublishSwitchDraft
+  Scenario Outline: A user with the proper role should be able to switch to draft a Page published
+    Given the user logs in to the Admin page with the "<User Role>" role
+    When the user goes to Pages using the left side menu bar
+    And the user switches to draft a page published
+    And the user presses OK option of the message displayed to continue with the process
+    Then the user should review that the page was moved to draft status
+
+    Examples:
+      | User Role     |
+      | administrator |
+      | editor        |
+
 
 
 

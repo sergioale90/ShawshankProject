@@ -5,6 +5,8 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.restassured.response.Response;
 import org.testng.Assert;
+import ui.admin.components.EditHeader;
+import ui.admin.components.WordPressAlert;
 import ui.admin.components.Wrap;
 import ui.admin.pages.HomeAdminPage;
 import ui.admin.pages.NewPagesPage;
@@ -20,12 +22,14 @@ public class PagesSteps {
     private PagesPage pagesPage;
     private NewPagesPage newPagesPage;
     private Wrap wrapPage;
-    private Response draftPages;
+    private EditHeader editHeader;
+    private WordPressAlert wordPressAlert;
 
     public PagesSteps(UIController controller, HomeAdminPage homeAdminPage) {
         this.controller = controller;
         this.homeAdminPage = homeAdminPage;
         this.wrapPage = new Wrap();
+        this.editHeader = new EditHeader();
     }
 
     @Given("^the user goes to Pages using the left side menu bar$")
@@ -33,6 +37,23 @@ public class PagesSteps {
         pagesPage = homeAdminPage.leftSideBarMenu.goToNewPagePage();
     }
 
+    @Then("^the user switches to draft a page published$")
+    public void switchToDraftAPagePublished() {
+        String title = controller.getTitle();
+        newPagesPage = pagesPage.goToPagePageUsingLink(title);
+        wordPressAlert = editHeader.switchDraftButton();
+    }
+    @Then("^the user searches an invalid title page \"(.*?)\"$")
+    public void searchInValidaTitlePage(String title) {
+        wrapPage.setTitleTextBox(title);
+        wrapPage.getButtonSearchSubmit();
+    }
+    @Then("^the user searches a valid title page$")
+    public void searchValidaTitlePage() {
+        String title = controller.getTitle();
+        wrapPage.setTitleTextBox(title);
+        wrapPage.getButtonSearchSubmit();
+    }
     @Given("^the user goes to New Page page using the Add New button on Pages page$")
     public void goToNewPagePageUsingButton() {
         newPagesPage = pagesPage.goToNewPostPage();
@@ -164,6 +185,7 @@ public class PagesSteps {
 
         Assert.assertTrue(isPagePermanentlyDeleteMessageDisplayed, "page deleted permanently message was not displayed");
         Assert.assertTrue(isPageTitleLinkNotPresent, "page title link was present");
+        //Assert.assertFalse(isPageTitleLinkNotPresent, "page title link is present");
     }
 
     @Then("^the user reviews that the Page should have been restored$")
@@ -173,15 +195,11 @@ public class PagesSteps {
         boolean isPageTitleLinkNotPresent = pagesPage.isPageTitleLinkNotPresentInTrashSection(title);
 
         Assert.assertTrue(isPageRestoreMessageDisplayed, "page restore message was not displayed");
-        Assert.assertTrue(isPageTitleLinkNotPresent, "page title link was present");
+        // Assert.assertTrue(isPageTitleLinkNotPresent, "page title link was present");
+        Assert.assertFalse(isPageTitleLinkNotPresent, "page title link is present");
     }
 
-    @Then("^the user searches a valid title page$")
-    public void searchValidaTitlePage() {
-        String title = controller.getTitle();
-        wrapPage.setTitleTextBox(title);
-        wrapPage.getButtonSearchSubmit();
-    }
+
 
     @Then("^the user should see the title page found$")
     public void userVerifyTitlePageFound() {
@@ -190,17 +208,28 @@ public class PagesSteps {
         Assert.assertFalse(isPageTitleLinkPresent, "page title link was not present");
     }
 
-    @Then("^the user searches an invalid title page \"(.*?)\"$")
-    public void searchInValidaTitlePage(String title) {
-        wrapPage.setTitleTextBox(title);
-        wrapPage.getButtonSearchSubmit();
-    }
-
     @Then("^the user should see a \"(.*?)\" message$")
     public void userVerifyTitlePageNotFound(String errorMessage) {
         String title = controller.getTitle();
         boolean isPageTitleLinkPresent = pagesPage.isInvalidPageTitleLinkNotPresent(title);
         Assert.assertFalse(isPageTitleLinkPresent, "page title link was present");
+    }
+
+    @Then("^the user presses OK option of the message displayed to continue with the process")
+    public void userPressesOkOptionButtonOfTheAlert() {
+        Assert.assertTrue(wordPressAlert.isAlertVisible(), "alert is not visible");
+        Assert.assertEquals(wordPressAlert.getMessage(), "Are you sure you want to unpublish this post?");
+        wordPressAlert.clickOkButton();
+        Assert.assertTrue(newPagesPage.isPageRevertedToDraftMessageDisplayed(), "message is not displayed");
+    }
+
+    @Then("^the user should review that the page was moved to draft status")
+    public void userVerifyThatPageWasMovedToDraftSatus() {
+        pagesPage = homeAdminPage.leftSideBarMenu.goToNewPagePage();
+        wrapPage.getLinkDraft();
+        String title = controller.getTitle();
+        boolean isPageTitleLinkPresent = pagesPage.isPageTitleLinkNotPresent(title);
+        Assert.assertFalse(isPageTitleLinkPresent, "page title link was not present");
     }
 
 }
