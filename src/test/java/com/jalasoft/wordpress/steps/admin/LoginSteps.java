@@ -20,7 +20,7 @@ public class LoginSteps {
         this.pageTransporter = PageTransporter.getInstance();
     }
 
-    @Given("^the user navigate to Admin Login page$")
+    @Given("^the user goes to Admin Login page$")
     public void navigateToAdminLoginPage() {
         loginAdminPage = pageTransporter.navigateToAdminLoginPage();
     }
