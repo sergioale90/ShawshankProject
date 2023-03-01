@@ -17,7 +17,6 @@ public class PageTransporter {
     private String adminAddNewPostURL;
     private static PageTransporter instance;
 
-
     protected PageTransporter() {
         initialize();
     }

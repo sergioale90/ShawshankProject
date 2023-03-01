@@ -33,7 +33,6 @@ public abstract class BasePageObject {
     }
 
     public boolean alertIsPresent() {
-        //Alert alert = wait.until(ExpectedConditions.alertIsPresent());
         return Objects.nonNull(getAlert());
     }
 

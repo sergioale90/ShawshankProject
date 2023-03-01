@@ -30,7 +30,6 @@ public class DriverManager {
     private WebDriver driver;
     private Wait<WebDriver> wait;
 
-
     protected DriverManager() {
         initialize();
     }
