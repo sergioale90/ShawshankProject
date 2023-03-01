@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.BasePageObject;
 
 public class PublishPanel extends BasePageObject {
-    @FindBy(xpath = "//button[contains(@class, ' editor-post-publish-button ')]")
+    @FindBy(xpath = "//button[contains(@class, 'editor-post-publish')]")
     WebElement publishButton;
 
     public PublishPanel() {
@@ -18,7 +18,7 @@ public class PublishPanel extends BasePageObject {
 
     @Override
     public void waitUntilPageObjectIsLoaded() {
-        publishButton = wait.until(ExpectedConditions.elementToBeClickable(publishButton));
+        publishButton = wait.until(ExpectedConditions.visibilityOf(publishButton));
     }
 
     public void clickPublishButton() {

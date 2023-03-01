@@ -4,12 +4,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.BasePageObject;
 import ui.sections.EditOptionsPanel;
 import ui.sections.PublishPanel;
 
 public class EditHeader extends BasePageObject {
-    @FindBy(xpath = "//button[contains(@class, 'editor-post-publish-panel')]")
+    @FindBy(xpath = "//button[contains(@class, 'editor-post-publish')]")
     WebElement publishButton;
 
     @FindBy(xpath = "//button[contains(@class, 'components-button editor-post-save-draft is-tertiary')]")
@@ -34,6 +35,8 @@ public class EditHeader extends BasePageObject {
 
     @Override
     public void waitUntilPageObjectIsLoaded() {
+        publishButton = wait.until(ExpectedConditions.visibilityOf(publishButton));
+        optionsButton = wait.until(ExpectedConditions.elementToBeClickable(optionsButton));
     }
 
     public PublishPanel clickPublishButton() {
