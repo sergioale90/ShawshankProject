@@ -53,6 +53,7 @@ public class APIPostsMethods {
         Header authHeader = APIAuthMethods.getAuthHeader("administrator");
         Map<String, Object> jsonAsMap = new HashMap<>();
         jsonAsMap.put("per_page", 100);
+        jsonAsMap.put("status", "any");
 
         return apiManager.get(postsEndpoint, jsonAsMap, authHeader);
     }
@@ -60,7 +61,6 @@ public class APIPostsMethods {
     public static Response deleteAPostByTitle(String title) {
         Response response = null;
         List<Object> objects = getAllPosts().jsonPath().getList("$");
-        System.out.println(getAllPosts().jsonPath().getList("$"));
         int index = 0;
         for (Object object : objects) {
             if (object.toString().contains(title)) {
