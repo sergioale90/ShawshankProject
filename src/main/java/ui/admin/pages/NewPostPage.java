@@ -24,6 +24,11 @@ public class NewPostPage extends BaseEditPage {
         panel.clickPublishButton();
     }
 
+    public void createPost(String title, String content) {
+        setTitleTextBox(title);
+        setContentTextArea(content);
+    }
+
     public boolean isPublishedMessageDisplayed() {
         String publishedMessageLocator = "//div[contains(@class, 'components-snackbar')][text()='Post published.']";
         return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(publishedMessageLocator))).isDisplayed();

@@ -11,16 +11,29 @@ import ui.controller.UIController;
 import ui.methods.CommonMethods;
 import utils.LoggerManager;
 
-public class AdminFeatureHook {
+public class GUIPostsFeatureHook {
     private static final LoggerManager log = LoggerManager.getInstance();
     private final UIController controller;
 
-    public AdminFeatureHook(UIController controller) {
+    public GUIPostsFeatureHook(UIController controller) {
         this.controller = controller;
     }
 
-    @Before("@EditPublishPost or @DeleteDraftPost or @OpenPost")
-    public void createPost() {
+    @Before("@OpenPublishedPost")
+    public void createAPost() {
+        Response requestResponse = APIPostsMethods.createAPost();
+        Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "post was not created");
+
+        String id = requestResponse.jsonPath().getString("id");
+        String title = requestResponse.jsonPath().getString("title.raw");
+        String content = requestResponse.jsonPath().getString("content.raw");
+        controller.setId(id);
+        controller.setTitle(title);
+        controller.setContent(content);
+    }
+
+    @Before("@EditPublishPost or @DeleteDraftPost or @OpenDraftPost")
+    public void createADraftPost() {
         Response requestResponse = APIPostsMethods.createADraftPost();
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "post was not created");
 

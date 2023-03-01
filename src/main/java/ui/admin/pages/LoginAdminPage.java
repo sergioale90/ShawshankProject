@@ -1,6 +1,7 @@
 package ui.admin.pages;
 
 import framework.CredentialsManager;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -48,10 +49,31 @@ public class LoginAdminPage extends BasePageObject {
         loginSubmitButton.submit();
     }
 
+    public boolean isLoginSubmitButtonDisplayed() {
+        return loginSubmitButton.isDisplayed();
+    }
+
+    public String getErrorMessage() {
+        String errorMessageLocator = "login_error";
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(errorMessageLocator))).getText().strip();
+    }
+
     public HomeAdminPage loginWithUser(String userRole) {
         setUserNameTextBox(CredentialsManager.getInstance().getUsername(userRole));
         setPasswordTextBox(CredentialsManager.getInstance().getPassword(userRole));
         clickLoginButton();
         return new HomeAdminPage();
+    }
+
+    public void loginWithInvalidCredentials(String username, String password) {
+        setUserNameTextBox(username);
+        setPasswordTextBox(password);
+        clickLoginButton();
+    }
+
+    public void loginWithInvalidEmailAddress(String email, String password) {
+        setUserNameTextBox(email);
+        setPasswordTextBox(password);
+        clickLoginButton();
     }
 }

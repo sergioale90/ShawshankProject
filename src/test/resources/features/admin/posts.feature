@@ -18,6 +18,21 @@ Feature: Posts
       | author        | Eating People is Wrong | BTW, this is title of a real book |
       | editor        | I Yam What I Yam       | And Dats What I Yam!              |
 
+  @OpenPublishedPost
+  Scenario Outline: A user with a proper role should be able to open a Published Post
+    Given the user is logged in to Admin page with "<User Role>" role
+    When the user goes to Posts page using the left side menu bar
+    And the user opens the Post using the post title link on the Post page table
+    Then the Post should have the correct info
+
+    Examples:
+      | User Role     |
+      | administrator |
+#      | author        |
+#      | contributor   |
+#      | editor        |
+#      | subscriber    |
+
   @EditPublishPost @Test
   Scenario Outline: A user with proper role should be able to edit and publish a Post
     Given the user is logged in to Admin page with "<User Role>" role
@@ -43,17 +58,4 @@ Feature: Posts
     Examples:
       | User Role     |
       | administrator |
-      | editor        |
-
-  @OpenPost
-  Scenario Outline: A user with a proper role should be able to open a Post
-    Given the user is logged in to Admin page with "<User Role>" role
-    When the user goes to Posts page using the left side menu bar
-    And the user opens the Post using the post title link on the Post page table
-    Then the Post should have the correct info
-
-    Examples:
-      | User Role     |
-      | administrator |
-      | editor        |
       | editor        |

@@ -10,11 +10,13 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxDriverLogLevel;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.firefox.GeckoDriverService;
 import org.openqa.selenium.remote.service.DriverService;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import utils.LoggerManager;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,7 +51,7 @@ public class DriverManager {
 
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
-                chromeOptions.setExperimentalOption("useAutomationExtension", false);
+//                chromeOptions.setExperimentalOption("useAutomationExtension", false);
                 chromeOptions.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
 
                 chromeOptions.addArguments("--password-store=basic");
@@ -69,7 +71,7 @@ public class DriverManager {
 
                 EdgeOptions edgeOptions = new EdgeOptions();
                 edgeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
-                edgeOptions.setExperimentalOption("useAutomationExtension", false);
+//                edgeOptions.setExperimentalOption("useAutomationExtension", false);
                 edgeOptions.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
 
                 edgeOptions.addArguments("--password-store=basic");
@@ -81,10 +83,13 @@ public class DriverManager {
                 if (driverConfig.getHeadlessMode()) {
                     edgeOptions.addArguments("--headless");
                 }
-
                 driver = new EdgeDriver(service, edgeOptions);
             }
             case FIREFOX -> {
+                String firefoxLogFilePath = System.getProperty("user.dir") + File.separator + "logs" + File.separator + "firefox.log";
+                DriverService.Builder<GeckoDriverService, GeckoDriverService.Builder> builder = new GeckoDriverService.Builder().withLogFile(new File(firefoxLogFilePath));
+                GeckoDriverService service = builder.build();
+
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
                 firefoxOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
                 firefoxOptions.setLogLevel(FirefoxDriverLogLevel.FATAL);
@@ -92,7 +97,7 @@ public class DriverManager {
                     firefoxOptions.addArguments("--headless");
                 }
 
-                driver = new FirefoxDriver(firefoxOptions);
+                driver = new FirefoxDriver(service, firefoxOptions);
             }
         }
 
@@ -104,7 +109,6 @@ public class DriverManager {
                 .ignoring(NoSuchElementException.class)
                 .ignoring(NotFoundException.class)
                 .ignoring(StaleElementReferenceException.class);
-
     }
 
     public WebDriver getWebDriver() {

@@ -4,6 +4,7 @@ import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.testng.Assert;
+import ui.PageTransporter;
 import ui.admin.pages.HomeAdminPage;
 import ui.admin.pages.NewPostPage;
 import ui.admin.pages.PostsPage;
@@ -13,19 +14,21 @@ import java.util.List;
 import java.util.Map;
 
 public class PostsSteps {
+    private final PageTransporter pageTransporter;
     private final UIController controller;
     private final HomeAdminPage homeAdminPage;
     private PostsPage postsPage;
     private NewPostPage newPostPage;
 
     public PostsSteps(UIController controller, HomeAdminPage homeAdminPage) {
+        this.pageTransporter = PageTransporter.getInstance();
         this.controller = controller;
         this.homeAdminPage = homeAdminPage;
     }
 
     @Given("^the user goes to Posts page using the left side menu bar$")
     public void gotToPostsPageUsingMenu() {
-        postsPage = homeAdminPage.leftSideBarMenu.goToNewPostPage();
+        postsPage = homeAdminPage.leftSideBarMenu.goToPostPage();
     }
 
     @Given("^the user goes to New Post page using the Add New button on Posts page$")
@@ -76,7 +79,7 @@ public class PostsSteps {
     public void verifyPostWasMovedToTrash() {
         String title = controller.getTitle();
         boolean isPostMovedToTrashMessageDisplayed = postsPage.isPostMovedToTrashMessageDisplayed();
-        boolean isPostTitleLinkPresent = postsPage.isPostTitleLinkPresent(title);
+        boolean isPostTitleLinkPresent = postsPage.isPostTitleLinkNotPresent(title);
 
         Assert.assertTrue(isPostMovedToTrashMessageDisplayed, "post moved to trash message was not displayed");
         Assert.assertTrue(isPostTitleLinkPresent, "post title link was present");
