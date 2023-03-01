@@ -12,6 +12,9 @@ public class EditHeader extends BasePageObject {
     @FindBy(xpath = "//button[contains(@class, 'editor-post-publish-panel')]")
     WebElement publishButton;
 
+    @FindBy(xpath = "//button[contains(@class, 'components-button editor-post-save-draft is-tertiary')]")
+    WebElement saveDraftButton;
+
     @FindBy(css = "button[class='components-button components-dropdown-menu__toggle has-icon']")
     WebElement optionsButton;
 
@@ -38,6 +41,7 @@ public class EditHeader extends BasePageObject {
         return new PublishPanel();
     }
 
+<<<<<<< HEAD
     public void clickSaveDraftButton() {
         saveDraftButton.click();
     }
@@ -50,6 +54,11 @@ public class EditHeader extends BasePageObject {
         switchToDraftButton.click();
         WebElement alertDialog = driver.findElement(By.cssSelector("div.components-confirm-dialog"));
         return new WordPressAlert(alertDialog);
+=======
+    public EditHeader clickSaveDraftButton() {
+        saveDraftButton.click();
+        return new EditHeader();
+>>>>>>> f9f01e4 (adding create draft post)
     }
 
     public EditOptionsPanel clickOptionsButton() {

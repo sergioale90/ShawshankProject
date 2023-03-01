@@ -1,6 +1,7 @@
 package com.jalasoft.wordpress.steps.admin;
 
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.testng.Assert;
@@ -76,6 +77,19 @@ public class PostsSteps {
         newPostPage.publishPost(title, content);
     }
 
+    @And("the user creates a new Draft Post with the following values")
+    public void createDraftPost(DataTable table) {
+        List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
+        Map<String, Object> values = queryParamsList.get(0);
+
+        String title = (String) values.get("title");
+        String content = (String) values.get("content");
+
+        controller.setTitle(title);
+        controller.setContent(content);
+        newPostPage.draftPost(title, content);
+    }
+
     @Given("^I create a new Post with the following values without saving the changes$")
     public void createAPost(DataTable table) {
         List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
@@ -99,6 +113,12 @@ public class PostsSteps {
         Assert.assertTrue(isPublishedMessageDisplayed, "post published message was not displayed");
         Assert.assertEquals(actualTitle, expectedTitle, "wrong title found");
         Assert.assertEquals(actualContent, expectedContent, "wrong content found");
+    }
+
+    @Then("the Post should have been saved as a Draft successfully")
+    public void thePostShouldHaveBeenSavedAsADraftSuccessfully() {
+        boolean isPublishedMessageDisplayed = newPostPage.isSavedAsDraftMessageDisplayed();
+        Assert.assertTrue(isPublishedMessageDisplayed, "post published message was not displayed");
     }
 
     @Then("^the Post should have been moved to trash successfully$")

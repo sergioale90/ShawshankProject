@@ -60,7 +60,7 @@ public class APIPostsMethods {
     public static Response deleteAPostByTitle(String title) {
         Response response = null;
         List<Object> objects = getAllPosts().jsonPath().getList("$");
-
+        System.out.println(getAllPosts().jsonPath().getList("$"));
         int index = 0;
         for (Object object : objects) {
             if (object.toString().contains(title)) {
