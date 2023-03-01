@@ -187,7 +187,20 @@ public class PagesSteps {
     public void userVerifyTitlePageFound() {
         String title = controller.getTitle();
         boolean isPageTitleLinkPresent = pagesPage.isPageTitleLinkNotPresent(title);
-        System.out.println("Que botas the title   " + isPageTitleLinkPresent);
         Assert.assertFalse(isPageTitleLinkPresent, "page title link was not present");
     }
+
+    @Then("^the user searches an invalid title page \"(.*?)\"$")
+    public void searchInValidaTitlePage(String title) {
+        wrapPage.setTitleTextBox(title);
+        wrapPage.getButtonSearchSubmit();
+    }
+
+    @Then("^the user should see a \"(.*?)\" message$")
+    public void userVerifyTitlePageNotFound(String errorMessage) {
+        String title = controller.getTitle();
+        boolean isPageTitleLinkPresent = pagesPage.isInvalidPageTitleLinkNotPresent(title);
+        Assert.assertFalse(isPageTitleLinkPresent, "page title link was present");
+    }
+
 }

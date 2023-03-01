@@ -102,7 +102,7 @@ Feature: Pages
       | editor        |
 
   @FindValidPage
-  Scenario Outline: A user with proper role should be able to find a correct title page in All list
+  Scenario Outline: A user with proper role should be able to find a correct title page
     Given the user logs in to the Admin page with the "<User Role>" role
     When the user goes to Pages using the left side menu bar
     And the user searches a valid title page
@@ -112,6 +112,18 @@ Feature: Pages
       | User Role     |
       | administrator |
       | editor        |
+
+  @FindNoValidPage
+  Scenario Outline: A user with the proper role should not be able to find an incorrect title page
+    Given the user logs in to the Admin page with the "<User Role>" role
+    When the user goes to Pages using the left side menu bar
+    And the user searches an invalid title page "<Invalid Page Title>"
+    Then the user should see a "<Expected Result>" message
+
+    Examples:
+      | User Role     | Invalid Page Title  | Expected Result        |
+      | administrator | PageInvalidTitle    | No pages found.        |
+      | editor        | PageInvalidTitle    | No pages found.        |
 
 
 

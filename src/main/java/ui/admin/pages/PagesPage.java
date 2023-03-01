@@ -94,4 +94,10 @@ public class PagesPage extends BaseAdminPage {
         String titleLocator = String.format("//td[contains(@class, 'column-title')]//span[contains(.,'%s')]", title);
         return UIMethods.isWebElementNotPresentByXpathJs(titleLocator);
     }
+
+    public boolean isInvalidPageTitleLinkNotPresent(String title) {
+        String titleLocator = String.format("//tr[contains(@class, 'no-items')]//td", title);
+        return UIMethods.isWebElementNotPresentByXpathJs(titleLocator);
+    }
+
 }
