@@ -2,7 +2,6 @@ package ui.methods;
 
 import ui.PageTransporter;
 import ui.admin.components.TopBarMenu;
-import ui.admin.pages.HomeAdminPage;
 import utils.LoggerManager;
 
 public class CommonMethods {
