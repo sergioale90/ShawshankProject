@@ -51,7 +51,6 @@ public class DriverManager {
 
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
-//                chromeOptions.setExperimentalOption("useAutomationExtension", false);
                 chromeOptions.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
 
                 chromeOptions.addArguments("--password-store=basic");
@@ -71,7 +70,6 @@ public class DriverManager {
 
                 EdgeOptions edgeOptions = new EdgeOptions();
                 edgeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
-//                edgeOptions.setExperimentalOption("useAutomationExtension", false);
                 edgeOptions.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
 
                 edgeOptions.addArguments("--password-store=basic");

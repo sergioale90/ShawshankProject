@@ -30,7 +30,7 @@ public class APIConfig {
     }
 
     public static APIConfig getInstance() {
-        if (instance == null) {
+        if (instance == null || instance.properties == null) {
             instance = new APIConfig();
         }
         return instance;

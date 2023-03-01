@@ -28,10 +28,7 @@ Feature: Posts
     Examples:
       | User Role     |
       | administrator |
-#      | author        |
-#      | contributor   |
-#      | editor        |
-#      | subscriber    |
+      | editor        |
 
   @EditPublishPost @Test
   Scenario Outline: A user with proper role should be able to edit and publish a Post
