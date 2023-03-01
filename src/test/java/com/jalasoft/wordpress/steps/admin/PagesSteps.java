@@ -185,7 +185,6 @@ public class PagesSteps {
 
         Assert.assertTrue(isPagePermanentlyDeleteMessageDisplayed, "page deleted permanently message was not displayed");
         Assert.assertTrue(isPageTitleLinkNotPresent, "page title link was present");
-        //Assert.assertFalse(isPageTitleLinkNotPresent, "page title link is present");
     }
 
     @Then("^the user reviews that the Page should have been restored$")
@@ -195,8 +194,7 @@ public class PagesSteps {
         boolean isPageTitleLinkNotPresent = pagesPage.isPageTitleLinkNotPresentInTrashSection(title);
 
         Assert.assertTrue(isPageRestoreMessageDisplayed, "page restore message was not displayed");
-        // Assert.assertTrue(isPageTitleLinkNotPresent, "page title link was present");
-        Assert.assertFalse(isPageTitleLinkNotPresent, "page title link is present");
+        Assert.assertTrue(isPageTitleLinkNotPresent, "page title link was present");
     }
 
 
