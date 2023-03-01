@@ -32,7 +32,7 @@ public class GUIPostsFeatureHook {
         controller.setContent(content);
     }
 
-    @Before("@EditPublishPost or @DeleteDraftPost or @OpenDraftPost")
+    @Before("@OpenDraftPost or @EditPublishPost or @DeleteDraftPost")
     public void createADraftPost() {
         Response requestResponse = APIPostsMethods.createADraftPost();
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "post was not created");
@@ -83,7 +83,6 @@ public class GUIPostsFeatureHook {
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "post with title -> " + title + " was not deleted");
     }
 
-<<<<<<< HEAD
     @After("@CreatePublishPage or @UpdatePublishPage or @PagePublishSwitchDraft or @FindNoValidPage")
     public void afterPages() {
         CommonMethods.logout();
@@ -105,10 +104,7 @@ public class GUIPostsFeatureHook {
     }
 
 
-    @After("@EditPublishPost or @DeleteDraftPost")
-=======
-    @After("@EditPublishPost or @DeleteDraftPost or @OpenPost")
->>>>>>> 77975d7 (refactor in Post hooks and steps, verifies trashed and true delete)
+    @After("@OpenPublishPost or @OpenDraftPost or @EditPublishPost or @EditDraftPost or @DeletePublishPost or @DeleteDraftPost")
     public void afterCreateAPost() {
         CommonMethods.logout();
         String id = controller.getId();

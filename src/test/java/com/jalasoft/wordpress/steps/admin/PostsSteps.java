@@ -31,13 +31,23 @@ public class PostsSteps {
         postsPage = homeAdminPage.leftSideBarMenu.goToPostPage();
     }
 
+    @Given("^I go to New Post page using the popup submenu button from the left side menu bar$")
+    public void goToNewPostPageUsingSubmenuButton() {
+        newPostPage = homeAdminPage.leftSideBarMenu.goToNewPostPageUsingPopupMenu();
+    }
+
+    @Given("^I go to New Post page$")
+    public void goToNewPostPage() {
+        newPostPage = pageTransporter.navigateToNewPostPage();
+    }
+
     @Given("^the user goes to New Post page using the Add New button on Posts page$")
     public void goToNewPostPageUsingButton() {
         newPostPage = postsPage.goToNewPostPage();
     }
 
     @Given("^the user opens the Post using the post title link on the Post page table$")
-    public void goToPostUsingLink() {//
+    public void goToPostUsingLink() {
         String title = controller.getTitle();
         newPostPage = postsPage.goToPostPageUsingLink(title);
     }
@@ -46,6 +56,11 @@ public class PostsSteps {
     public void movePostToTrashUsingLink() {
         String title = controller.getTitle();
         postsPage = postsPage.movePostToTrashUsingLink(title);
+    }
+
+    @Given("^I leave the New Posts page$")
+    public void leaveNewPostPage() {
+        newPostPage.leftSideBarMenu.clickPostMenuButton();
     }
 
     @Given("^the user(?: publish a new | edit and publish the )Post with the following values$")
@@ -59,6 +74,17 @@ public class PostsSteps {
         controller.setTitle(title);
         controller.setContent(content);
         newPostPage.publishPost(title, content);
+    }
+
+    @Given("^I create a new Post with the following values without saving the changes$")
+    public void createAPost(DataTable table) {
+        List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
+        Map<String, Object> values = queryParamsList.get(0);
+
+        String title = (String) values.get("title");
+        String content = (String) values.get("content");
+
+        newPostPage.createPost(title, content);
     }
 
     @Then("^the Post should have been published successfully$")
@@ -95,5 +121,13 @@ public class PostsSteps {
 
         Assert.assertEquals(actualTitle, expectedTitle, "wrong title found");
         Assert.assertEquals(actualContent, expectedContent, "wrong content found");
+    }
+
+    @Then("^an alert should be displayed on the New Posts page$")
+    public void verifyAnAlertIsDisplayedNewPostPage() {
+        boolean alertIsPresent = newPostPage.alertIsPresent();
+        newPostPage.acceptAlert();
+
+        Assert.assertTrue(alertIsPresent, "alert message was not displayed");
     }
 }
