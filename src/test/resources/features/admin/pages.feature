@@ -101,6 +101,18 @@ Feature: Pages
       | administrator |
       | editor        |
 
+  @FindValidPage
+  Scenario Outline: A user with proper role should be able to find a correct title page in All list
+    Given the user logs in to the Admin page with the "<User Role>" role
+    When the user goes to Pages using the left side menu bar
+    And the user searches a valid title page
+    Then the user should see the title page found
+
+    Examples:
+      | User Role     |
+      | administrator |
+      | editor        |
+
 
 
 

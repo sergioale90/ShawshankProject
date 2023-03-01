@@ -40,16 +40,6 @@ public class APIPagesMethods {
         return apiManager.post(pagesEndpoint, queryParams, authHeader);
     }
 
-
-    public static Response deleteAPageById(String id) {
-        String pageByIdEndpoint = apiConfig.getPagesByIdEndpoint().replace("<id>", id);
-        Header authHeader = APIAuthMethods.getAuthHeader("administrator");
-        Map<String, Object> queryParams = new HashMap<>();
-        queryParams.put("force", true);
-
-        return apiManager.delete(pageByIdEndpoint, queryParams, authHeader);
-    }
-
     public static Response getAllPages() {
         String pagesEndpoint = apiConfig.getPagesEndpoint();
         Header authHeader = APIAuthMethods.getAuthHeader("administrator");
@@ -67,6 +57,15 @@ public class APIPagesMethods {
         queryParams.put("status", "draft");
 
         return apiManager.get(pagesEndpoint, queryParams, authHeader);
+    }
+
+    public static Response deleteAPageById(String id) {
+        String pageByIdEndpoint = apiConfig.getPagesByIdEndpoint().replace("<id>", id);
+        Header authHeader = APIAuthMethods.getAuthHeader("administrator");
+        Map<String, Object> queryParams = new HashMap<>();
+        queryParams.put("force", true);
+
+        return apiManager.delete(pageByIdEndpoint, queryParams, authHeader);
     }
 
     public static Response deleteAPageByTitle(String title) {

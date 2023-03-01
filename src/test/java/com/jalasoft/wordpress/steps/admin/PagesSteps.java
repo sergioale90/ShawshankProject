@@ -89,6 +89,14 @@ public class PagesSteps {
         pagesPage = pagesPage.movePageToTrashUsingLink(title);
     }
 
+    @Given("^the user restores the Page using the Restore link on the Page page table$")
+    public void restorePage() {
+        wrapPage.getLinkTrash();
+        String title = controller.getTitle();
+        pagesPage = pagesPage.restorePageUsingLink(title);
+    }
+
+
     @Then("^the user reviews that the Page should have been published successfully$")
     public void verifyIfPageWasPublished() {
         boolean isPublishedMessageDisplayed = newPagesPage.isPublishedMessageDisplayed();
@@ -148,7 +156,7 @@ public class PagesSteps {
         pagesPage = pagesPage.deletePagePermanentlyUsingLink(title);
     }
 
-    @Given("^the user reviews that the Page should have been delete permanently$")
+    @Then("^the user reviews that the Page should have been delete permanently$")
     public void verifyPageWasDeletedPermanently() {
         String title = controller.getTitle();
         boolean isPagePermanentlyDeleteMessageDisplayed = pagesPage.isPagePermanentlyDeleteMessageDisplayed();
@@ -158,14 +166,7 @@ public class PagesSteps {
         Assert.assertTrue(isPageTitleLinkNotPresent, "page title link was present");
     }
 
-    @Given("^the user restores the Page using the Restore link on the Page page table$")
-    public void restorePage() {
-        wrapPage.getLinkTrash();
-        String title = controller.getTitle();
-        pagesPage = pagesPage.restorePageUsingLink(title);
-    }
-
-    @Given("^the user reviews that the Page should have been restored$")
+    @Then("^the user reviews that the Page should have been restored$")
     public void verifyPageWasRestored() {
         String title = controller.getTitle();
         boolean isPageRestoreMessageDisplayed = pagesPage.isPageRestoredMessageDisplayed();
@@ -175,5 +176,18 @@ public class PagesSteps {
         Assert.assertTrue(isPageTitleLinkNotPresent, "page title link was present");
     }
 
+    @Then("^the user searches a valid title page$")
+    public void searchValidaTitlePage() {
+        String title = controller.getTitle();
+        wrapPage.setTitleTextBox(title);
+        wrapPage.getButtonSearchSubmit();
+    }
 
+    @Then("^the user should see the title page found$")
+    public void userVerifyTitlePageFound() {
+        String title = controller.getTitle();
+        boolean isPageTitleLinkPresent = pagesPage.isPageTitleLinkNotPresent(title);
+        System.out.println("Que botas the title   " + isPageTitleLinkPresent);
+        Assert.assertFalse(isPageTitleLinkPresent, "page title link was not present");
+    }
 }

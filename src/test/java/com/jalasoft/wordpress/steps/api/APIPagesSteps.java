@@ -47,7 +47,7 @@ public class APIPagesSteps {
     }
 
     @Given("^the user tries to retrieve a page$")
-    public void getPagetById() {
+    public void getPagesById() {
         String id = controller.getResponse().jsonPath().getString("id");
         Header authHeader = controller.getHeader("Authorization");
         Response requestResponse = apiManager.get(pagesByIdEndpoint.replace("<id>", id), authHeader);
