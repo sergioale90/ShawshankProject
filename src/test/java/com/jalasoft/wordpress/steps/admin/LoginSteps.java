@@ -20,45 +20,45 @@ public class LoginSteps {
         this.pageTransporter = PageTransporter.getInstance();
     }
 
-    @Given("^I navigate to Admin Login page$")
+    @Given("^the user navigate to Admin Login page$")
     public void navigateToAdminLoginPage() {
         loginAdminPage = pageTransporter.navigateToAdminLoginPage();
     }
 
-    @Given("^I login to Admin page as a user with \"(.*?)\" role$")
+    @Given("^the user login to Admin page as a user with \"(.*?)\" role$")
     public void loginToAdmin(String userRole) {
         homeAdminPage = loginAdminPage.loginWithUser(userRole);
     }
 
-    @Given("^I login to Admin page using invalid credentials$")
+    @Given("^the user login to Admin page using invalid credentials$")
     public void loginToAdminWithInvalidCredentials() {
         username = StringManager.generateAlphanumericString(8);
         String password = StringManager.generateAlphanumericString(8);
         loginAdminPage.loginWithInvalidCredentials(username, password);
     }
 
-    @Given("^I login to Admin page using invalid email$")
+    @Given("^the user login to Admin page using invalid email$")
     public void loginToAdminWithInvalidEmail() {
         String email = StringManager.generateAlphanumericString(8) + "@" + StringManager.generateAlphanumericString(4) + ".com";
         String password = StringManager.generateAlphanumericString(8);
         loginAdminPage.loginWithInvalidEmailAddress(email, password);
     }
 
-    @Given("^I login to Admin page with no credentials$")
+    @Given("^the user login to Admin page with no credentials$")
     public void loginToAdminPageWithNoCredentials() {
         String username = "";
         String password = "";
         loginAdminPage.loginWithInvalidCredentials(username, password);
     }
 
-    @Given("^I login to Admin page with no username$")
+    @Given("^the user login to Admin page with no username$")
     public void loginToAdminPageWithNoUsername() {
         String username = "";
         String password = StringManager.generateAlphanumericString(8);
         loginAdminPage.loginWithInvalidCredentials(username, password);
     }
 
-    @Given("^I login to Admin page with no password$")
+    @Given("^the user login to Admin page with no password$")
     public void loginToAdminPageWithNoPassword() {
         String username = StringManager.generateAlphanumericString(8);
         String password = "";
@@ -80,14 +80,14 @@ public class LoginSteps {
         }
     }
 
-    @Then("^I should login to Admin page successfully$")
+    @Then("^the user should login to Admin page successfully$")
     public void verifyLoginToAdminPage() {
         boolean isMyAccountButtonDisplayed = homeAdminPage.topBarMenu.isMyAccountButtonDisplayed();
 
         Assert.assertTrue(isMyAccountButtonDisplayed, "My account button was not displayed");
     }
 
-    @Then("^I should not be able to login to Admin page$")
+    @Then("^the user should not be able to login to Admin page$")
     public void verifyUnsuccessfulLogin() {
         boolean isOnLoginAdminPage = pageTransporter.isOnLoginAdminPage();
         boolean isLoginSubmitButtonDisplayed = loginAdminPage.isLoginSubmitButtonDisplayed();
