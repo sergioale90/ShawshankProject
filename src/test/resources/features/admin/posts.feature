@@ -65,6 +65,21 @@ Feature: Posts
     And the user edits and publishes the Post with the following values
       | title   | content   |
       | <Title> | <Content> |
+    Then the Post should have been updated successfully
+
+    Examples:
+      | User Role     | Title                                          | Content                                                                    |
+      | administrator | My Homer is not a Communist                    | He may be a liar, a pig, an idiot, a Communist, but he is NOT a porn star! |
+      | editor        | Doctor say Nordberg has 50-50 chance of living | Though there's only a 10 percent chance of that                            |
+
+  @EditDraftPost
+  Scenario Outline: A user with proper role should be able to edit and publish a Draft Post
+    Given the user is logged in to Admin page with "<User Role>" role
+    When the user goes to Posts page using the left side menu bar
+    And the user opens the Post using the post title link on the Post page table
+    And the user edits and publishes the Post with the following values
+      | title   | content   |
+      | <Title> | <Content> |
     Then the Post should have been published successfully
 
     Examples:

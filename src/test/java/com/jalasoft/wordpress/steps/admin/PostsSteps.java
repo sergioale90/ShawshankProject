@@ -121,6 +121,20 @@ public class PostsSteps {
         Assert.assertTrue(isPublishedMessageDisplayed, "post published message was not displayed");
     }
 
+    @Then("^the Post should have been updated successfully$")
+    public void verifyIfPostWasUpdated() {
+        boolean isPublishedMessageDisplayed = newPostPage.isUpdatedMessageDisplayed();
+        String actualTitle = newPostPage.getTitleText();
+        String actualContent = newPostPage.getContentText();
+
+        String expectedTitle = controller.getTitle();
+        String expectedContent = controller.getContent();
+
+        Assert.assertTrue(isPublishedMessageDisplayed, "post published message was not displayed");
+        Assert.assertEquals(actualTitle, expectedTitle, "wrong title found");
+        Assert.assertEquals(actualContent, expectedContent, "wrong content found");
+    }
+
     @Then("^the Post should have been moved to trash successfully$")
     public void verifyPostWasMovedToTrash() {
         String title = controller.getTitle();

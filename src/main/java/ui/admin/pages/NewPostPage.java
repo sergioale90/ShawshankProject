@@ -47,4 +47,9 @@ public class NewPostPage extends BaseEditPage {
         String publishedMessageLocator = "//div[contains(@class, 'components-snackbar')][text()='Draft saved.']";
         return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(publishedMessageLocator))).isDisplayed();
     }
+
+    public boolean isUpdatedMessageDisplayed() {
+        String publishedMessageLocator = "//div[contains(@class, 'components-snackbar')][text()='Post updated.']";
+        return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(publishedMessageLocator))).isDisplayed();
+    }
 }

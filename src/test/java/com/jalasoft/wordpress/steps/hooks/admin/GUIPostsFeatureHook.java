@@ -57,7 +57,7 @@ public class GUIPostsFeatureHook {
         Assert.assertNotNull(requestResponse, "post with title -> " + title + " was not found");
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "post with title -> " + title + " was not deleted");
     }
-    
+
     @After("@OpenPublishPost or @OpenDraftPost or @EditPublishPost or @EditDraftPost or @DeletePublishPost or @DeleteDraftPost")
     public void afterCreateAPost() {
         CommonMethods.logout();
