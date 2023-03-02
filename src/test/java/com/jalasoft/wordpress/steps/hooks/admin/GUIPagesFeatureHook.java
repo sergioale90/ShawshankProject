@@ -20,7 +20,7 @@ public class GUIPagesFeatureHook {
 
     @Before("@EditPublishPage or @DeleteDraftPage or @DeleteDraftPagePermanently or @RestoreDraftPage or @FindValidPage or @FindNoValidPage")
     public void createPage() {
-        Response requestResponse = APIPagesMethods.createAPage();
+        Response requestResponse = APIPagesMethods.CreateADraftPage();
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "page was not created");
 
         String title = requestResponse.jsonPath().getString("title.raw");
