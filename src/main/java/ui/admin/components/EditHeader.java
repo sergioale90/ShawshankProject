@@ -11,7 +11,7 @@ import ui.sections.PublishPanel;
 
 public class EditHeader extends BasePageObject {
 
-    @FindBy(xpath = "//button[contains(@class, 'editor-post-publish-panel')]")
+    @FindBy(xpath = "//button[contains(@class, 'editor-post-publish')]")
     WebElement publishButton;
 
     @FindBy(xpath = "//button[contains(@class, 'components-button editor-post-save-draft is-tertiary')]")
@@ -36,7 +36,7 @@ public class EditHeader extends BasePageObject {
 
     @Override
     public void waitUntilPageObjectIsLoaded() {
-        publishButton = wait.until(ExpectedConditions.elementToBeClickable(publishButton));
+        publishButton = wait.until(ExpectedConditions.visibilityOf(publishButton));
         optionsButton = wait.until(ExpectedConditions.elementToBeClickable(optionsButton));
     }
 
