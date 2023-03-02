@@ -1,7 +1,7 @@
 @APICategories @API
 Feature: API Categories
 
-  @GetAllCategories @Smock
+  @GetAllCategories @Smoke
   Scenario Outline: A user with a proper role should be able to retrieve all categories
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to retrieve all categories
@@ -25,7 +25,7 @@ Feature: API Categories
       | contributor   | HTTP/1.1 403 Forbidden |
       | subscriber    | HTTP/1.1 403 Forbidden |
 
-  @CreateACategory @Smock
+  @CreateACategory @Smoke
   Scenario Outline: A user with proper role should be able to create a category
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to create a category
@@ -37,7 +37,7 @@ Feature: API Categories
       | administrator | HTTP/1.1 201 Created |
       | editor        | HTTP/1.1 201 Created |
 
-  @CategoryNotCreated @Smock
+  @CategoryNotCreated @Smoke
   Scenario Outline: A user without proper role shouldn't be able to create a category
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to create a category
@@ -50,7 +50,7 @@ Feature: API Categories
       | contributor  | HTTP/1.1 403 Forbidden | Sorry, you are not allowed to create terms in this taxonomy. |
       | subscriber   | HTTP/1.1 403 Forbidden | Sorry, you are not allowed to create terms in this taxonomy. |
 
-  @RetrieveACategory @Smock
+  @RetrieveACategory @Smoke
   Scenario Outline:A user with proper role should be able to retrieve the information of a category
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to retrieve a category
@@ -75,7 +75,7 @@ Feature: API Categories
       | contributor   | HTTP/1.1 403 Unauthorized |
       | subscriber    | HTTP/1.1 403 Unauthorized |
 
-  @DeleteACategory @Smock
+  @DeleteACategory @Smoke
   Scenario Outline: A user with proper role should be able to delete a category
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to delete a existent category
@@ -87,7 +87,7 @@ Feature: API Categories
       | administrator | HTTP/1.1 200 OK |
       | editor        | HTTP/1.1 200 OK |
 
-  @NotDeleteACategory @Smock
+  @NotDeleteACategory @Smoke
   Scenario Outline: A user without proper role shouldn't be able to delete a category
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to delete a existent category
@@ -100,7 +100,7 @@ Feature: API Categories
       | contributor   | HTTP/1.1 403 Forbidden | Sorry, you are not allowed to delete this term. |
       | subscriber    | HTTP/1.1 403 Forbidden | Sorry, you are not allowed to delete this term. |
 
-  @UpdateACategory @Smock
+  @UpdateACategory @Smoke
   Scenario Outline: A user with proper role should be able to update a category
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to update a existent category
@@ -112,7 +112,7 @@ Feature: API Categories
     | administrator | HTTP/1.1 200 OK |
     | editor        | HTTP/1.1 200 OK |
 
-  @NotUpdateACategory @Smock
+  @NotUpdateACategory @Smoke
   Scenario Outline: A user without proper role shouldn't be able to update a category
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to update a existent category
