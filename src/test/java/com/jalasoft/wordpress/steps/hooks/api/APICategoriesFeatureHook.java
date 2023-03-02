@@ -15,7 +15,7 @@ public class APICategoriesFeatureHook {
         this.controller = controller;
     }
 
-    @Before("@DeleteACategory")
+    @Before("@DeleteACategory or @UpdateACategory or @RetrieveACategory or @NotUpdateACategory or @NotDeleteACategory")
     public void createACategory() {
         Response requestResponse = APICategoriesMethods.CreateACategory();
         controller.setResponse(requestResponse);
@@ -23,9 +23,15 @@ public class APICategoriesFeatureHook {
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "category was not created");
     }
 
-    @After("@CreateACategory")
+    @After("@CreateACategory or @UpdateACategory or @RetrieveACategory")
     public void deleteACategory() {
         String id = controller.getResponse().jsonPath().getString("id");
+        Response requestResponse = APICategoriesMethods.deleteACategory(id);
+        Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "category with id -> " + id + " was not deleted");
+    }
+    @After("@NotUpdateACategory or @NotDeleteACategory")
+    public void deleteACategoryInvalidResponse() {
+        String id = controller.getIdAux();
         Response requestResponse = APICategoriesMethods.deleteACategory(id);
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "category with id -> " + id + " was not deleted");
     }

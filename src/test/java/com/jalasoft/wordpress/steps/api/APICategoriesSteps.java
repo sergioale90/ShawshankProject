@@ -7,6 +7,7 @@ import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.restassured.http.Header;
+import io.restassured.internal.http.Status;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import utils.StringManager;
@@ -21,10 +22,12 @@ public class APICategoriesSteps {
     private final APIController controller;
     private final String categoriesEndpoint = apiConfig.getCategoriesEndpoint();
     private final String categoriesEndpointById = apiConfig.getCategoriesEndpointById();
+    public Map<String, Object> params;
+    String errorMessage;
     public APICategoriesSteps(APIController controller) {
         this.controller = controller;
     }
-    public Map<String, Object> params;
+
 
     @Given("^the user makes a request to retrieve all categories$")
     public void getAllCategories() {
@@ -35,14 +38,16 @@ public class APICategoriesSteps {
         Response requestResponse = apiManager.get(categoriesEndpoint, queryParams, authHeader);
         controller.setResponse(requestResponse);
     }
-    @Given("^the user makes a request to create a category only with a name$")
+    @Given("^the user makes a request to create a category$")
     public void createANewCategory() {
-        Map<String, Object> categoryName = new HashMap<>();
-        categoryName.put("name", StringManager.generateAlphanumericString(5));
+        Map<String, Object> queryRequest = new HashMap<>();
+        queryRequest.put("name", StringManager.generateAlphanumericString(7));
+        queryRequest.put("slug", StringManager.generateAlphanumericString(5));
+        queryRequest.put("description", StringManager.generateAlphanumericString(25));
 
-        Response requestResponse = apiManager.post(categoriesEndpoint, categoryName, controller.getHeader("Authorization"));
+        Response requestResponse = apiManager.post(categoriesEndpoint, queryRequest, controller.getHeader("Authorization"));
         controller.setResponse(requestResponse);
-        params = categoryName;
+        params = queryRequest;
     }
     @Given("^the user makes a request to delete a existent category$")
     public void deleteACategory() {
@@ -51,13 +56,36 @@ public class APICategoriesSteps {
         Map<String, Object> queryRequest = new HashMap<>();
         queryRequest.put("force", true);
         Response requestResponse = apiManager.delete(categoriesEndpointById.replace("<id>", id), queryRequest, authHeader);
+        controller.setIdAux(id);
+        controller.setResponse(requestResponse);
+    }
+    @Given ("^the user makes a request to update a existent category$")
+    public void updateACategory() {
+        String id = controller.getResponse().jsonPath().getString("id");
+        Header authHeader = controller.getHeader("Authorization");
+        Map<String, Object> queryRequest = new HashMap<>();
+        queryRequest.put("name", StringManager.generateAlphanumericString(7));
+        queryRequest.put("slug", StringManager.generateAlphanumericString(5));
+        queryRequest.put("description", StringManager.generateAlphanumericString(15));
+        Response requestResponse = apiManager.put(categoriesEndpointById.replace("<id>", id), queryRequest, authHeader);
+        params = queryRequest;
+        controller.setIdAux(id);
+        controller.setResponse(requestResponse);
+
+    }
+    @Given("^the user makes a request to retrieve a category")
+    public void retrieveACategory() {
+        String id = controller.getResponse().jsonPath().getString("id");
+        Header authHeader = controller.getHeader("Authorization");
+        Response requestResponse = apiManager.get(categoriesEndpointById.replace("<id>", id), authHeader);
+        String categoryName = controller.getResponse().jsonPath().getString("name");
+        String categorySlug = controller.getResponse().jsonPath().getString("slug");
+        String categoryDescription = controller.getResponse().jsonPath().getString("description");
+
         Map<String, Object> queryParams = new HashMap<>();
-
-
-        queryParams.put("id", id);
-        queryParams.put("deleted", true);
-        queryParams.put("force", true);
-
+        queryParams.put("name", categoryName);
+        queryParams.put("slug", categorySlug);
+        queryParams.put("description", categoryDescription);
         params = queryParams;
         controller.setResponse(requestResponse);
     }
@@ -70,8 +98,31 @@ public class APICategoriesSteps {
     @Then("^category should have been created with the proper name$")
     public void verifyIfCategoryWasCreatedProperly() {
         String expectedCategoryName = (String) params.get("name");
+        String expectedCategorySlug = (String) params.get("slug");
+        expectedCategorySlug = expectedCategorySlug.toLowerCase();
+        String expectedCategoryDescription = (String) params.get("description");
+
         String actualCategoryName = controller.getResponse().jsonPath().getString("name");
-        Assert.assertEquals(actualCategoryName, expectedCategoryName, "The category was not created properly");
+        String actualCategorySlug = controller.getResponse().jsonPath().getString("slug");
+        String actualCategoryDescription = controller.getResponse().jsonPath().getString("description");
+
+        Assert.assertEquals(actualCategoryName, expectedCategoryName, "The category was not created with the properly name");
+        Assert.assertEquals(actualCategorySlug, expectedCategorySlug, "The category was not created with the properly slug");
+        Assert.assertEquals(actualCategoryDescription, expectedCategoryDescription, "The category was not created with the properly description");
+    }
+    @Then ("^response should display the information of the category$")
+    public void verifyIfCategoryIsRetrievedProperly() {
+        String expectedName = (String) params.get("name");
+        String expectedSlug = (String) params.get("slug");
+        String expectedDescription = (String) params.get("description");
+
+        String actualName = controller.getResponse().jsonPath().getString("name");
+        String actualSlug = controller.getResponse().jsonPath().getString("slug");
+        String actualDescription = controller.getResponse().jsonPath().getString("description");
+
+        Assert.assertEquals(actualName, expectedName, "Wrong category name retrieved");
+        Assert.assertEquals(actualSlug, expectedSlug, "Wrong category slug retrieved");
+        Assert.assertEquals(actualDescription, expectedDescription, "Wrong category description retrieved");
     }
     @Then("^category shouldn't have been created and the response has a error \"(.*?)\"$")
     public void verifyIfCategoryNotCreated(String message) {
@@ -84,5 +135,30 @@ public class APICategoriesSteps {
         Boolean actualStatus = controller.getResponse().jsonPath().getBoolean("deleted");
 
         Assert.assertEquals(actualStatus, expectedStatus, "wrong status value returned");
+    }
+    @Then("^category should have been updated")
+    public void verifyIfCategoryWasUpdatedSuccessfully() {
+        String expectedName = (String) params.get("name");
+        String expectedSlug = (String) params.get("slug");
+        expectedSlug = expectedSlug.toLowerCase();
+        String expectedDescription = (String) params.get("description");
+
+        String actualName = controller.getResponse().jsonPath().getString("name");
+        String actualSlug = controller.getResponse().jsonPath().getString("slug");
+        String actualDescription = controller.getResponse().jsonPath().getString("description");
+
+        Assert.assertEquals(actualName, expectedName, "The category name wast not updated correctly");
+        Assert.assertEquals(actualSlug, expectedSlug, "The category slug was not updated correctly");
+        Assert.assertEquals(actualDescription, expectedDescription, "The category description was not updated correctly");
+    }
+    @Then("^category shouldn't have been updated and the response has a error \"(.*?)\"")
+    public void verifyIfCategoryWasNotUpdated(String message) {
+        String actualMessage = controller.getResponse().jsonPath().getString("message");
+        Assert.assertEquals(actualMessage, message, "The message error is not the correctly");
+    }
+    @Then("^category shouldn't have been deleted and the response has a error \"(.*?)\"")
+    public void verifyIfCategoryWasNotDeleted(String message) {
+        String actualMessage = controller.getResponse().jsonPath().getString("message");
+        Assert.assertEquals(actualMessage, message);
     }
 }

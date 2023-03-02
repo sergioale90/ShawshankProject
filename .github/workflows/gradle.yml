@@ -9,7 +9,6 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "featurecategories/ST-30/Imeplement_Categories_API_Tests" ]
   pull_request:
     branches: [ "develop", "main" ]
 

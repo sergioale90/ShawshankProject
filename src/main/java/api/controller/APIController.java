@@ -10,6 +10,7 @@ import java.util.List;
 public class APIController {
     private final List<Header> headers = new ArrayList<>();
     private Response response;
+    private String idAux;
 
     public void addHeader(Header header) {
         headers.add(header);
@@ -29,5 +30,13 @@ public class APIController {
 
     public Response getResponse() {
         return response;
+    }
+
+    public String getIdAux() {
+        return idAux;
+    }
+
+    public void setIdAux(String idAux) {
+        this.idAux = idAux;
     }
 }
