@@ -6,8 +6,7 @@ Feature: Posts
     Given the user is logged in to Admin page with "<User Role>" role
     When the user goes to Posts page using the left side menu bar
     And the user goes to New Post page using the Add New button on Posts page
-    And the user publish a new Post with the following values
-
+    And the user publishes a new Post with the following values
       | title   | content   |
       | <Title> | <Content> |
     Then the Post should have been published successfully
@@ -63,7 +62,7 @@ Feature: Posts
     Given the user is logged in to Admin page with "<User Role>" role
     When the user goes to Posts page using the left side menu bar
     And the user opens the Post using the post title link on the Post page table
-    And the user edit and publish the Post with the following values
+    And the user edits and publishes the Post with the following values
       | title   | content   |
       | <Title> | <Content> |
     Then the Post should have been published successfully

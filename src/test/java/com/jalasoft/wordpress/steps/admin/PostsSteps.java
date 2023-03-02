@@ -32,12 +32,12 @@ public class PostsSteps {
         postsPage = homeAdminPage.leftSideBarMenu.goToPostPage();
     }
 
-    @Given("^I go to New Post page using the popup submenu button from the left side menu bar$")
+    @Given("^the user goes to New Post page using the popup submenu button from the left side menu bar$")
     public void goToNewPostPageUsingSubmenuButton() {
         newPostPage = homeAdminPage.leftSideBarMenu.goToNewPostPageUsingPopupMenu();
     }
 
-    @Given("^I go to New Post page$")
+    @Given("^the user goes to New Post page$")
     public void goToNewPostPage() {
         newPostPage = pageTransporter.navigateToNewPostPage();
     }
@@ -59,12 +59,12 @@ public class PostsSteps {
         postsPage = postsPage.movePostToTrashUsingLink(title);
     }
 
-    @Given("^I leave the New Posts page$")
+    @Given("^the user leaves the New Posts page$")
     public void leaveNewPostPage() {
         newPostPage.leftSideBarMenu.clickPostMenuButton();
     }
 
-    @Given("^the user(?: publish a new | edit and publish the )Post with the following values$")
+    @Given("^the user(?: publishes a new | edits and publishes the )Post with the following values$")
     public void publishPost(DataTable table) {
         List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
         Map<String, Object> values = queryParamsList.get(0);
@@ -90,7 +90,7 @@ public class PostsSteps {
         newPostPage.draftPost(title, content);
     }
 
-    @Given("^I create a new Post with the following values without saving the changes$")
+    @Given("^the user creates a new Post with the following values without saving the changes$")
     public void createAPost(DataTable table) {
         List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
         Map<String, Object> values = queryParamsList.get(0);
