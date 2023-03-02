@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2023 Jala University.
+ *
+ * This software is the confidential and proprieraty information of Jala University
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * Licence agreement you entered into with Jala University.
+ */
 package com.jalasoft.wordpress.steps.api;
 
 import api.APIConfig;
@@ -15,12 +23,20 @@ import java.util.List;
 import java.util.Map;
 
 public class APIPagesSteps {
-    private static final APIConfig apiConfig = APIConfig.getInstance();
-    private static final APIManager apiManager = APIManager.getInstance();
+
+    private static final APIConfig API_CONFIG = APIConfig.getInstance();
+
+    private static final APIManager API_MANAGER = APIManager.getInstance();
+
     private final APIController controller;
-    private final String pagesEndpoint = apiConfig.getPagesEndpoint();
-    private final String pagesByIdEndpoint = apiConfig.getPagesByIdEndpoint();
+
+    private final String pagesEndpoint = API_CONFIG.getPagesEndpoint();
+
+    private final String pagesByIdEndpoint = API_CONFIG.getPagesByIdEndpoint();
+
     private Map<String, Object> params;
+
+    private static final int PER_PAGE = 100;
 
     public APIPagesSteps(APIController controller) {
         this.controller = controller;
@@ -30,9 +46,9 @@ public class APIPagesSteps {
     public void getAllPages() {
         Header authHeader = controller.getHeader("Authorization");
         Map<String, Object> queryParams = new HashMap<>();
-        queryParams.put("per_page", 100);
+        queryParams.put("per_page", PER_PAGE);
 
-        Response requestResponse = apiManager.get(pagesEndpoint, queryParams, authHeader);
+        Response requestResponse = API_MANAGER.get(pagesEndpoint, queryParams, authHeader);
         controller.setResponse(requestResponse);
     }
 
@@ -41,16 +57,16 @@ public class APIPagesSteps {
         List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
         Map<String, Object> queryParams = queryParamsList.get(0);
 
-        Response requestResponse = apiManager.post(pagesEndpoint, queryParams, controller.getHeader("Authorization"));
+        Response requestResponse = API_MANAGER.post(pagesEndpoint, queryParams, controller.getHeader("Authorization"));
         controller.setResponse(requestResponse);
         params = queryParams;
     }
 
     @Given("^the user tries to retrieve a page$")
-    public void getPagesById() {
+    public void getPagetById() {
         String id = controller.getResponse().jsonPath().getString("id");
         Header authHeader = controller.getHeader("Authorization");
-        Response requestResponse = apiManager.get(pagesByIdEndpoint.replace("<id>", id), authHeader);
+        Response requestResponse = API_MANAGER.get(pagesByIdEndpoint.replace("<id>", id), authHeader);
 
         Map<String, Object> queryParams = new HashMap<>();
         String title = controller.getResponse().jsonPath().getString("title.raw");
@@ -63,63 +79,6 @@ public class APIPagesSteps {
         queryParams.put("status", status);
         queryParams.put("content", content);
         queryParams.put("excerpt", excerpt);
-        params = queryParams;
-        controller.setResponse(requestResponse);
-    }
-
-    @Given("^the user updates a page with the following params$")
-    public void updateAPublishPage(DataTable table) {
-        String id = controller.getResponse().jsonPath().getString("id");
-        Header authHeader = controller.getHeader("Authorization");
-        List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
-        Map<String, Object> queryParams = queryParamsList.get(0);
-        Response requestResponse = apiManager.put(pagesByIdEndpoint.replace("<id>", id), queryParams, authHeader);
-        params = new HashMap<>(queryParams);
-        params.put("id", id);
-        controller.setResponse(requestResponse);
-    }
-
-    @Given("^the user makes a request to move a page a trash$")
-    public void moveAPageToTrash() {
-        String id = controller.getResponse().jsonPath().getString("id");
-        Header authHeader = controller.getHeader("Authorization");
-        Response requestResponse = apiManager.delete(pagesByIdEndpoint.replace("<id>", id), authHeader);
-        Map<String, Object> queryParams = new HashMap<>();
-
-        String title = controller.getResponse().jsonPath().getString("title.raw");
-        String content = controller.getResponse().jsonPath().getString("content.raw");
-        String excerpt = controller.getResponse().jsonPath().getString("excerpt.raw");
-
-        queryParams.put("id", id);
-        queryParams.put("content", content);
-        queryParams.put("title", title);
-        queryParams.put("excerpt", excerpt);
-        queryParams.put("status", "trash");
-
-        params = queryParams;
-        controller.setResponse(requestResponse);
-    }
-
-    @Given("^the user makes a request to delete permanently a page$")
-    public void deletePermanentlyAPageById() {
-        String id = controller.getResponse().jsonPath().getString("id");
-        Header authHeader = controller.getHeader("Authorization");
-        Map<String, Object> queryParamDelete = new HashMap<>();
-        queryParamDelete.put("force", true);
-
-        Response requestResponse = apiManager.delete(pagesByIdEndpoint.replace("<id>", id), queryParamDelete, authHeader);
-
-        Map<String, Object> queryParams = new HashMap<>();
-        String title = controller.getResponse().jsonPath().getString("title.raw");
-        String content = controller.getResponse().jsonPath().getString("content.raw");
-        String excerpt = controller.getResponse().jsonPath().getString("excerpt.raw");
-
-        queryParams.put("id", id);
-        queryParams.put("content", content);
-        queryParams.put("title", title);
-        queryParams.put("excerpt", excerpt);
-        queryParams.put("deleted", true);
-
         params = queryParams;
         controller.setResponse(requestResponse);
     }
@@ -165,8 +124,10 @@ public class APIPagesSteps {
         String actualId = controller.getResponse().jsonPath().getString("id");
         String actualTitle = controller.getResponse().jsonPath().getString("title.rendered");
         String actualStatus = controller.getResponse().jsonPath().getString("status");
-        String actualContent = controller.getResponse().jsonPath().getString("content.rendered").replaceAll("<[^>]*>", "").strip();
-        String actualExcerpt = controller.getResponse().jsonPath().getString("excerpt.rendered").replaceAll("<[^>]*>", "").strip();
+        String actualContent = controller.getResponse().jsonPath().getString("content.rendered")
+                .replaceAll("<[^>]*>", "").strip();
+        String actualExcerpt = controller.getResponse().jsonPath().getString("excerpt.rendered")
+                .replaceAll("<[^>]*>", "").strip();
 
         Assert.assertEquals(actualId, expectedId, "wrong id value returned");
         Assert.assertEquals(actualTitle, expectedTitle, "wrong title value returned");
@@ -175,81 +136,10 @@ public class APIPagesSteps {
         Assert.assertEquals(actualExcerpt, expectedExcerpt, "wrong excerpt value returned");
     }
 
-    @Then("^the user should see the response returned and have a body with the following values$")
-    public void verifyResponseAndBody(DataTable table) {
-        List<Map<String, Object>> paramsList = table.asMaps(String.class, Object.class);
-        Map<String, Object> params = paramsList.get(0);
-
-        String expectedCode = (String) params.get("code");
-        String expectedMessage = (String) params.get("message");
-        String expectedData = (String) params.get("data");
-
-        String actualCode = controller.getResponse().jsonPath().getString("code");
-        String actualMessage = controller.getResponse().jsonPath().getString("message");
-        String actualData = controller.getResponse().jsonPath().getString("data");
-
-        Assert.assertEquals(actualCode, expectedCode, "wrong code value returned");
-        Assert.assertEquals(actualMessage, expectedMessage, "wrong message value returned");
-        Assert.assertEquals(actualData, expectedData, "wrong data value returned");
-    }
-
-    @Then("^the user reviews that the page should have been updated with the proper values$")
-    public void verifyPagesUpdate() {
-        String expectedId = (String) params.get("id");
-        String expectedTitle = (String) params.get("title");
-        String expectedContent = (String) params.get("content");
-        String expectedExcerpt = (String) params.get("excerpt");
-
-        String actualId = controller.getResponse().jsonPath().getString("id");
-        String actualTitle = controller.getResponse().jsonPath().getString("title.raw");
-        String actualContent = controller.getResponse().jsonPath().getString("content.raw");
-        String actualExcerpt = controller.getResponse().jsonPath().getString("excerpt.raw");
-
-        Assert.assertEquals(actualId, expectedId, "wrong id value returned");
-        Assert.assertEquals(actualTitle, expectedTitle, "wrong title value returned");
-        Assert.assertEquals(actualContent, expectedContent, "wrong content value returned");
-        Assert.assertEquals(actualExcerpt, expectedExcerpt, "wrong excerpt value returned");
-    }
-
-    @Then("^the user reviews that the page should have been moved to trash status$")
-    public void verifyThatPageWasMovedToTrash() {
-        String expectedId = (String) params.get("id");
-        String expectedTitle = (String) params.get("title");
-        String expectedContent = (String) params.get("content");
-        String expectedExcerpt = (String) params.get("excerpt");
-        String expectedStatus = (String) params.get("status");
-
-        String actualId = controller.getResponse().jsonPath().getString("id");
-        String actualTitle = controller.getResponse().jsonPath().getString("title.raw");
-        String actualContent = controller.getResponse().jsonPath().getString("content.raw");
-        String actualExcerpt = controller.getResponse().jsonPath().getString("excerpt.raw");
-        String actualStatus = controller.getResponse().jsonPath().getString("status");
-
-        Assert.assertEquals(actualId, expectedId, "wrong id value returned");
-        Assert.assertEquals(actualTitle, expectedTitle, "wrong title value returned");
-        Assert.assertEquals(actualContent, expectedContent, "wrong content value returned");
-        Assert.assertEquals(actualExcerpt, expectedExcerpt, "wrong excerpt value returned");
-        Assert.assertEquals(actualStatus, expectedStatus, "wrong status value returned");
-    }
-
-    @Then("^the user reviews that the page should have been deleted permanently$")
-    public void verifyDeletedPermanentlyAPage() {
-        String expectedId = (String) params.get("id");
-        String expectedTitle = (String) params.get("title");
-        String expectedContent = (String) params.get("content");
-        String expectedExcerpt = (String) params.get("excerpt");
-        boolean expectedStatus = (boolean) params.get("deleted");
-
-        String actualId = controller.getResponse().jsonPath().getString("previous.id");
-        String actualTitle = controller.getResponse().jsonPath().getString("previous.title.raw");
-        String actualContent = controller.getResponse().jsonPath().getString("previous.content.raw");
-        String actualExcerpt = controller.getResponse().jsonPath().getString("previous.excerpt.raw");
-        String actualStatus = controller.getResponse().jsonPath().getString("deleted");
-        boolean auxActualStatus = Boolean.parseBoolean(actualStatus);
-        Assert.assertEquals(actualId, expectedId, "wrong id value returned");
-        Assert.assertEquals(actualTitle, expectedTitle, "wrong title value returned");
-        Assert.assertEquals(actualContent, expectedContent, "wrong content value returned");
-        Assert.assertEquals(actualExcerpt, expectedExcerpt, "wrong excerpt value returned");
-        Assert.assertEquals(auxActualStatus, expectedStatus, "wrong status value returned");
+    @Then("^the user should get an error message$")
+    public void verifyUserShouldNotCreatedAPage() {
+        String expectedErrorMessage = "Sorry, you are not allowed to create posts as this user.";
+        String actualErrorMessage = controller.getResponse().jsonPath().getString("message");
+        Assert.assertEquals(actualErrorMessage, expectedErrorMessage, "wrong message returned to the user");
     }
 }

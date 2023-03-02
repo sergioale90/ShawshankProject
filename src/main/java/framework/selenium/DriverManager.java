@@ -1,6 +1,18 @@
+/**
+ * Copyright (c) 2023 Jala University.
+ *
+ * This software is the confidential and proprieraty information of Jala University
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * Licence agreement you entered into with Jala University.
+ */
 package framework.selenium;
 
-import org.openqa.selenium.*;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.NotFoundException;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.PageLoadStrategy;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -21,11 +33,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static constants.DomainAppConstants.*;
+import static constants.DomainAppConstants.CHROME;
+import static constants.DomainAppConstants.EDGE;
+import static constants.DomainAppConstants.FIREFOX;
 
 public class DriverManager {
-    private static final LoggerManager log = LoggerManager.getInstance();
-    public static final DriverConfig driverConfig = DriverConfig.getInstance();
+    private static final LoggerManager LOG = LoggerManager.getInstance();
+    public static final DriverConfig DRIVER_CONFIG = DriverConfig.getInstance();
     private static DriverManager instance;
     private WebDriver driver;
     private Wait<WebDriver> wait;
@@ -42,10 +56,11 @@ public class DriverManager {
     }
 
     private void initialize() {
-        log.info("Initializing Selenium WebDriver Manager");
-        switch (driverConfig.getBrowser()) {
+        LOG.info("Initializing Selenium WebDriver Manager");
+        switch (DRIVER_CONFIG.getBrowser()) {
             case CHROME -> {
-                DriverService.Builder<ChromeDriverService, ChromeDriverService.Builder> builder = new ChromeDriverService.Builder().withSilent(true);
+                DriverService.Builder<ChromeDriverService, ChromeDriverService.Builder> builder = new ChromeDriverService.Builder()
+                        .withSilent(true);
                 ChromeDriverService service = builder.build();
 
                 ChromeOptions chromeOptions = new ChromeOptions();
@@ -58,13 +73,14 @@ public class DriverManager {
                 prefs.put("profile.password_manager_enabled", false);
                 chromeOptions.setExperimentalOption("prefs", prefs);
 
-                if (driverConfig.getHeadlessMode()) {
+                if (DRIVER_CONFIG.getHeadlessMode()) {
                     chromeOptions.addArguments("--headless");
                 }
                 driver = new ChromeDriver(service, chromeOptions);
             }
             case EDGE -> {
-                DriverService.Builder<EdgeDriverService, EdgeDriverService.Builder> builder = new EdgeDriverService.Builder().withSilent(true);
+                DriverService.Builder<EdgeDriverService, EdgeDriverService.Builder> builder = new EdgeDriverService.Builder()
+                        .withSilent(true);
                 EdgeDriverService service = builder.build();
 
                 EdgeOptions edgeOptions = new EdgeOptions();
@@ -77,20 +93,22 @@ public class DriverManager {
                 prefs.put("profile.password_manager_enabled", false);
                 edgeOptions.setExperimentalOption("prefs", prefs);
 
-                if (driverConfig.getHeadlessMode()) {
+                if (DRIVER_CONFIG.getHeadlessMode()) {
                     edgeOptions.addArguments("--headless");
                 }
                 driver = new EdgeDriver(service, edgeOptions);
             }
             case FIREFOX -> {
-                String firefoxLogFilePath = System.getProperty("user.dir") + File.separator + "logs" + File.separator + "firefox.log";
-                DriverService.Builder<GeckoDriverService, GeckoDriverService.Builder> builder = new GeckoDriverService.Builder().withLogFile(new File(firefoxLogFilePath));
+                String firefoxLogFilePath = System.getProperty("user.dir") + File.separator + "logs" + File.separator
+                        + "firefox.log";
+                DriverService.Builder<GeckoDriverService, GeckoDriverService.Builder> builder = new GeckoDriverService.Builder()
+                        .withLogFile(new File(firefoxLogFilePath));
                 GeckoDriverService service = builder.build();
 
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
                 firefoxOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
                 firefoxOptions.setLogLevel(FirefoxDriverLogLevel.FATAL);
-                if (driverConfig.getHeadlessMode()) {
+                if (DRIVER_CONFIG.getHeadlessMode()) {
                     firefoxOptions.addArguments("--headless");
                 }
 
@@ -99,10 +117,10 @@ public class DriverManager {
         }
 
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(driverConfig.getImplicitWaitTime());
+        driver.manage().timeouts().implicitlyWait(DRIVER_CONFIG.getImplicitWaitTime());
         wait = new FluentWait<>(driver)
-                .withTimeout(driverConfig.getTimeout())
-                .pollingEvery(driverConfig.getPollingTime())
+                .withTimeout(DRIVER_CONFIG.getTimeout())
+                .pollingEvery(DRIVER_CONFIG.getPollingTime())
                 .ignoring(NoSuchElementException.class)
                 .ignoring(NotFoundException.class)
                 .ignoring(StaleElementReferenceException.class);
@@ -118,10 +136,10 @@ public class DriverManager {
 
     public void quitWebDriver() {
         try {
-            log.info("Closing WebDriver");
+            LOG.info("Closing WebDriver");
             driver.quit();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            LOG.error(e.getMessage());
         }
         driver = null;
     }

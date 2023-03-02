@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2023 Jala University.
+ *
+ * This software is the confidential and proprieraty information of Jala University
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * Licence agreement you entered into with Jala University.
+ */
 package framework.selenium;
 
 import utils.LoggerManager;
@@ -9,8 +17,8 @@ import java.time.Duration;
 import java.util.Properties;
 
 public class DriverConfig {
-    private static final LoggerManager log = LoggerManager.getInstance();
-    private static final String webDriverFilePath = System.getProperty("user.dir") + File.separator + "webdriver.properties";
+    private static final LoggerManager LOG = LoggerManager.getInstance();
+    private static final String WEB_DRIVER_FILE_PATH = System.getProperty("user.dir") + File.separator + "webdriver.properties";
     private static DriverConfig instance;
     private String browser;
     private Properties properties;
@@ -27,21 +35,21 @@ public class DriverConfig {
     }
 
     private void initialize() {
-        log.info("Reading WebDriver config");
+        LOG.info("Reading WebDriver config");
         String selectedBrowser = System.getProperty("browser");
         if ((selectedBrowser == null) || (selectedBrowser.isEmpty())) {
             browser = "chrome";
         } else {
             browser = selectedBrowser.toLowerCase();
         }
-        log.info("Selected browser is --> " + browser);
+        LOG.info("Selected browser is --> " + browser);
 
         properties = new Properties();
         Properties webDriverProperties = new Properties();
         try {
-            webDriverProperties.load(new FileInputStream(webDriverFilePath));
+            webDriverProperties.load(new FileInputStream(WEB_DRIVER_FILE_PATH));
         } catch (IOException e) {
-            log.error("unable to load properties file");
+            LOG.error("unable to load properties file");
         }
         properties.putAll(webDriverProperties);
     }

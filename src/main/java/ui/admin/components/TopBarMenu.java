@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2023 Jala University.
+ *
+ * This software is the confidential and proprieraty information of Jala University
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * Licence agreement you entered into with Jala University.
+ */
 package ui.admin.components;
 
 import framework.selenium.UIMethods;
@@ -10,10 +18,10 @@ import ui.admin.pages.LoginAdminPage;
 
 public class TopBarMenu extends BasePageObject {
     @FindBy(id = "wp-admin-bar-my-account")
-    WebElement myAccountButton;
+    private WebElement myAccountButton;
 
     @FindBy(id = "wp-admin-bar-logout")
-    WebElement logoutButton;
+    private WebElement logoutButton;
 
     public TopBarMenu() {
         PageFactory.initElements(driver, this);

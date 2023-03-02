@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2023 Jala University.
+ *
+ * This software is the confidential and proprieraty information of Jala University
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * Licence agreement you entered into with Jala University.
+ */
 package ui.admin.components;
 
 import framework.selenium.UIMethods;
@@ -14,12 +22,12 @@ import ui.admin.pages.PostsPage;
 
 public class LeftSideBarMenu extends BasePageObject {
     @FindBy(id = "menu-posts")
-    WebElement postsMenuButton;
+    private WebElement postsMenuButton;
 
     @FindBy(id = "menu-pages")
-    WebElement pagesMenuButton;
+    private WebElement pagesMenuButton;
     @FindBy(xpath = "//li[@id='menu-posts']/descendant::a[text()='Add New']")
-    WebElement addNewPostButton;
+    private WebElement addNewPostButton;
 
     public LeftSideBarMenu() {
         PageFactory.initElements(driver, this);

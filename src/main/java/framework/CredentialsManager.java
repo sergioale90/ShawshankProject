@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2023 Jala University.
+ *
+ * This software is the confidential and proprieraty information of Jala University
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * Licence agreement you entered into with Jala University.
+ */
 package framework;
 
 import utils.LoggerManager;
@@ -9,8 +17,8 @@ import java.util.Properties;
 
 public class CredentialsManager {
     private Properties properties;
-    private static final LoggerManager log = LoggerManager.getInstance();
-    private static final String envFilePath = System.getProperty("user.dir") + File.separator + "environments.properties";
+    private static final LoggerManager LOG = LoggerManager.getInstance();
+    private static final String ENV_FILE_PATH = System.getProperty("user.dir") + File.separator + "environments.properties";
     private static CredentialsManager instance;
     private String envId;
 
@@ -19,21 +27,21 @@ public class CredentialsManager {
     }
 
     private void initialize() {
-        log.info("Reading credentials");
+        LOG.info("Reading credentials");
         String wpEnvironmentId = System.getProperty("envId");
         if ((wpEnvironmentId == null) || (wpEnvironmentId.isEmpty())) {
             envId = "local";
         } else {
             envId = wpEnvironmentId.toLowerCase();
         }
-        log.info("WordPress Environment Id --> " + envId);
+        LOG.info("WordPress Environment Id --> " + envId);
 
         properties = new Properties();
         Properties envProperties = new Properties();
         try {
-            envProperties.load(new FileInputStream(envFilePath));
+            envProperties.load(new FileInputStream(ENV_FILE_PATH));
         } catch (IOException e) {
-            log.error("unable to load properties file");
+            LOG.error("unable to load properties file");
         }
         properties.putAll(envProperties);
     }

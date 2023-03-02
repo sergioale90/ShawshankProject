@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2023 Jala University.
+ *
+ * This software is the confidential and proprieraty information of Jala University
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * Licence agreement you entered into with Jala University.
+ */
 package ui.admin.pages;
 
 import framework.CredentialsManager;
@@ -10,16 +18,16 @@ import ui.BasePageObject;
 import utils.LoggerManager;
 
 public class LoginAdminPage extends BasePageObject {
-    private static final LoggerManager log = LoggerManager.getInstance();
+    private static final LoggerManager LOG = LoggerManager.getInstance();
 
-    @FindBy(id ="user_login")
-    WebElement userNameTextBox;
+    @FindBy(id = "user_login")
+    private WebElement userNameTextBox;
 
     @FindBy(id = "user_pass")
-    WebElement passwordTextBox;
+    private WebElement passwordTextBox;
 
     @FindBy(id = "wp-submit")
-    WebElement loginSubmitButton;
+    private WebElement loginSubmitButton;
 
     public LoginAdminPage() {
         PageFactory.initElements(driver, this);

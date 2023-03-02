@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2023 Jala University.
+ *
+ * This software is the confidential and proprieraty information of Jala University
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * Licence agreement you entered into with Jala University.
+ */
 package api;
 
 import framework.CredentialsManager;
@@ -12,9 +20,9 @@ import utils.LoggerManager;
 import java.util.Map;
 
 public class APIManager {
-    private static final LoggerManager log = LoggerManager.getInstance();
-    private static final CredentialsManager credentialsManager = CredentialsManager.getInstance();
-    private static final APIConfig apiConfig = APIConfig.getInstance();
+    private static final LoggerManager LOG = LoggerManager.getInstance();
+    private static final CredentialsManager CREDENTIALS_MANAGER = CredentialsManager.getInstance();
+    private static final APIConfig API_CONFIG = APIConfig.getInstance();
     private static APIManager instance;
 
     private APIManager() {
@@ -29,16 +37,16 @@ public class APIManager {
     }
 
     private void initialize() {
-        log.info("Initializing API Manager");
-        RestAssured.baseURI = credentialsManager.getBaseURL();
-        RestAssured.basePath = apiConfig.getBasePath();
-        RestAssured.port = apiConfig.getAPIServicePort();
+        LOG.info("Initializing API Manager");
+        RestAssured.baseURI = CREDENTIALS_MANAGER.getBaseURL();
+        RestAssured.basePath = API_CONFIG.getBasePath();
+        RestAssured.port = API_CONFIG.getAPIServicePort();
     }
 
     public void setCredentials(String userRole) {
         PreemptiveBasicAuthScheme authScheme = new PreemptiveBasicAuthScheme();
-        authScheme.setUserName(credentialsManager.getUsername(userRole));
-        authScheme.setPassword(credentialsManager.getPassword(userRole));
+        authScheme.setUserName(CREDENTIALS_MANAGER.getUsername(userRole));
+        authScheme.setPassword(CREDENTIALS_MANAGER.getPassword(userRole));
         RestAssured.authentication = authScheme;
     }
 
@@ -85,6 +93,7 @@ public class APIManager {
     public Response delete(String endpoint, Headers headers) {
         return RestAssured.given().headers(headers).delete(endpoint);
     }
+
     public Response delete(String endpoint, Header header) {
         return RestAssured.given().header(header).delete(endpoint);
     }

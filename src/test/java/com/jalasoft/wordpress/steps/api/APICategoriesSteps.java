@@ -1,9 +1,16 @@
+/**
+ * Copyright (c) 2023 Jala University.
+ *
+ * This software is the confidential and proprieraty information of Jala University
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * Licence agreement you entered into with Jala University.
+ */
 package com.jalasoft.wordpress.steps.api;
 
 import api.APIConfig;
 import api.APIManager;
 import api.controller.APIController;
-import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.restassured.http.Header;
@@ -13,17 +20,19 @@ import org.testng.Assert;
 import utils.StringManager;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class APICategoriesSteps {
-    private static final APIConfig apiConfig = APIConfig.getInstance();
-    private static final APIManager apiManager = APIManager.getInstance();
+    private static final APIConfig API_CONFIG = APIConfig.getInstance();
+    private static final APIManager API_MANAGER = APIManager.getInstance();
     private final APIController controller;
-    private final String categoriesEndpoint = apiConfig.getCategoriesEndpoint();
-    private final String categoriesEndpointById = apiConfig.getCategoriesEndpointById();
-    public Map<String, Object> params;
-    String errorMessage;
+    private final String categoriesEndpoint = API_CONFIG.getCategoriesEndpoint();
+    private final String categoriesEndpointById = API_CONFIG.getCategoriesEndpointById();
+    private Map<String, Object> params;
+    private static final int PER_PAGE = 100;
+    private static final int STRING_LENGHT = 5;
+
+
     public APICategoriesSteps(APIController controller) {
         this.controller = controller;
     }
@@ -32,19 +41,19 @@ public class APICategoriesSteps {
     public void getAllCategories() {
         Header authHeader = controller.getHeader("Authorization");
         Map<String, Object> queryParams = new HashMap<>();
-        queryParams.put("per_page", 100);
+        queryParams.put("per_page", PER_PAGE);
 
-        Response requestResponse = apiManager.get(categoriesEndpoint, queryParams, authHeader);
+        Response requestResponse = API_MANAGER.get(categoriesEndpoint, queryParams, authHeader);
         controller.setResponse(requestResponse);
     }
     @Given("^the user makes a request to create a category$")
     public void createANewCategory() {
         Map<String, Object> queryRequest = new HashMap<>();
-        queryRequest.put("name", StringManager.generateAlphanumericString(7));
-        queryRequest.put("slug", StringManager.generateAlphanumericString(5));
-        queryRequest.put("description", StringManager.generateAlphanumericString(25));
+        queryRequest.put("name", StringManager.generateAlphanumericString(STRING_LENGHT));
+        queryRequest.put("slug", StringManager.generateAlphanumericString(STRING_LENGHT));
+        queryRequest.put("description", StringManager.generateAlphanumericString(STRING_LENGHT));
 
-        Response requestResponse = apiManager.post(categoriesEndpoint, queryRequest, controller.getHeader("Authorization"));
+        Response requestResponse = API_MANAGER.post(categoriesEndpoint, queryRequest, controller.getHeader("Authorization"));
         controller.setResponse(requestResponse);
         params = queryRequest;
     }
@@ -54,7 +63,7 @@ public class APICategoriesSteps {
         Header authHeader = controller.getHeader("Authorization");
         Map<String, Object> queryRequest = new HashMap<>();
         queryRequest.put("force", true);
-        Response requestResponse = apiManager.delete(categoriesEndpointById.replace("<id>", id), queryRequest, authHeader);
+        Response requestResponse = API_MANAGER.delete(categoriesEndpointById.replace("<id>", id), queryRequest, authHeader);
         controller.setIdAux(id);
         controller.setResponse(requestResponse);
     }
@@ -63,10 +72,10 @@ public class APICategoriesSteps {
         String id = controller.getResponse().jsonPath().getString("id");
         Header authHeader = controller.getHeader("Authorization");
         Map<String, Object> queryRequest = new HashMap<>();
-        queryRequest.put("name", StringManager.generateAlphanumericString(7));
-        queryRequest.put("slug", StringManager.generateAlphanumericString(5));
-        queryRequest.put("description", StringManager.generateAlphanumericString(15));
-        Response requestResponse = apiManager.put(categoriesEndpointById.replace("<id>", id), queryRequest, authHeader);
+        queryRequest.put("name", StringManager.generateAlphanumericString(STRING_LENGHT));
+        queryRequest.put("slug", StringManager.generateAlphanumericString(STRING_LENGHT));
+        queryRequest.put("description", StringManager.generateAlphanumericString(STRING_LENGHT));
+        Response requestResponse = API_MANAGER.put(categoriesEndpointById.replace("<id>", id), queryRequest, authHeader);
         params = queryRequest;
         controller.setIdAux(id);
         controller.setResponse(requestResponse);
@@ -75,7 +84,7 @@ public class APICategoriesSteps {
     public void retrieveACategory() {
         String id = controller.getResponse().jsonPath().getString("id");
         Header authHeader = controller.getHeader("Authorization");
-        Response requestResponse = apiManager.get(categoriesEndpointById.replace("<id>", id), authHeader);
+        Response requestResponse = API_MANAGER.get(categoriesEndpointById.replace("<id>", id), authHeader);
         String categoryName = controller.getResponse().jsonPath().getString("name");
         String categorySlug = controller.getResponse().jsonPath().getString("slug");
         String categoryDescription = controller.getResponse().jsonPath().getString("description");

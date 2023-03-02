@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2023 Jala University.
+ *
+ * This software is the confidential and proprieraty information of Jala University
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * Licence agreement you entered into with Jala University.
+ */
 package ui.admin.pages;
 
 import framework.selenium.UIMethods;
@@ -10,7 +18,7 @@ import ui.admin.BaseAdminPage;
 
 public class PagesPage extends BaseAdminPage {
     @FindBy(xpath = "//a[@class='page-title-action'][text()='Add New']")
-    WebElement addNewPageButton;
+    private WebElement addNewPageButton;
 
     public PagesPage() {
         PageFactory.initElements(driver, this);

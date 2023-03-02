@@ -33,3 +33,5 @@ reports/
 # Ignore Gradle project-specific cache directory
 .gradle
 
+shawshank.iml
+cucumber-reporting.properties

@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2023 Jala University.
+ *
+ * This software is the confidential and proprieraty information of Jala University
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * Licence agreement you entered into with Jala University.
+ */
 package api.methods;
 
 import api.APIConfig;
@@ -12,53 +20,55 @@ import java.util.List;
 import java.util.Map;
 
 public class APIPostsMethods {
-    public static final LoggerManager log = LoggerManager.getInstance();
-    public static final APIManager apiManager = APIManager.getInstance();
-    private static final APIConfig apiConfig = APIConfig.getInstance();
+    public static final LoggerManager LOG = LoggerManager.getInstance();
+    public static final APIManager API_MANAGER = APIManager.getInstance();
+    private static final APIConfig API_CONFIG = APIConfig.getInstance();
+    private static final int PER_PAGE = 100;
+    private static final int STRING_LENGHT = 4;
 
     public static Response createAPost() {
-        String postsEndpoint = apiConfig.getPostsEndpoint();
+        String postsEndpoint = API_CONFIG.getPostsEndpoint();
         Header authHeader = APIAuthMethods.getAuthHeader("administrator");
-        String string = StringManager.generateAlphanumericString(4);
+        String string = StringManager.generateAlphanumericString(STRING_LENGHT);
         Map<String, Object> jsonAsMap = new HashMap<>();
         jsonAsMap.put("content", "Content " + string);
         jsonAsMap.put("title", "Title " + string);
         jsonAsMap.put("excerpt", "Excerpt " + string);
         jsonAsMap.put("status", "publish");
 
-        return apiManager.post(postsEndpoint, jsonAsMap, authHeader);
+        return API_MANAGER.post(postsEndpoint, jsonAsMap, authHeader);
     }
 
     public static Response createADraftPost() {
-        String postsEndpoint = apiConfig.getPostsEndpoint();
+        String postsEndpoint = API_CONFIG.getPostsEndpoint();
         Header authHeader = APIAuthMethods.getAuthHeader("administrator");
-        String string = StringManager.generateAlphanumericString(4);
+        String string = StringManager.generateAlphanumericString(STRING_LENGHT);
         Map<String, Object> jsonAsMap = new HashMap<>();
         jsonAsMap.put("content", "Draft Content " + string);
         jsonAsMap.put("title", "Draft Title " + string);
         jsonAsMap.put("excerpt", "Draft Excerpt " + string);
         jsonAsMap.put("status", "draft");
 
-        return apiManager.post(postsEndpoint, jsonAsMap, authHeader);
+        return API_MANAGER.post(postsEndpoint, jsonAsMap, authHeader);
     }
 
     public static Response deleteAPostById(String id) {
-        String postByIdEndpoint = apiConfig.getPostsByIdEndpoint().replace("<id>", id);
+        String postByIdEndpoint = API_CONFIG.getPostsByIdEndpoint().replace("<id>", id);
         Header authHeader = APIAuthMethods.getAuthHeader("administrator");
         Map<String, Object> jsonAsMap = new HashMap<>();
         jsonAsMap.put("force", true);
 
-        return apiManager.delete(postByIdEndpoint, jsonAsMap, authHeader);
+        return API_MANAGER.delete(postByIdEndpoint, jsonAsMap, authHeader);
     }
 
     public static Response getAllPosts() {
-        String postsEndpoint = apiConfig.getPostsEndpoint();
+        String postsEndpoint = API_CONFIG.getPostsEndpoint();
         Header authHeader = APIAuthMethods.getAuthHeader("administrator");
         Map<String, Object> jsonAsMap = new HashMap<>();
-        jsonAsMap.put("per_page", 100);
+        jsonAsMap.put("per_page", PER_PAGE);
         jsonAsMap.put("status", "any");
 
-        return apiManager.get(postsEndpoint, jsonAsMap, authHeader);
+        return API_MANAGER.get(postsEndpoint, jsonAsMap, authHeader);
     }
 
     public static Response deleteAPostByTitle(String title) {

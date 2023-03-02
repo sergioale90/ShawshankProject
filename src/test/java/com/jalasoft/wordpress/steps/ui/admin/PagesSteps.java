@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2023 Jala University.
+ *
+ * This software is the confidential and proprieraty information of Jala University
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * Licence agreement you entered into with Jala University.
+ */
 package com.jalasoft.wordpress.steps.ui.admin;
 
 import io.cucumber.datatable.DataTable;
@@ -33,7 +41,7 @@ public class PagesSteps {
 
     @Given("^the user goes to Pages using the left side menu bar$")
     public void gotToPagesPageUsingMenu() {
-        pagesPage = homeAdminPage.leftSideBarMenu.goToNewPagePage();
+        pagesPage = homeAdminPage.getLeftSideBarMenu().goToNewPagePage();
     }
 
     @Then("^the user switches to draft a page published$")
@@ -222,7 +230,7 @@ public class PagesSteps {
 
     @Then("^the user should review that the page was moved to draft status")
     public void userVerifyThatPageWasMovedToDraftSatus() {
-        pagesPage = homeAdminPage.leftSideBarMenu.goToNewPagePage();
+        pagesPage = homeAdminPage.getLeftSideBarMenu().goToNewPagePage();
         wrapPage.getLinkDraft();
         String title = controller.getTitle();
         boolean isPageTitleLinkPresent = pagesPage.isPageTitleLinkNotPresent(title);
