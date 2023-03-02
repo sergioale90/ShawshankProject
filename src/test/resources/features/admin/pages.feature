@@ -3,7 +3,7 @@ Feature: Pages
 
   @CreatePublishPage
   Scenario Outline: A user with the proper role should be able to create and publish a Page
-    Given the user logs in to the Admin page with the "<User Role>" role
+    Given the user is logged in to Admin page with "<User Role>" role
     When the user goes to Pages using the left side menu bar
     And the user goes to New Page page using the Add New button on Pages page
     And the user publishes a new Page with the following values
@@ -18,7 +18,7 @@ Feature: Pages
 
   @CreateDraftPage
   Scenario Outline: A user with the proper role should be able to create a draft Page
-    Given the user logs in to the Admin page with the "<User Role>" role
+    Given the user is logged in to Admin page with "<User Role>" role
     When the user goes to Pages using the left side menu bar
     And the user goes to New Page page using the Add New button on Pages page
     And the user save as draft a new Page with the following values
@@ -33,7 +33,7 @@ Feature: Pages
 
   @EditPublishPage
   Scenario Outline: A user with proper role should be able to edit and publish a draft Page
-    Given the user logs in to the Admin page with the "<User Role>" role
+    Given the user is logged in to Admin page with "<User Role>" role
     When the user goes to Pages using the left side menu bar
     And the user opens the Page using the page title link on the Page page table
     And the user edits and publishes the Page with the following values
@@ -48,7 +48,7 @@ Feature: Pages
 
   @UpdatePublishPage
   Scenario Outline: A user with proper role should be able to update a publish Page
-    Given the user logs in to the Admin page with the "<User Role>" role
+    Given the user is logged in to Admin page with "<User Role>" role
     When the user goes to Pages using the left side menu bar
     And the user opens the Page using the page title link on the Page page table
     And the user updates the Page with the following values
@@ -63,7 +63,7 @@ Feature: Pages
 
   @DeleteDraftPage
   Scenario Outline: A user with proper role should be able to carry a draft Page to trash
-    Given the user logs in to the Admin page with the "<User Role>" role
+    Given the user is logged in to Admin page with "<User Role>" role
     When the user goes to Pages using the left side menu bar
     And the user moves a Page to trash using the trash link on the Page page table
     Then the user reviews that the Page should have been moved to trash successfully
@@ -75,7 +75,7 @@ Feature: Pages
 
   @DeleteDraftPagePermanently
   Scenario Outline: A user with proper role should be able to delete a draft page permanently
-    Given the user logs in to the Admin page with the "<User Role>" role
+    Given the user is logged in to Admin page with "<User Role>" role
     When the user goes to Pages using the left side menu bar
     And the user moves a Page to trash using the trash link on the Page page table
     Then the user reviews that the Page should have been moved to trash successfully
@@ -89,7 +89,7 @@ Feature: Pages
 
   @RestoreDraftPage
   Scenario Outline: A user with proper role should be able to restore a draft page
-    Given the user logs in to the Admin page with the "<User Role>" role
+    Given the user is logged in to Admin page with "<User Role>" role
     When the user goes to Pages using the left side menu bar
     And the user moves a Page to trash using the trash link on the Page page table
     Then the user reviews that the Page should have been moved to trash successfully
@@ -103,7 +103,7 @@ Feature: Pages
 
   @FindValidPage
   Scenario Outline: A user with proper role should be able to find a correct title page
-    Given the user logs in to the Admin page with the "<User Role>" role
+    Given the user is logged in to Admin page with "<User Role>" role
     When the user goes to Pages using the left side menu bar
     And the user searches a valid title page
     Then the user should see the title page found
@@ -115,7 +115,7 @@ Feature: Pages
 
   @FindNoValidPage
   Scenario Outline: A user with the proper role should not be able to find an incorrect title page
-    Given the user logs in to the Admin page with the "<User Role>" role
+    Given the user is logged in to Admin page with "<User Role>" role
     When the user goes to Pages using the left side menu bar
     And the user searches an invalid title page "<Invalid Page Title>"
     Then the user should see a "<Expected Result>" message
@@ -127,7 +127,7 @@ Feature: Pages
 
   @PagePublishSwitchDraft
   Scenario Outline: A user with the proper role should be able to switch to draft a Page published
-    Given the user logs in to the Admin page with the "<User Role>" role
+    Given the user is logged in to Admin page with "<User Role>" role
     When the user goes to Pages using the left side menu bar
     And the user switches to draft a page published
     And the user presses OK option of the message displayed to continue with the process
