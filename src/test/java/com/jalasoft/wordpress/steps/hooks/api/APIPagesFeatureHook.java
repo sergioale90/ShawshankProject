@@ -23,7 +23,7 @@ public class APIPagesFeatureHook {
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "page was not created");
     }
 
-    @After("@CreateAPagePublish or @CreateAPageDraft or @RetrieveAPage or @UpdateAPage or @DeleteAPage")
+    @After("@CreateAPagePublish or @CreateAPageDraft or @RetrieveAPage or @UpdateAPage")
     public void deleteAPageById() {
         String id = controller.getResponse().jsonPath().getString("id");
         Response requestResponse = APIPagesMethods.deleteAPageById(id);

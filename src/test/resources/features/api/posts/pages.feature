@@ -57,20 +57,38 @@ Feature: API Pages
       | administrator | HTTP/1.1 200 OK |
 
 
-  @Negative
-  Scenario Outline: A user with no proper role should not be able to create a page with publish status
+  @UnableToCreateAndPublishAPage @Bug
+  Scenario Outline: A user without a proper role should not be able to create a page with publish status
     Given the user is authenticated with "<User Role>" role
     When the user creates a page with the following values
       | title                     | status         |  content                    | excerpt                |
       | Test WAPI Page Title      | publish        |  Test WAPI Page Content     | Test WAPI Page Excerp  |
-    Then the user should not get a response
-    And the user should get an error message
+    Then the user should get a "<Status Line>" response
+    And the user should not get a response valid and have a body
+    And the user should see the response returned and have a body with the following values
+      | code   | message   | data   |
+      | <Code> | <Message> | <Data> |
 
     Examples:
-      | User Role             |
-      | author                |
-      | contributor           |
-      | subscriber            |
+      | User Role     | Status Line               | Code                | Message                                                   | Data         |
+      | author        | HTTP/1.1 403 Forbidden    | rest_cannot_create  | Sorry, you are not allowed to create pages as this user.  | [status:403] |
+      | contributor   | HTTP/1.1 403 Forbidden    | rest_cannot_create  | Sorry, you are not allowed to create pages as this user.  | [status:403] |
+      | subscriber    | HTTP/1.1 403 Forbidden    | rest_cannot_create  | Sorry, you are not allowed to create pages as this user.  | [status:403] |
 
+  @UnableToGetAllPages @Bug
+  Scenario Outline: A user without a proper role should not be able to retrieve all pages
+    Given the user is authenticated with "<User Role>" role
+    When the user tries to retrieve all pages list
+    Then the user should get a "<Status Line>" response
+    And the user should not get a response valid and have a body
+    And the user should see the response returned and have a body with the following values
+      | code   | message   | data   |
+      | <Code> | <Message> | <Data> |
+
+    Examples:
+      | User Role     | Status Line               | Code                | Message                                                | Data         |
+      | author        | HTTP/1.1 403 Forbidden    | rest_cannot_create  | Sorry, you are not allowed to get posts as this user.  | [status:403] |
+      | contributor   | HTTP/1.1 403 Forbidden    | rest_cannot_create  | Sorry, you are not allowed to get posts as this user.  | [status:403] |
+      | subscriber    | HTTP/1.1 403 Forbidden    | rest_cannot_create  | Sorry, you are not allowed to get posts as this user.  | [status:403] |
 
 

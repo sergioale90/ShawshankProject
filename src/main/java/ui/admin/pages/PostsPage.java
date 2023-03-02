@@ -2,7 +2,6 @@ package ui.admin.pages;
 
 import framework.selenium.UIMethods;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -56,6 +55,6 @@ public class PostsPage extends BaseAdminPage {
 
     public boolean isPostTitleLinkPresent(String title) {
         String titleLocator = String.format("//a[text()='%s']", title);
-        return UIMethods.isWebElementPresentByXpathJs(titleLocator);
+        return UIMethods.isWebElementNotPresentByXpathJs(titleLocator);
     }
 }

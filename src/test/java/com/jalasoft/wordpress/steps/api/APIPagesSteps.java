@@ -47,7 +47,7 @@ public class APIPagesSteps {
     }
 
     @Given("^the user tries to retrieve a page$")
-    public void getPagetById() {
+    public void getPagesById() {
         String id = controller.getResponse().jsonPath().getString("id");
         Header authHeader = controller.getHeader("Authorization");
         Response requestResponse = apiManager.get(pagesByIdEndpoint.replace("<id>", id), authHeader);
@@ -118,10 +118,21 @@ public class APIPagesSteps {
         Assert.assertEquals(actualExcerpt, expectedExcerpt, "wrong excerpt value returned");
     }
 
-    @Then("^the user should get an error message$")
-    public void verifyUserShouldNotCreatedAPage() {
-        String expectedErrorMessage = "Sorry, you are not allowed to create posts as this user.";
-        String actualErrorMessage = controller.getResponse().jsonPath().getString("message");
-        Assert.assertEquals(actualErrorMessage, expectedErrorMessage, "wrong message returned to the user");
+    @Then("^the user should see the response returned and have a body with the following values$")
+    public void verifyResponseAndBody(DataTable table) {
+        List<Map<String, Object>> paramsList = table.asMaps(String.class, Object.class);
+        Map<String, Object> params = paramsList.get(0);
+
+        String expectedCode = (String) params.get("code");
+        String expectedMessage = (String) params.get("message");
+        String expectedData = (String) params.get("data");
+
+        String actualCode = controller.getResponse().jsonPath().getString("code");
+        String actualMessage = controller.getResponse().jsonPath().getString("message");
+        String actualData = controller.getResponse().jsonPath().getString("data");
+
+        Assert.assertEquals(actualCode, expectedCode, "wrong code value returned");
+        Assert.assertEquals(actualMessage, expectedMessage, "wrong message value returned");
+        Assert.assertEquals(actualData, expectedData, "wrong data value returned");
     }
 }

@@ -3,7 +3,7 @@ Feature: Posts
 
   @CreatePublishPost
   Scenario Outline: A user with proper role should be able to create and publish a Post
-    Given I am logged in to Admin page with "<User Role>" role
+    Given the user logs in to the Admin page with the "<User Role>" role
     When I go to Posts page using the left side menu bar
     And I go to New Post page using the Add New button on Posts page
     And I publish a new Post with the following values
@@ -19,7 +19,7 @@ Feature: Posts
 
   @EditPublishPost @Test
   Scenario Outline: A user with proper role should be able to edit and publish a Post
-    Given I am logged in to Admin page with "<User Role>" role
+    Given the user logs in to the Admin page with the "<User Role>" role
     When I go to Posts page using the left side menu bar
     And I open the Post using the post title link on the Post page table
     And I edit and publish the Post with the following values
@@ -34,7 +34,7 @@ Feature: Posts
 
   @DeleteDraftPost
   Scenario Outline: A user with proper role should be able to delete a Post
-    Given I am logged in to Admin page with "<User Role>" role
+    Given the user logs in to the Admin page with the "<User Role>" role
     When I go to Posts page using the left side menu bar
     And I move a Post to trash using the trash link on the Post page table
      Then the Post should have been moved to trash successfully
