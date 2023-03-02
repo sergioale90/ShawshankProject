@@ -18,7 +18,7 @@ Feature: API Categories
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to retrieve all categories
     Then the user should get a "<Status Line>" response
-    And the user should not get a response
+    And the user should not get a valid response
     Examples:
       | User Role     | Status Line            |
       | author        | HTTP/1.1 403 Forbidden |
@@ -31,7 +31,7 @@ Feature: API Categories
     When the user makes a request to create a category
     Then the user should get a "<Status Line>" response
     And the user should get a valid response and have a body
-    And category should have been created with the proper name
+    And category should have been created correctly
     Examples:
       | User Role     | Status Line          |
       | administrator | HTTP/1.1 201 Created |
@@ -42,7 +42,7 @@ Feature: API Categories
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to create a category
     Then the user should get a "<Status Line>" response
-    And the user should not get a response
+    And the user should not get a valid response
     And category shouldn't have been created and the response has a error "<Message>"
     Examples:
       | User Role    | Status Line            |                         Message                              |
@@ -67,7 +67,7 @@ Feature: API Categories
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to retrieve a category
     Then the user should get a "<Status Line>" response
-    And the user should not get a response
+    And the user should not get a valid response
     And response should display the information of the category
     Examples:
       | User Role     | Status Line     |
@@ -92,7 +92,7 @@ Feature: API Categories
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to delete a existent category
     Then the user should get a "<Status Line>" response
-    And the user should not get a response
+    And the user should not get a valid response
     And category shouldn't have been deleted and the response has a error "<Message>"
     Examples:
       | User Role     | Status Line            |                      Message                  |
@@ -117,7 +117,7 @@ Feature: API Categories
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to update a existent category
     Then the user should get a "<Status Line>" response
-    And the user should not get a response
+    And the user should not get a valid response
     And category shouldn't have been updated and the response has a error "<Message>"
     Examples:
       | User Role     | Status Line            |                      Message                  |

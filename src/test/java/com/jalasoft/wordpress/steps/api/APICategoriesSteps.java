@@ -93,7 +93,7 @@ public class APICategoriesSteps {
         int actualAmountOfCategories = controller.getResponse().jsonPath().getList("$").size();
         Assert.assertEquals(actualAmountOfCategories, expectedAmountOfCategories, "wrong amount of categories returned");
     }
-    @Then("^category should have been created with the proper name$")
+    @Then("^category should have been created correctly$")
     public void verifyIfCategoryWasCreatedProperly() {
         String expectedCategoryName = (String) params.get("name");
         String expectedCategorySlug = (String) params.get("slug");
@@ -121,6 +121,10 @@ public class APICategoriesSteps {
         Assert.assertEquals(actualName, expectedName, "Wrong category name retrieved");
         Assert.assertEquals(actualSlug, expectedSlug, "Wrong category slug retrieved");
         Assert.assertEquals(actualDescription, expectedDescription, "Wrong category description retrieved");
+    }
+    @Then("^the user should not get a valid response$")
+    public void theResponseIsNotValid() {
+        Assert.assertFalse(Status.SUCCESS.matches(controller.getResponse().getStatusCode()));
     }
     @Then("^category shouldn't have been created and the response has a error \"(.*?)\"$")
     public void verifyIfCategoryNotCreated(String message) {
