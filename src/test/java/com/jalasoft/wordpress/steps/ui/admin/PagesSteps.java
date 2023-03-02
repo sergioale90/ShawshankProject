@@ -1,4 +1,4 @@
-package com.jalasoft.wordpress.steps.admin;
+package com.jalasoft.wordpress.steps.ui.admin;
 
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
@@ -42,17 +42,20 @@ public class PagesSteps {
         newPagesPage = pagesPage.goToPagePageUsingLink(title);
         wordPressAlert = editHeader.switchDraftButton();
     }
+
     @Then("^the user searches an invalid title page \"(.*?)\"$")
     public void searchInValidaTitlePage(String title) {
         wrapPage.setTitleTextBox(title);
         wrapPage.getButtonSearchSubmit();
     }
+
     @Then("^the user searches a valid title page$")
     public void searchValidaTitlePage() {
         String title = controller.getTitle();
         wrapPage.setTitleTextBox(title);
         wrapPage.getButtonSearchSubmit();
     }
+
     @Given("^the user goes to New Page page using the Add New button on Pages page$")
     public void goToNewPagePageUsingButton() {
         newPagesPage = pagesPage.goToNewPostPage();
@@ -115,7 +118,6 @@ public class PagesSteps {
         String title = controller.getTitle();
         pagesPage = pagesPage.restorePageUsingLink(title);
     }
-
 
     @Then("^the user reviews that the Page should have been published successfully$")
     public void verifyIfPageWasPublished() {
@@ -196,8 +198,6 @@ public class PagesSteps {
         Assert.assertTrue(isPageTitleLinkNotPresent, "page title link was present");
     }
 
-
-
     @Then("^the user should see the title page found$")
     public void userVerifyTitlePageFound() {
         String title = controller.getTitle();
@@ -228,5 +228,4 @@ public class PagesSteps {
         boolean isPageTitleLinkPresent = pagesPage.isPageTitleLinkNotPresent(title);
         Assert.assertFalse(isPageTitleLinkPresent, "page title link was not present");
     }
-
 }

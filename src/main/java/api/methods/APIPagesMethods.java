@@ -15,7 +15,7 @@ public class APIPagesMethods {
     public static final APIManager apiManager = APIManager.getInstance();
     private static final APIConfig apiConfig = APIConfig.getInstance();
 
-    public static Response createAPage() {
+    public static Response CreateADraftPage() {
         String pagesEndpoint = apiConfig.getPagesEndpoint();
         Header authHeader = APIAuthMethods.getAuthHeader("administrator");
         Map<String, Object> queryParams = new HashMap<>();

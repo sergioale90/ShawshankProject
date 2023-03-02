@@ -67,6 +67,63 @@ public class APIPagesSteps {
         controller.setResponse(requestResponse);
     }
 
+    @Given("^the user updates a page with the following params$")
+    public void updateAPublishPage(DataTable table) {
+        String id = controller.getResponse().jsonPath().getString("id");
+        Header authHeader = controller.getHeader("Authorization");
+        List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
+        Map<String, Object> queryParams = queryParamsList.get(0);
+        Response requestResponse = apiManager.put(pagesByIdEndpoint.replace("<id>", id), queryParams, authHeader);
+        params = new HashMap<>(queryParams);
+        params.put("id", id);
+        controller.setResponse(requestResponse);
+    }
+
+    @Given("^the user makes a request to move a page a trash$")
+    public void moveAPageToTrash() {
+        String id = controller.getResponse().jsonPath().getString("id");
+        Header authHeader = controller.getHeader("Authorization");
+        Response requestResponse = apiManager.delete(pagesByIdEndpoint.replace("<id>", id), authHeader);
+        Map<String, Object> queryParams = new HashMap<>();
+
+        String title = controller.getResponse().jsonPath().getString("title.raw");
+        String content = controller.getResponse().jsonPath().getString("content.raw");
+        String excerpt = controller.getResponse().jsonPath().getString("excerpt.raw");
+
+        queryParams.put("id", id);
+        queryParams.put("content", content);
+        queryParams.put("title", title);
+        queryParams.put("excerpt", excerpt);
+        queryParams.put("status", "trash");
+
+        params = queryParams;
+        controller.setResponse(requestResponse);
+    }
+
+    @Given("^the user makes a request to delete permanently a page$")
+    public void deletePermanentlyAPageById() {
+        String id = controller.getResponse().jsonPath().getString("id");
+        Header authHeader = controller.getHeader("Authorization");
+        Map<String, Object> queryParamDelete = new HashMap<>();
+        queryParamDelete.put("force", true);
+
+        Response requestResponse = apiManager.delete(pagesByIdEndpoint.replace("<id>", id), queryParamDelete, authHeader);
+
+        Map<String, Object> queryParams = new HashMap<>();
+        String title = controller.getResponse().jsonPath().getString("title.raw");
+        String content = controller.getResponse().jsonPath().getString("content.raw");
+        String excerpt = controller.getResponse().jsonPath().getString("excerpt.raw");
+
+        queryParams.put("id", id);
+        queryParams.put("content", content);
+        queryParams.put("title", title);
+        queryParams.put("excerpt", excerpt);
+        queryParams.put("deleted", true);
+
+        params = queryParams;
+        controller.setResponse(requestResponse);
+    }
+
     @Then("^the user should get a proper amount of pages$")
     public void verifyPagesAmount() {
         int expectedAmountOfPages = Integer.parseInt(controller.getResponse().getHeaders().getValue("X-WP-Total"));
@@ -78,7 +135,7 @@ public class APIPagesSteps {
     public void verifyCreatedPage() {
         String expectedStatus = "";
         String expectedTitle = (String) params.get("title");
-        if(params.containsKey("status")) {
+        if (params.containsKey("status")) {
             expectedStatus = (String) params.get("status");
         } else {
             expectedStatus = "draft";
@@ -134,5 +191,65 @@ public class APIPagesSteps {
         Assert.assertEquals(actualCode, expectedCode, "wrong code value returned");
         Assert.assertEquals(actualMessage, expectedMessage, "wrong message value returned");
         Assert.assertEquals(actualData, expectedData, "wrong data value returned");
+    }
+
+    @Then("^the user reviews that the page should have been updated with the proper values$")
+    public void verifyPagesUpdate() {
+        String expectedId = (String) params.get("id");
+        String expectedTitle = (String) params.get("title");
+        String expectedContent = (String) params.get("content");
+        String expectedExcerpt = (String) params.get("excerpt");
+
+        String actualId = controller.getResponse().jsonPath().getString("id");
+        String actualTitle = controller.getResponse().jsonPath().getString("title.raw");
+        String actualContent = controller.getResponse().jsonPath().getString("content.raw");
+        String actualExcerpt = controller.getResponse().jsonPath().getString("excerpt.raw");
+
+        Assert.assertEquals(actualId, expectedId, "wrong id value returned");
+        Assert.assertEquals(actualTitle, expectedTitle, "wrong title value returned");
+        Assert.assertEquals(actualContent, expectedContent, "wrong content value returned");
+        Assert.assertEquals(actualExcerpt, expectedExcerpt, "wrong excerpt value returned");
+    }
+
+    @Then("^the user reviews that the page should have been moved to trash status$")
+    public void verifyThatPageWasMovedToTrash() {
+        String expectedId = (String) params.get("id");
+        String expectedTitle = (String) params.get("title");
+        String expectedContent = (String) params.get("content");
+        String expectedExcerpt = (String) params.get("excerpt");
+        String expectedStatus = (String) params.get("status");
+
+        String actualId = controller.getResponse().jsonPath().getString("id");
+        String actualTitle = controller.getResponse().jsonPath().getString("title.raw");
+        String actualContent = controller.getResponse().jsonPath().getString("content.raw");
+        String actualExcerpt = controller.getResponse().jsonPath().getString("excerpt.raw");
+        String actualStatus = controller.getResponse().jsonPath().getString("status");
+
+        Assert.assertEquals(actualId, expectedId, "wrong id value returned");
+        Assert.assertEquals(actualTitle, expectedTitle, "wrong title value returned");
+        Assert.assertEquals(actualContent, expectedContent, "wrong content value returned");
+        Assert.assertEquals(actualExcerpt, expectedExcerpt, "wrong excerpt value returned");
+        Assert.assertEquals(actualStatus, expectedStatus, "wrong status value returned");
+    }
+
+    @Then("^the user reviews that the page should have been deleted permanently$")
+    public void verifyDeletedPermanentlyAPage() {
+        String expectedId = (String) params.get("id");
+        String expectedTitle = (String) params.get("title");
+        String expectedContent = (String) params.get("content");
+        String expectedExcerpt = (String) params.get("excerpt");
+        boolean expectedStatus = (boolean) params.get("deleted");
+
+        String actualId = controller.getResponse().jsonPath().getString("previous.id");
+        String actualTitle = controller.getResponse().jsonPath().getString("previous.title.raw");
+        String actualContent = controller.getResponse().jsonPath().getString("previous.content.raw");
+        String actualExcerpt = controller.getResponse().jsonPath().getString("previous.excerpt.raw");
+        String actualStatus = controller.getResponse().jsonPath().getString("deleted");
+        boolean auxActualStatus = Boolean.parseBoolean(actualStatus);
+        Assert.assertEquals(actualId, expectedId, "wrong id value returned");
+        Assert.assertEquals(actualTitle, expectedTitle, "wrong title value returned");
+        Assert.assertEquals(actualContent, expectedContent, "wrong content value returned");
+        Assert.assertEquals(actualExcerpt, expectedExcerpt, "wrong excerpt value returned");
+        Assert.assertEquals(auxActualStatus, expectedStatus, "wrong status value returned");
     }
 }

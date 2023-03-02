@@ -15,15 +15,21 @@ public class APIPagesFeatureHook {
         this.controller = controller;
     }
 
-    @Before("@RetrieveAPage or @UpdateAPage or @DeleteAPage")
-    public void createAPage() {
-        Response requestResponse = APIPagesMethods.createAPage();
+    @Before("@RetrieveAPage or @DeleteAPage or @MoveAPageToTrash or @DeleteAPage")
+    public void createADrafPage() {
+            Response requestResponse = APIPagesMethods.CreateADraftPage();
         controller.setResponse(requestResponse);
-
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "page was not created");
     }
 
-    @After("@CreateAPagePublish or @CreateAPageDraft or @RetrieveAPage or @UpdateAPage")
+    @Before("@UpdateAPagePublished")
+    public void createAPublishPage() {
+        Response requestResponse = APIPagesMethods.createAPagePublished();
+        controller.setResponse(requestResponse);
+        Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "page was not created");
+    }
+
+    @After("@CreateAPagePublish or @CreateAPageDraft or @RetrieveAPage or @UpdateAPagePublished or @MoveAPageToTrash")
     public void deleteAPageById() {
         String id = controller.getResponse().jsonPath().getString("id");
         Response requestResponse = APIPagesMethods.deleteAPageById(id);
