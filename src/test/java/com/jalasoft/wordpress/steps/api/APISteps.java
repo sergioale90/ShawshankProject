@@ -29,11 +29,13 @@ public class APISteps {
         Assert.assertEquals(controller.getResponse().getContentType(), expectedContentType, "wrong content type returned");
     }
 
-    @Then("^the user should not get a response$")
-    public void verifyUserShouldNotCreatedAPage() {
+    @Then("^the user should not get a response valid and have a body$")
+    public void verifyInvalidResponseAndBody() {
         String expectedContentType = ContentType.JSON.withCharset(StandardCharsets.UTF_8);
+        String actualContentType = controller.getResponse().getContentType();
+
         Assert.assertTrue(Status.FAILURE.matches(controller.getResponse().getStatusCode()), "invalid status code returned");
         Assert.assertFalse(controller.getResponse().getBody().asString().isEmpty(), "response body is empty");
-        Assert.assertEquals(controller.getResponse().getContentType(), expectedContentType, "wrong content type returned");
+        Assert.assertEquals(actualContentType, expectedContentType, "wrong content type returned");
     }
 }
