@@ -100,7 +100,7 @@ Feature: Posts
       | editor        |
 
   @DeleteDraftPost
-  Scenario Outline: A user with proper role should be able to delete a Post
+  Scenario Outline: A user with proper role should be able to delete a Draft Post
     Given the user is logged in to Admin page with "<User Role>" role
     When the user goes to Posts page using the left side menu bar
     And the user moves a Post to trash using the trash link on the Post page table
