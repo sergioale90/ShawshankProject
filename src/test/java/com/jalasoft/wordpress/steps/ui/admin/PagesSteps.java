@@ -1,4 +1,4 @@
-package com.jalasoft.wordpress.steps.admin;
+package com.jalasoft.wordpress.steps.ui.admin;
 
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;

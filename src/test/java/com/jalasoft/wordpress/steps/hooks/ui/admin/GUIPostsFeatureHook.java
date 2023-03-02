@@ -1,4 +1,4 @@
-package com.jalasoft.wordpress.steps.hooks.admin;
+package com.jalasoft.wordpress.steps.hooks.ui.admin;
 
 import api.methods.APIPostsMethods;
 import io.cucumber.java.After;
