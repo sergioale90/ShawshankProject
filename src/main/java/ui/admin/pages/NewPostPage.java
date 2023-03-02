@@ -4,8 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.admin.BaseEditPage;
-import ui.admin.components.EditHeader;
-import ui.sections.EditOptionsPanel;
 import ui.sections.PublishPanel;
 
 public class NewPostPage extends BaseEditPage {

@@ -10,8 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static api.methods.APIPostsMethods.deleteAPostById;
-
 public class APIPagesMethods {
     public static final LoggerManager log = LoggerManager.getInstance();
     public static final APIManager apiManager = APIManager.getInstance();
