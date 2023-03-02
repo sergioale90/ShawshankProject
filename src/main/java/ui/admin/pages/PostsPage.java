@@ -53,7 +53,7 @@ public class PostsPage extends BaseAdminPage {
         return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(trashMessageLocator))).isDisplayed();
     }
 
-    public boolean isPostTitleLinkPresent(String title) {
+    public boolean isPostTitleLinkNotPresent(String title) {
         String titleLocator = String.format("//a[text()='%s']", title);
         return UIMethods.isWebElementNotPresentByXpathJs(titleLocator);
     }

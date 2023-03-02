@@ -1,7 +1,6 @@
 package com.jalasoft.wordpress.steps.hooks.admin;
 
 import api.methods.APIPagesMethods;
-import api.methods.APIPostsMethods;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.restassured.internal.http.Status;
@@ -11,23 +10,12 @@ import ui.controller.UIController;
 import ui.methods.CommonMethods;
 import utils.LoggerManager;
 
-public class AdminFeatureHook {
+public class GUIPagesFeatureHook {
     private static final LoggerManager log = LoggerManager.getInstance();
     private final UIController controller;
 
-    public AdminFeatureHook(UIController controller) {
+    public GUIPagesFeatureHook(UIController controller) {
         this.controller = controller;
-    }
-
-    @Before("@EditPublishPost or @DeleteDraftPost")
-    public void createPost() {
-        Response requestResponse = APIPostsMethods.createAPost();
-        Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "post was not created");
-
-        String title = requestResponse.jsonPath().getString("title.raw");
-        String id = requestResponse.jsonPath().getString("id");
-        controller.setTitle(title);
-        controller.setId(id);
     }
 
     @Before("@EditPublishPage or @DeleteDraftPage or @DeleteDraftPagePermanently or @RestoreDraftPage or @FindValidPage or @FindNoValidPage")
@@ -52,22 +40,6 @@ public class AdminFeatureHook {
         controller.setTitle(title);
     }
 
-
-    @After("@LoginAdmin")
-    public void afterLoginAdmin() {
-        CommonMethods.logout();
-    }
-
-    @After("@CreatePublishPost")
-    public void afterPosts() {
-        CommonMethods.logout();
-        String title = controller.getTitle();
-        Response requestResponse = APIPostsMethods.deleteAPostByTitle(title);
-
-        Assert.assertNotNull(requestResponse, "post with title -> " + title + " was not found");
-        Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "post with title -> " + title + " was not deleted");
-    }
-
     @After("@CreatePublishPage or @UpdatePublishPage or @PagePublishSwitchDraft or @FindNoValidPage")
     public void afterPages() {
         CommonMethods.logout();
@@ -86,16 +58,6 @@ public class AdminFeatureHook {
         Response requestResponse = APIPagesMethods.deleteADraftPageByTitle(title);
         Assert.assertNotNull(requestResponse, "page with title -> " + title + " was not found");
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "page with title -> " + title + " was not deleted");
-    }
-
-
-    @After("@EditPublishPost or @DeleteDraftPost")
-    public void afterCreateAPost() {
-        CommonMethods.logout();
-        String id = controller.getId();
-        Response requestResponse = APIPostsMethods.deleteAPostById(id);
-
-        Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "post with id -> " + id + " was not deleted");
     }
 
     @After("@EditPublishPage or @DeleteDraftPage")

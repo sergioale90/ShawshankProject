@@ -3,7 +3,6 @@ package com.jalasoft.wordpress.steps.admin;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import io.restassured.response.Response;
 import org.testng.Assert;
 import ui.admin.components.EditHeader;
 import ui.admin.components.WordPressAlert;

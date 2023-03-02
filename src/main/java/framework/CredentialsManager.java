@@ -46,7 +46,7 @@ public class CredentialsManager {
     }
 
     private String getEnvironmentSetting(String setting) {
-        return (String) properties.get(setting);
+        return (String) getInstance().properties.get(setting);
     }
 
     public String getEnvId() {
@@ -75,5 +75,9 @@ public class CredentialsManager {
 
     public String getAdminURL() {
         return getBaseURL() + getEnvironmentSetting(getEnvId() + ".adminURL");
+    }
+
+    public String getAdminNewPostURL() {
+        return getAdminURL() + getEnvironmentSetting(getEnvId() + ".admin.newPostURL");
     }
 }

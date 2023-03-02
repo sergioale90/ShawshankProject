@@ -5,6 +5,7 @@ import api.APIManager;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
 import utils.LoggerManager;
+import utils.StringManager;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,10 +19,11 @@ public class APIPostsMethods {
     public static Response createAPost() {
         String postsEndpoint = apiConfig.getPostsEndpoint();
         Header authHeader = APIAuthMethods.getAuthHeader("administrator");
+        String string = StringManager.generateAlphanumericString(4);
         Map<String, Object> jsonAsMap = new HashMap<>();
-        jsonAsMap.put("content", "Test WAPI Post Content");
-        jsonAsMap.put("title", "Test WAPI Title");
-        jsonAsMap.put("excerpt", "Test WAPI Excerpt");
+        jsonAsMap.put("content", "Content " + string);
+        jsonAsMap.put("title", "Title " + string);
+        jsonAsMap.put("excerpt", "Excerpt " + string);
         jsonAsMap.put("status", "publish");
 
         return apiManager.post(postsEndpoint, jsonAsMap, authHeader);
@@ -30,10 +32,11 @@ public class APIPostsMethods {
     public static Response createADraftPost() {
         String postsEndpoint = apiConfig.getPostsEndpoint();
         Header authHeader = APIAuthMethods.getAuthHeader("administrator");
+        String string = StringManager.generateAlphanumericString(4);
         Map<String, Object> jsonAsMap = new HashMap<>();
-        jsonAsMap.put("content", "Draft Test WAPI Post Content");
-        jsonAsMap.put("title", "Draft Test WAPI Title");
-        jsonAsMap.put("excerpt", "Draft Test WAPI Excerpt");
+        jsonAsMap.put("content", "Draft Content " + string);
+        jsonAsMap.put("title", "Draft Title " + string);
+        jsonAsMap.put("excerpt", "Draft Excerpt " + string);
         jsonAsMap.put("status", "draft");
 
         return apiManager.post(postsEndpoint, jsonAsMap, authHeader);
@@ -53,6 +56,7 @@ public class APIPostsMethods {
         Header authHeader = APIAuthMethods.getAuthHeader("administrator");
         Map<String, Object> jsonAsMap = new HashMap<>();
         jsonAsMap.put("per_page", 100);
+        jsonAsMap.put("status", "any");
 
         return apiManager.get(postsEndpoint, jsonAsMap, authHeader);
     }
@@ -60,7 +64,6 @@ public class APIPostsMethods {
     public static Response deleteAPostByTitle(String title) {
         Response response = null;
         List<Object> objects = getAllPosts().jsonPath().getList("$");
-
         int index = 0;
         for (Object object : objects) {
             if (object.toString().contains(title)) {

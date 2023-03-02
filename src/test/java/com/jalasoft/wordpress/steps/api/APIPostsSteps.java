@@ -94,8 +94,8 @@ public class APIPostsSteps {
         controller.setResponse(requestResponse);
     }
 
-    @Given("^the user makes a request to delete a post$")
-    public void deletePostById() {
+    @Given("^the user makes a request to delete a post by trash$")
+    public void deletePostByIdTrash() {
         String id = controller.getResponse().jsonPath().getString("id");
         Header authHeader = controller.getHeader("Authorization");
         Response requestResponse = apiManager.delete(postByIdEndpoint.replace("<id>", id), authHeader);
@@ -119,20 +119,24 @@ public class APIPostsSteps {
     public void deletePostByIdPermanently() {
         String id = controller.getResponse().jsonPath().getString("id");
         Header authHeader = controller.getHeader("Authorization");
-        Response requestResponse = apiManager.delete(postByIdEndpoint.replace("<id>", id), authHeader);
         Map<String, Object> queryParams = new HashMap<>();
+        Map<String, Object> jsonAsMap = new HashMap<>();
 
         String content = controller.getResponse().jsonPath().getString("content.raw");
         String title = controller.getResponse().jsonPath().getString("title.raw");
         String excerpt = controller.getResponse().jsonPath().getString("excerpt.raw");
+        String status = controller.getResponse().jsonPath().getString("status");
 
         queryParams.put("id", id);
         queryParams.put("content", content);
         queryParams.put("title", title);
         queryParams.put("excerpt", excerpt);
-        queryParams.put("status", "trash");
-        queryParams.put("force", true);
+        queryParams.put("status", status);
+        queryParams.put("deleted", true);
 
+        jsonAsMap.put("force", true);
+
+        Response requestResponse = apiManager.delete(postByIdEndpoint.replace("<id>", id), jsonAsMap,  authHeader);
         params = queryParams;
         controller.setResponse(requestResponse);
     }
@@ -195,8 +199,8 @@ public class APIPostsSteps {
         Assert.assertEquals(actualExcerpt, expectedExcerpt, "wrong excerpt value returned");
     }
 
-    @Then("^post should have been deleted$")
-    public void verifyDeletedPost() {
+    @Then("^post should have been trashed$")
+    public void verifyTrashedPost() {
         String expectedId = (String) params.get("id");
         String expectedContent = (String) params.get("content");
         String expectedTitle = (String) params.get("title");
@@ -208,6 +212,27 @@ public class APIPostsSteps {
         String actualTitle = controller.getResponse().jsonPath().getString("title.raw");
         String actualExcerpt = controller.getResponse().jsonPath().getString("excerpt.raw");
         String actualStatus = controller.getResponse().jsonPath().getString("status");
+
+        Assert.assertEquals(actualId, expectedId, "wrong id value returned");
+        Assert.assertEquals(actualContent, expectedContent, "wrong content value returned");
+        Assert.assertEquals(actualTitle, expectedTitle, "wrong title value returned");
+        Assert.assertEquals(actualExcerpt, expectedExcerpt, "wrong excerpt value returned");
+        Assert.assertEquals(actualStatus, expectedStatus, "wrong status value returned");
+    }
+
+    @Then("^post should have been deleted permanently$")
+    public void verifyTrueDeletedPost() {
+        String expectedId = (String) params.get("id");
+        String expectedContent = (String) params.get("content");
+        String expectedTitle = (String) params.get("title");
+        String expectedExcerpt = (String) params.get("excerpt");
+        String expectedStatus = (String) params.get("status");
+
+        String actualId = controller.getResponse().jsonPath().getString("previous.id");
+        String actualContent = controller.getResponse().jsonPath().getString("previous.content.raw");
+        String actualTitle = controller.getResponse().jsonPath().getString("previous.title.raw");
+        String actualExcerpt = controller.getResponse().jsonPath().getString("previous.excerpt.raw");
+        String actualStatus = controller.getResponse().jsonPath().getString("previous.status");
 
         Assert.assertEquals(actualId, expectedId, "wrong id value returned");
         Assert.assertEquals(actualContent, expectedContent, "wrong content value returned");

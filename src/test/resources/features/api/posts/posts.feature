@@ -95,8 +95,8 @@ Feature: API Posts
   Scenario Outline: A user with proper role should be able to update a draft post
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to update a post with the following params
-      | content                        | title                   | excerpt                   |
-      | Test WAPI Post Content Updated | Test WAPI Title Updated | Test WAPI Excerpt Updated |
+      | content                        | title                   | excerpt                   | status  |
+      | Test WAPI Post Content Updated | Test WAPI Title Updated | Test WAPI Excerpt Updated | publish |
     Then the user should get a "<Status Line>" response
     And the user should get a valid response and have a body
     And post should have been updated with the proper params
@@ -109,10 +109,10 @@ Feature: API Posts
   @DeleteAPostTrash
   Scenario Outline: A user with proper role should be able to delete a post
     Given the user is authenticated with "<User Role>" role
-    When the user makes a request to delete a post
+    When the user makes a request to delete a post by trash
     Then the user should get a "<Status Line>" response
     And the user should get a valid response and have a body
-    And post should have been deleted
+    And post should have been trashed
 
     Examples:
       | User Role     | Status Line     |
@@ -120,12 +120,12 @@ Feature: API Posts
       | editor        | HTTP/1.1 200 OK |
 
   @DeleteAPost
-  Scenario Outline: A user with proper role should be able to delete a post
+  Scenario Outline: A user with proper role should be able to delete a post permanently
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to delete a post permanently
     Then the user should get a "<Status Line>" response
     And the user should get a valid response and have a body
-    And post should have been deleted
+    And post should have been deleted permanently
 
     Examples:
       | User Role     | Status Line     |

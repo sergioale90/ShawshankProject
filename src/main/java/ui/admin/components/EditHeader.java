@@ -9,11 +9,9 @@ import ui.sections.EditOptionsPanel;
 import ui.sections.PublishPanel;
 
 public class EditHeader extends BasePageObject {
-    @FindBy(xpath = "//button[contains(@class, 'editor-post-publish-panel')]")
-    WebElement publishButton;
 
-    @FindBy(css = "button[class='components-button components-dropdown-menu__toggle has-icon']")
-    WebElement optionsButton;
+    @FindBy(xpath = "//button[contains(@class, 'editor-post-publish')]")
+    WebElement publishButton;
 
     @FindBy(css = "button.editor-post-save-draft")
     WebElement saveDraftButton;
@@ -23,6 +21,9 @@ public class EditHeader extends BasePageObject {
 
     @FindBy(css = "button.editor-post-switch-to-draft")
     WebElement switchToDraftButton;
+
+    @FindBy(css = "button[class='components-button components-dropdown-menu__toggle has-icon']")
+    WebElement optionsButton;
 
     public EditHeader() {
         PageFactory.initElements(driver, this);
