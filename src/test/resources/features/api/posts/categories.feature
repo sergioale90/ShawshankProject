@@ -20,10 +20,10 @@ Feature: API Categories
     Then the user should get a "<Status Line>" response
     And the user should not get a response
     Examples:
-      | User Role     | Status Line               |
-      | author        | HTTP/1.1 403 Unauthorized |
-      | contributor   | HTTP/1.1 403 Unauthorized |
-      | subscriber    | HTTP/1.1 403 Unauthorized |
+      | User Role     | Status Line            |
+      | author        | HTTP/1.1 403 Forbidden |
+      | contributor   | HTTP/1.1 403 Forbidden |
+      | subscriber    | HTTP/1.1 403 Forbidden |
 
   @CreateACategory @Smock
   Scenario Outline: A user with proper role should be able to create a category

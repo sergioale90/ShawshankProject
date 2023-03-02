@@ -28,7 +28,6 @@ public class APICategoriesSteps {
         this.controller = controller;
     }
 
-
     @Given("^the user makes a request to retrieve all categories$")
     public void getAllCategories() {
         Header authHeader = controller.getHeader("Authorization");
@@ -71,7 +70,6 @@ public class APICategoriesSteps {
         params = queryRequest;
         controller.setIdAux(id);
         controller.setResponse(requestResponse);
-
     }
     @Given("^the user makes a request to retrieve a category")
     public void retrieveACategory() {
