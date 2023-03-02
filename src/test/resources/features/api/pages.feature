@@ -71,20 +71,20 @@ Feature: API Pages
       | administrator | HTTP/1.1 200 OK |
       | editor        | HTTP/1.1 200 OK |
 
-  @DeleteAPageToTrash
-  Scenario Outline: A user with proper role should be able to send a page to trash status
+  @MoveAPageToTrash
+  Scenario Outline: A user with proper role should be able to move a page to trash status
     Given the user is authenticated with "<User Role>" role
-    When the user makes a request to delete a page
+    When the user makes a request to move a page a trash
     Then the user should get a "<Status Line>" response
     And the user should get a valid response and have a body
-    And the user reviews that the page should have been send to trash status
+    And the user reviews that the page should have been moved to trash status
 
     Examples:
       | User Role     | Status Line     |
       | administrator | HTTP/1.1 200 OK |
       | editor        | HTTP/1.1 200 OK |
 
-  @DeleteAPagePermanently
+  @DeleteAPage
   Scenario Outline: A user with proper role should be able to delete a page permanently
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to delete permanently a page

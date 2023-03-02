@@ -79,8 +79,8 @@ public class APIPagesSteps {
         controller.setResponse(requestResponse);
     }
 
-    @Given("^the user makes a request to delete a page$")
-    public void deleteTrashPageById() {
+    @Given("^the user makes a request to move a page a trash$")
+    public void moveAPageToTrash() {
         String id = controller.getResponse().jsonPath().getString("id");
         Header authHeader = controller.getHeader("Authorization");
         Response requestResponse = apiManager.delete(pagesByIdEndpoint.replace("<id>", id), authHeader);
@@ -211,8 +211,8 @@ public class APIPagesSteps {
         Assert.assertEquals(actualExcerpt, expectedExcerpt, "wrong excerpt value returned");
     }
 
-    @Then("^the user reviews that the page should have been send to trash status$")
-    public void verifyDeletedTrashPage() {
+    @Then("^the user reviews that the page should have been moved to trash status$")
+    public void verifyThatPageWasMovedToTrash() {
         String expectedId = (String) params.get("id");
         String expectedTitle = (String) params.get("title");
         String expectedContent = (String) params.get("content");
