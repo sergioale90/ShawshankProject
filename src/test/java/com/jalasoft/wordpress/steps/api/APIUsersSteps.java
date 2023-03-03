@@ -18,10 +18,10 @@ import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 //import io.restassured.internal.http.Status;
 import io.restassured.response.Response;
-import io.restassured.module.jsv.JsonSchemaValidator;
+//import io.restassured.module.jsv.JsonSchemaValidator;
 import org.testng.Assert;
 
-import java.io.File;
+//import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
