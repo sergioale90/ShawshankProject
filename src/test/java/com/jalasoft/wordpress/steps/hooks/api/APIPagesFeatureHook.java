@@ -18,11 +18,9 @@ import org.testng.Assert;
 
 public class APIPagesFeatureHook {
     private final APIController controller;
-
     public APIPagesFeatureHook(APIController controller) {
         this.controller = controller;
     }
-
     @Before("@RetrieveAPage or @DeleteAPage or @MoveAPageToTrash or @DeleteAPage")
     public void createADrafPage() {
         Response requestResponse = APIPagesMethods.createADraftPage();

@@ -114,6 +114,10 @@ public class APIManager {
         return RestAssured.given().headers(headers).contentType(contentType).body(object).put(endpoint);
     }
 
+    public Response put(String endpoint, Header header, ContentType contentType, Object object) {
+        return RestAssured.given().header(header).contentType(contentType).body(object).put(endpoint);
+    }
+
     public Response put(String endpoint, Map<String, Object> queryParams, Headers headers) {
         return RestAssured.given().queryParams(queryParams).headers(headers).put(endpoint);
     }

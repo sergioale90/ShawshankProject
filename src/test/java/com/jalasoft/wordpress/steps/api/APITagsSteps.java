@@ -5,12 +5,16 @@ import api.APIManager;
 import api.controller.APIController;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.restassured.http.ContentType;
 import io.restassured.http.Header;
+import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import utils.StringManager;
 
+import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class APITagsSteps {
@@ -36,7 +40,7 @@ public class APITagsSteps {
     }
 
     @Given("^the user creates a tag with the following values$")
-    public void createTag() {
+    public void createATag() {
         Header authHeader = controller.getHeader("Authorization");
         Map<String, Object> queryRequest = new HashMap<>();
         queryRequest.put("name", StringManager.generateAlphanumericString(7));
@@ -67,6 +71,27 @@ public class APITagsSteps {
         controller.setResponse(requestResponse);
     }
 
+    @Given("the user updates a tag using a json file")
+    public void updateATagUsingAJsonFile() {
+        Header authHeader = controller.getHeader("Authorization");
+        String id = controller.getResponse().jsonPath().getString("id");
+
+        String requestBodyFilePath = "src|test|resources|api|json|tags|UpdateTag.json".replace("|", File.separator);
+        File requestBodyFile = new File(requestBodyFilePath);
+        Object requestBody = JsonPath.from(requestBodyFile).get();
+
+        Map<String, Object> queryParams = new HashMap<>();
+        queryParams.put("name", JsonPath.from(requestBodyFile).getString("name"));
+        queryParams.put("slug", JsonPath.from(requestBodyFile).getString("slug").toLowerCase());
+        queryParams.put("description", JsonPath.from(requestBodyFile).getString("description"));
+
+        Response requestResponse = apiManager.put(tagsByIdEndpoint.replace("<id>", id), authHeader, ContentType.JSON, requestBody);
+        controller.setResponse(requestResponse);
+
+        params = new HashMap<>(queryParams);
+        params.put("id", id);
+    }
+
     @Then("^the user reviews that the tag should have been retrieved with the proper values$")
     public void verifyRetrievedTag() {
         String expectedId = (String) params.get("id");
@@ -94,6 +119,21 @@ public class APITagsSteps {
 
     @Then("^the user reviews that the tag have been created with the proper values$")
     public void verifyCreatedTag() {
+        String expectedName = (String) params.get("name");
+        String expectedSlug = (String) params.get("slug");
+        String expectedDescription = (String) params.get("description");
+
+        String actualName = controller.getResponse().jsonPath().getString("name");
+        String actualSlug = controller.getResponse().jsonPath().getString("slug");
+        String actualDescription = controller.getResponse().jsonPath().getString("description");
+
+        Assert.assertEquals(actualName, expectedName, "wrong name value returned");
+        Assert.assertEquals(actualSlug, expectedSlug, "wrong slug value returned");
+        Assert.assertEquals(actualDescription, expectedDescription, "wrong description value returned");
+    }
+
+    @Then("^the user reviews that the tag should have been updated with the proper values$")
+    public void verifyUpdateTag() {
         String expectedName = (String) params.get("name");
         String expectedSlug = (String) params.get("slug");
         String expectedDescription = (String) params.get("description");
