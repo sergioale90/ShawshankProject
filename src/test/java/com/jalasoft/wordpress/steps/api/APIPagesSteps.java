@@ -37,6 +37,9 @@ public class APIPagesSteps {
     private Map<String, Object> params;
 
     private static final int PER_PAGE = 100;
+    private static final String CODE_FIELD_NAME = "code";
+    private static final String MESSAGE_FIELD_NAME = "message";
+    private static final String DATA_FIELD_NAME = "data";
 
     public APIPagesSteps(APIController controller) {
         this.controller = controller;
@@ -46,7 +49,7 @@ public class APIPagesSteps {
     public void getAllPages() {
         Header authHeader = controller.getHeader("Authorization");
         Map<String, Object> queryParams = new HashMap<>();
-        queryParams.put("per_page", 100);
+        queryParams.put("per_page", PER_PAGE);
 
         Response requestResponse = API_MANAGER.get(pagesEndpoint, queryParams, authHeader);
         controller.setResponse(requestResponse);
@@ -197,11 +200,11 @@ public class APIPagesSteps {
     @Then("^the user should see the response returned and have a body with the following values$")
     public void verifyResponseAndBody(DataTable table) {
         List<Map<String, Object>> paramsList = table.asMaps(String.class, Object.class);
-        Map<String, Object> params = paramsList.get(0);
+        Map<String, Object> queryParams = paramsList.get(0);
 
-        String expectedCode = (String) params.get("code");
-        String expectedMessage = (String) params.get("message");
-        String expectedData = (String) params.get("data");
+        String expectedCode = (String) queryParams.get(CODE_FIELD_NAME);
+        String expectedMessage = (String) queryParams.get(MESSAGE_FIELD_NAME);
+        String expectedData = (String) queryParams.get(DATA_FIELD_NAME);
 
         String actualCode = controller.getResponse().jsonPath().getString("code");
         String actualMessage = controller.getResponse().jsonPath().getString("message");
