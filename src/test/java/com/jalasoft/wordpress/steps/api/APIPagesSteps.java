@@ -112,6 +112,23 @@ public class APIPagesSteps {
         Assert.assertEquals(actualContent, expectedContent, "wrong content value returned");
         Assert.assertEquals(actualExcerpt, expectedExcerpt, "wrong excerpt value returned");
     }
+    @Then("^the user should see the response returned and have a body with the following values$")
+    public void verifyResponseAndBody(DataTable table) {
+        List<Map<String, Object>> paramsList = table.asMaps(String.class, Object.class);
+        Map<String, Object> params = paramsList.get(0);
+
+        String expectedCode = (String) params.get("code");
+        String expectedMessage = (String) params.get("message");
+        String expectedData = (String) params.get("data");
+
+        String actualCode = controller.getResponse().jsonPath().getString("code");
+        String actualMessage = controller.getResponse().jsonPath().getString("message");
+        String actualData = controller.getResponse().jsonPath().getString("data");
+
+        Assert.assertEquals(actualCode, expectedCode, "wrong code value returned");
+        Assert.assertEquals(actualMessage, expectedMessage, "wrong message value returned");
+        Assert.assertEquals(actualData, expectedData, "wrong data value returned");
+    }
 
     @Then("^the user reviews that the page should have been retrieved with the proper values$")
     public void verifyRetrievedPage() {
