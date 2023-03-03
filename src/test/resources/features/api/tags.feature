@@ -17,10 +17,26 @@ Feature: API Tags
   @CreateATag
   Scenario Outline: A user with proper role should be able to create a tag
     Given the user is authenticated with "<User Role>" role
-    When the user creates a tag with the following values
+    When the user makes a request to create a tag
     Then the user should get a "<Status Line>" response
     And the user should get a valid response and have a body
-    And the user reviews that the tag have been created with the proper values
+    And the user reviews that the tag should have been created with the proper values
+
+    Examples:
+      | User Role        | Status Line          |
+      | administrator    | HTTP/1.1 201 Created |
+      | editor           | HTTP/1.1 201 Created |
+
+  @CreateATag
+  Scenario Outline: A user with proper role should be able to create a tag
+    Given the user is authenticated with "<User Role>" role
+    When the user creates a tag with the following params
+      | name               | slug                 | description                 |
+      | Tag Test           | tagtestone           | description to create a tag |
+    Then the user should get a "<Status Line>" response
+    And the user should get a valid response and have a body
+    And the new tag request response should have a valid schema
+    And the user reviews that the tag should have been created with the proper values
 
     Examples:
       | User Role        | Status Line          |
@@ -52,6 +68,20 @@ Feature: API Tags
       | User Role     | Status Line     |
       | administrator | HTTP/1.1 200 OK |
       | editor        | HTTP/1.1 200 OK |
+
+  @DeleteATag
+  Scenario Outline: A user with proper role should be able to delete a tag
+    Given the user is authenticated with "<User Role>" role
+    When the user makes a request to delete a tag
+    Then the user should get a "<Status Line>" response
+    And the user should get a valid response and have a body
+    And the user reviews that the tag should have been deleted
+
+    Examples:
+      | User Role     | Status Line     |
+      | administrator | HTTP/1.1 200 OK |
+      #| editor        | HTTP/1.1 200 OK |
+
 
   @UnableToGetAllTags @Bug
   Scenario Outline: A user without a proper role should not be able to retrieve all tags

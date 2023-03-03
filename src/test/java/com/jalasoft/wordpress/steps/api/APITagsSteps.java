@@ -3,12 +3,14 @@ package com.jalasoft.wordpress.steps.api;
 import api.APIConfig;
 import api.APIManager;
 import api.controller.APIController;
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import io.restassured.module.jsv.JsonSchemaValidator;
 import org.testng.Assert;
 import utils.StringManager;
 
@@ -16,6 +18,8 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class APITagsSteps {
     private static final APIConfig apiConfig = APIConfig.getInstance();
@@ -39,8 +43,8 @@ public class APITagsSteps {
         controller.setResponse(requestResponse);
     }
 
-    @Given("^the user creates a tag with the following values$")
-    public void createATag() {
+    @Given("^the user makes a request to create a tag$")
+    public void createATagStringGenerator() {
         Header authHeader = controller.getHeader("Authorization");
         Map<String, Object> queryRequest = new HashMap<>();
         queryRequest.put("name", StringManager.generateAlphanumericString(7));
@@ -50,6 +54,28 @@ public class APITagsSteps {
         Response requestResponse = apiManager.post(tagsEndpoint, queryRequest, authHeader);
         controller.setResponse(requestResponse);
         params = queryRequest;
+    }
+
+    @Given("^the user creates a tag with the following params$")
+    public void createATag(DataTable table) {
+        Header authHeader = controller.getHeader("Authorization");
+        List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
+        Map<String, Object> queryParams = queryParamsList.get(0);
+
+        Response requestResponse = apiManager.post(tagsEndpoint, queryParams, authHeader);
+        controller.setResponse(requestResponse);
+        params = queryParams;
+    }
+
+    @Then("^the new tag request response should have a valid schema$")
+    public void verifyNewPostResponseSchema() {
+        String schemaFilePath = "src|test|resources|api|json|schemas|NewTagSchema.json".replace("|", File.separator);
+        File schemaFile = new File(schemaFilePath);
+
+        String actualResponseBody = controller.getResponse().getBody().asString();
+        JsonSchemaValidator expectedJsonSchema = JsonSchemaValidator.matchesJsonSchema(schemaFile);
+
+        assertThat(actualResponseBody, expectedJsonSchema);
     }
 
     @Given("^the user tries to retrieve a tag$")
@@ -92,6 +118,30 @@ public class APITagsSteps {
         params.put("id", id);
     }
 
+    @Given("^the user makes a request to delete a tag$")
+    public void deleteATagById() {
+        String id = controller.getResponse().jsonPath().getString("id");
+        Header authHeader = controller.getHeader("Authorization");
+        Map<String, Object> queryParamDelete = new HashMap<>();
+        queryParamDelete.put("force", true);
+
+        Response requestResponse = apiManager.delete(tagsByIdEndpoint.replace("<id>", id), queryParamDelete, authHeader);
+
+        Map<String, Object> queryParams = new HashMap<>();
+        String name = controller.getResponse().jsonPath().getString("name");
+        String slug = controller.getResponse().jsonPath().getString("slug");
+        String description = controller.getResponse().jsonPath().getString("description");
+
+        queryParams.put("id", id);
+        queryParams.put("name", name);
+        queryParams.put("slug", slug);
+        queryParams.put("description", description);
+        queryParams.put("deleted", true);
+
+        params = queryParams;
+        controller.setResponse(requestResponse);
+    }
+
     @Then("^the user reviews that the tag should have been retrieved with the proper values$")
     public void verifyRetrievedTag() {
         String expectedId = (String) params.get("id");
@@ -117,7 +167,7 @@ public class APITagsSteps {
         Assert.assertEquals(actualAmountOfTags, expectedAmountOfTags, "wrong amount of pages returned");
     }
 
-    @Then("^the user reviews that the tag have been created with the proper values$")
+    @Then("^the user reviews that the tag should have been created with the proper values$")
     public void verifyCreatedTag() {
         String expectedName = (String) params.get("name");
         String expectedSlug = (String) params.get("slug");
@@ -145,5 +195,26 @@ public class APITagsSteps {
         Assert.assertEquals(actualName, expectedName, "wrong name value returned");
         Assert.assertEquals(actualSlug, expectedSlug, "wrong slug value returned");
         Assert.assertEquals(actualDescription, expectedDescription, "wrong description value returned");
+    }
+
+    @Then("^the user reviews that the tag should have been deleted$")
+    public void verifyDeletedTag() {
+        String expectedId = (String) params.get("id");
+        String expectedName = (String) params.get("name");
+        String expectedSlug = (String) params.get("slug");
+        String expectedDescription = (String) params.get("description");
+        boolean expectedStatus = (boolean) params.get("deleted");
+
+        String actualId = controller.getResponse().jsonPath().getString("previous.id");
+        String actualName = controller.getResponse().jsonPath().getString("previous.name");
+        String actualSlug = controller.getResponse().jsonPath().getString("previous.slug");
+        String actualDescription = controller.getResponse().jsonPath().getString("previous.description");
+        boolean actualStatus = Boolean.parseBoolean(controller.getResponse().jsonPath().getString("deleted"));
+
+        Assert.assertEquals(actualId, expectedId, "wrong id value returned");
+        Assert.assertEquals(actualName, expectedName, "wrong name value returned");
+        Assert.assertEquals(actualSlug, expectedSlug, "wrong slug value returned");
+        Assert.assertEquals(actualDescription, expectedDescription, "wrong description value returned");
+        Assert.assertEquals(actualStatus, expectedStatus, "wrong status value returned");
     }
 }

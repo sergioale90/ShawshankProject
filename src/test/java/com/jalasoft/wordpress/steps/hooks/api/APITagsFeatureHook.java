@@ -15,7 +15,7 @@ public class APITagsFeatureHook {
         this.controller = controller;
     }
 
-    @Before("@RetrieveATag or @UnableToGetAllTags or @UpdateATag")
+    @Before("@RetrieveATag or @UnableToGetAllTags or @UpdateATag or @DeleteATag")
     public void createATag() {
         Response requestResponse = APITagsMethods.CreateATag();
         controller.setResponse(requestResponse);
