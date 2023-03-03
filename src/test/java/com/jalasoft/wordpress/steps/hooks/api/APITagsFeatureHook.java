@@ -15,14 +15,14 @@ public class APITagsFeatureHook {
         this.controller = controller;
     }
 
-    @Before("@RetrieveATag or @UnableToGetAllTags or @UpdateATag or @DeleteATag")
+    @Before("@RetrieveATag or @UnableToGetAllTags or @UpdateATag or @DeleteATag or @CreateATagWithSameName")
     public void createATag() {
         Response requestResponse = APITagsMethods.CreateATag();
         controller.setResponse(requestResponse);
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "tag was not created");
     }
 
-    @After("@CreateATag or @RetrieveATag or @UpdateATag or @UnableToGetAllTags")
+    @After("@CreateATag or @RetrieveATag or @UpdateATag or @UnableToGetAllTags or @CreateATagWithSameName")
     public void deleteATagById() {
         String id = controller.getResponse().jsonPath().getString("id");
         Response requestResponse = APITagsMethods.deleteATagById(id);

@@ -82,13 +82,28 @@ Feature: API Tags
       | administrator | HTTP/1.1 200 OK |
       | editor        | HTTP/1.1 200 OK |
 
+  @CreateATagWithSameName @Bug
+  Scenario Outline: A user with proper role should not be able to create a tag with the same name
+    Given the user is authenticated with "<User Role>" role
+    When the user makes a request to create a tag with the same name that other already created
+    Then the user should get a "<Status Line>" response
+    And the user should see the response invalid and have a body
+    And the user reviews that the response should be returned and have a body with the following values
+      | code   | message   | data   |
+      | <Code> | <Message> | <Data> |
+
+    Examples:
+      | User Role        | Status Line              | Code          | Message                                                        | Data         |
+      | administrator    | HTTP/1.1 400 Bad Request | term_exists   | A term with the name provided already exists in this taxonomy. | [status:400] |
+      #| editor           | HTTP/1.1 400 Bad Request | term_exists   | A term with the name provided already exists in this taxonomy. | [status:400] |
+
 
   @UnableToGetAllTags @Bug
   Scenario Outline: A user without a proper role should not be able to retrieve all tags
     Given the user is authenticated with "<User Role>" role
     When the user tries to retrieve all tags list
     Then the user should get a "<Status Line>" response
-    And the user should not get a response valid and have a body
+    And the user should see the response invalid and have a body
     And the user should see the response returned and have a body with the following values
       | code   | message   | data   |
       | <Code> | <Message> | <Data> |

@@ -196,7 +196,7 @@ public class APIPagesSteps {
         Assert.assertEquals(actualContent, expectedContent, "wrong content value returned");
         Assert.assertEquals(actualExcerpt, expectedExcerpt, "wrong excerpt value returned");
     }
-
+    // the user should not get a response valid and have a body
     @Then("^the user should see the response returned and have a body with the following values$")
     public void verifyResponseAndBody(DataTable table) {
         List<Map<String, Object>> paramsList = table.asMaps(String.class, Object.class);

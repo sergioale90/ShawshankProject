@@ -142,6 +142,20 @@ public class APITagsSteps {
         controller.setResponse(requestResponse);
     }
 
+    @Given("^the user makes a request to create a tag with the same name that other already created$")
+    public void createATagWithTheSameName() {
+        Header authHeader = controller.getHeader("Authorization");
+        String nameTagCreated = controller.getResponse().jsonPath().getString("name");
+
+        Map<String, Object> queryRequest = new HashMap<>();
+        queryRequest.put("name", nameTagCreated);
+        queryRequest.put("slug", StringManager.generateAlphanumericString(5).toLowerCase());
+        queryRequest.put("description", StringManager.generateAlphanumericString(25));
+
+        Response requestResponse = apiManager.post(tagsEndpoint, queryRequest, authHeader);
+        controller.setResponse(requestResponse);
+    }
+
     @Then("^the user reviews that the tag should have been retrieved with the proper values$")
     public void verifyRetrievedTag() {
         String expectedId = (String) params.get("id");
@@ -216,5 +230,23 @@ public class APITagsSteps {
         Assert.assertEquals(actualSlug, expectedSlug, "wrong slug value returned");
         Assert.assertEquals(actualDescription, expectedDescription, "wrong description value returned");
         Assert.assertEquals(actualStatus, expectedStatus, "wrong status value returned");
+    }
+
+    @Then("^the user reviews that the response should be returned and have a body with the following values$")
+    public void verifyResponseAndBody(DataTable table) {
+        List<Map<String, Object>> paramsList = table.asMaps(String.class, Object.class);
+        Map<String, Object> params = paramsList.get(0);
+
+        String expectedCode = (String) params.get("code");
+        String expectedMessage = (String) params.get("message");
+        String expectedData = (String) params.get("data");
+
+        String actualCode = controller.getResponse().jsonPath().getString("code");
+        String actualMessage = controller.getResponse().jsonPath().getString("message");
+        String actualData = controller.getResponse().jsonPath().getString("data.status");
+
+        Assert.assertEquals(actualCode, expectedCode, "wrong code value returned");
+        Assert.assertEquals(actualMessage, expectedMessage, "wrong message value returned");
+        Assert.assertEquals(actualData, expectedData, "wrong data value returned");
     }
 }
