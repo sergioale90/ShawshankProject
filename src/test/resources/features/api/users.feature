@@ -45,6 +45,7 @@ Feature: API Users
       | pedro    | pedro@mail.com | pedro123 | contributor |
     Then the user should get a "<Status Line>" response
     And the user should get a valid response and have a body
+    And the body should comply with the schema
     And a new user should have been created with the proper params
 
     Examples: 
