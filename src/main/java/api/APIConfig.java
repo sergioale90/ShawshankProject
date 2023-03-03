@@ -83,4 +83,12 @@ public class APIConfig {
     public String getCategoriesEndpointById() {
         return getAPISetting("api.endpoint.categoriesById");
     }
+
+    public String getUsersEndpoint() {
+        return getAPISetting("api.endpoint.users");
+    }
+
+    public String getUsersByIdEndpoint() {
+        return getAPISetting("api.endpoint.usersById");
+    }
 }
