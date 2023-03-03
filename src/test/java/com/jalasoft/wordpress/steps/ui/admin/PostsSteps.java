@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2023 Jala University.
+ *
+ * This software is the confidential and proprieraty information of Jala University
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * Licence agreement you entered into with Jala University.
+ */
 package com.jalasoft.wordpress.steps.ui.admin;
 
 import io.cucumber.datatable.DataTable;
@@ -29,12 +37,12 @@ public class PostsSteps {
 
     @Given("^the user goes to Posts page using the left side menu bar$")
     public void gotToPostsPageUsingMenu() {
-        postsPage = homeAdminPage.leftSideBarMenu.goToPostPage();
+        postsPage = homeAdminPage.getLeftSideBarMenu().goToPostPage();
     }
 
     @Given("^the user goes to New Post page using the popup submenu button from the left side menu bar$")
     public void goToNewPostPageUsingSubmenuButton() {
-        newPostPage = homeAdminPage.leftSideBarMenu.goToNewPostPageUsingPopupMenu();
+        newPostPage = homeAdminPage.getLeftSideBarMenu().goToNewPostPageUsingPopupMenu();
     }
 
     @Given("^the user goes to New Post page$")
@@ -61,7 +69,7 @@ public class PostsSteps {
 
     @Given("^the user leaves the New Posts page$")
     public void leaveNewPostPage() {
-        newPostPage.leftSideBarMenu.clickPostMenuButton();
+        newPostPage.getLeftSideBarMenu().clickPostMenuButton();
     }
 
     @Given("^the user(?: publishes a new | edits and publishes the )Post with the following values$")

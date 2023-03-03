@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2023 Jala University.
+ *
+ * This software is the confidential and proprieraty information of Jala University
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * Licence agreement you entered into with Jala University.
+ */
 package com.jalasoft.wordpress.steps.api;
 
 import api.APIConfig;
@@ -15,12 +23,23 @@ import java.util.List;
 import java.util.Map;
 
 public class APIPagesSteps {
-    private static final APIConfig apiConfig = APIConfig.getInstance();
-    private static final APIManager apiManager = APIManager.getInstance();
+
+    private static final APIConfig API_CONFIG = APIConfig.getInstance();
+
+    private static final APIManager API_MANAGER = APIManager.getInstance();
+
     private final APIController controller;
-    private final String pagesEndpoint = apiConfig.getPagesEndpoint();
-    private final String pagesByIdEndpoint = apiConfig.getPagesByIdEndpoint();
+
+    private final String pagesEndpoint = API_CONFIG.getPagesEndpoint();
+
+    private final String pagesByIdEndpoint = API_CONFIG.getPagesByIdEndpoint();
+
     private Map<String, Object> params;
+
+    private static final int PER_PAGE = 100;
+    private static final String CODE_FIELD_NAME = "code";
+    private static final String MESSAGE_FIELD_NAME = "message";
+    private static final String DATA_FIELD_NAME = "data";
 
     public APIPagesSteps(APIController controller) {
         this.controller = controller;
@@ -30,9 +49,9 @@ public class APIPagesSteps {
     public void getAllPages() {
         Header authHeader = controller.getHeader("Authorization");
         Map<String, Object> queryParams = new HashMap<>();
-        queryParams.put("per_page", 100);
+        queryParams.put("per_page", PER_PAGE);
 
-        Response requestResponse = apiManager.get(pagesEndpoint, queryParams, authHeader);
+        Response requestResponse = API_MANAGER.get(pagesEndpoint, queryParams, authHeader);
         controller.setResponse(requestResponse);
     }
 
@@ -41,7 +60,7 @@ public class APIPagesSteps {
         List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
         Map<String, Object> queryParams = queryParamsList.get(0);
 
-        Response requestResponse = apiManager.post(pagesEndpoint, queryParams, controller.getHeader("Authorization"));
+        Response requestResponse = API_MANAGER.post(pagesEndpoint, queryParams, controller.getHeader("Authorization"));
         controller.setResponse(requestResponse);
         params = queryParams;
     }
@@ -50,7 +69,7 @@ public class APIPagesSteps {
     public void getPagesById() {
         String id = controller.getResponse().jsonPath().getString("id");
         Header authHeader = controller.getHeader("Authorization");
-        Response requestResponse = apiManager.get(pagesByIdEndpoint.replace("<id>", id), authHeader);
+        Response requestResponse = API_MANAGER.get(pagesByIdEndpoint.replace("<id>", id), authHeader);
 
         Map<String, Object> queryParams = new HashMap<>();
         String title = controller.getResponse().jsonPath().getString("title.raw");
@@ -73,7 +92,7 @@ public class APIPagesSteps {
         Header authHeader = controller.getHeader("Authorization");
         List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
         Map<String, Object> queryParams = queryParamsList.get(0);
-        Response requestResponse = apiManager.put(pagesByIdEndpoint.replace("<id>", id), queryParams, authHeader);
+        Response requestResponse = API_MANAGER.put(pagesByIdEndpoint.replace("<id>", id), queryParams, authHeader);
         params = new HashMap<>(queryParams);
         params.put("id", id);
         controller.setResponse(requestResponse);
@@ -83,7 +102,7 @@ public class APIPagesSteps {
     public void moveAPageToTrash() {
         String id = controller.getResponse().jsonPath().getString("id");
         Header authHeader = controller.getHeader("Authorization");
-        Response requestResponse = apiManager.delete(pagesByIdEndpoint.replace("<id>", id), authHeader);
+        Response requestResponse = API_MANAGER.delete(pagesByIdEndpoint.replace("<id>", id), authHeader);
         Map<String, Object> queryParams = new HashMap<>();
 
         String title = controller.getResponse().jsonPath().getString("title.raw");
@@ -107,7 +126,8 @@ public class APIPagesSteps {
         Map<String, Object> queryParamDelete = new HashMap<>();
         queryParamDelete.put("force", true);
 
-        Response requestResponse = apiManager.delete(pagesByIdEndpoint.replace("<id>", id), queryParamDelete, authHeader);
+        Response requestResponse = API_MANAGER.delete(pagesByIdEndpoint.replace("<id>", id), queryParamDelete,
+                authHeader);
 
         Map<String, Object> queryParams = new HashMap<>();
         String title = controller.getResponse().jsonPath().getString("title.raw");
@@ -165,8 +185,10 @@ public class APIPagesSteps {
         String actualId = controller.getResponse().jsonPath().getString("id");
         String actualTitle = controller.getResponse().jsonPath().getString("title.rendered");
         String actualStatus = controller.getResponse().jsonPath().getString("status");
-        String actualContent = controller.getResponse().jsonPath().getString("content.rendered").replaceAll("<[^>]*>", "").strip();
-        String actualExcerpt = controller.getResponse().jsonPath().getString("excerpt.rendered").replaceAll("<[^>]*>", "").strip();
+        String actualContent = controller.getResponse().jsonPath().getString("content.rendered")
+                .replaceAll("<[^>]*>", "").strip();
+        String actualExcerpt = controller.getResponse().jsonPath().getString("excerpt.rendered")
+                .replaceAll("<[^>]*>", "").strip();
 
         Assert.assertEquals(actualId, expectedId, "wrong id value returned");
         Assert.assertEquals(actualTitle, expectedTitle, "wrong title value returned");
@@ -178,11 +200,11 @@ public class APIPagesSteps {
     @Then("^the user should see the response returned and have a body with the following values$")
     public void verifyResponseAndBody(DataTable table) {
         List<Map<String, Object>> paramsList = table.asMaps(String.class, Object.class);
-        Map<String, Object> params = paramsList.get(0);
+        Map<String, Object> queryParams = paramsList.get(0);
 
-        String expectedCode = (String) params.get("code");
-        String expectedMessage = (String) params.get("message");
-        String expectedData = (String) params.get("data");
+        String expectedCode = (String) queryParams.get(CODE_FIELD_NAME);
+        String expectedMessage = (String) queryParams.get(MESSAGE_FIELD_NAME);
+        String expectedData = (String) queryParams.get(DATA_FIELD_NAME);
 
         String actualCode = controller.getResponse().jsonPath().getString("code");
         String actualMessage = controller.getResponse().jsonPath().getString("message");

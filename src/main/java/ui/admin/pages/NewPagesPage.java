@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2023 Jala University.
+ *
+ * This software is the confidential and proprieraty information of Jala University
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * Licence agreement you entered into with Jala University.
+ */
 package ui.admin.pages;
 
 import org.openqa.selenium.By;
@@ -21,7 +29,7 @@ public class NewPagesPage extends BaseEditPage {
         setTitleTextBox(title);
         setContentTextArea(content);
 
-        PublishPanel panel = editHeader.clickPublishButton();
+        PublishPanel panel = getEditHeader().clickPublishButton();
         panel.clickPublishButton();
     }
 
@@ -29,14 +37,14 @@ public class NewPagesPage extends BaseEditPage {
         setTitleTextBox(title);
         setContentTextArea(content);
 
-        editHeader.clickSaveDraftButton();
+        getEditHeader().clickSaveDraftButton();
     }
 
     public void updatePagePublished(String title, String content) {
         setTitleTextBox(title);
         setContentTextArea(content);
 
-        editHeader.clickUpdateButton();
+        getEditHeader().clickUpdateButton();
     }
 
     public boolean isPublishedMessageDisplayed() {

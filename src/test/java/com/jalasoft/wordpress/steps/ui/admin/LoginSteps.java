@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2023 Jala University.
+ *
+ * This software is the confidential and proprieraty information of Jala University
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * Licence agreement you entered into with Jala University.
+ */
 package com.jalasoft.wordpress.steps.ui.admin;
 
 import io.cucumber.java.en.Given;
@@ -15,6 +23,7 @@ public class LoginSteps {
     private LoginAdminPage loginAdminPage;
     private HomeAdminPage homeAdminPage;
     private String username;
+    private static final int STRING_LENGHT = 8;
 
     public LoginSteps() {
         this.pageTransporter = PageTransporter.getInstance();
@@ -32,37 +41,35 @@ public class LoginSteps {
 
     @Given("^the user login to Admin page using invalid credentials$")
     public void loginToAdminWithInvalidCredentials() {
-        username = StringManager.generateAlphanumericString(8);
-        String password = StringManager.generateAlphanumericString(8);
+        username = StringManager.generateAlphanumericString(STRING_LENGHT);
+        String password = StringManager.generateAlphanumericString(STRING_LENGHT);
         loginAdminPage.loginWithInvalidCredentials(username, password);
     }
 
     @Given("^the user login to Admin page using invalid email$")
     public void loginToAdminWithInvalidEmail() {
-        String email = StringManager.generateAlphanumericString(8) + "@" + StringManager.generateAlphanumericString(4) + ".com";
-        String password = StringManager.generateAlphanumericString(8);
+        String email = StringManager.generateAlphanumericString(STRING_LENGHT) + "@"
+                + StringManager.generateAlphanumericString(STRING_LENGHT)
+                + ".com";
+        String password = StringManager.generateAlphanumericString(STRING_LENGHT);
         loginAdminPage.loginWithInvalidEmailAddress(email, password);
     }
 
     @Given("^the user login to Admin page with no credentials$")
     public void loginToAdminPageWithNoCredentials() {
-        String username = "";
-        String password = "";
-        loginAdminPage.loginWithInvalidCredentials(username, password);
+
+        loginAdminPage.loginWithInvalidCredentials("", "");
     }
 
     @Given("^the user login to Admin page with no username$")
     public void loginToAdminPageWithNoUsername() {
-        String username = "";
-        String password = StringManager.generateAlphanumericString(8);
-        loginAdminPage.loginWithInvalidCredentials(username, password);
+        String password = StringManager.generateAlphanumericString(STRING_LENGHT);
+        loginAdminPage.loginWithInvalidCredentials("", password);
     }
 
     @Given("^the user login to Admin page with no password$")
     public void loginToAdminPageWithNoPassword() {
-        String username = StringManager.generateAlphanumericString(8);
-        String password = "";
-        loginAdminPage.loginWithInvalidCredentials(username, password);
+        loginAdminPage.loginWithInvalidCredentials(StringManager.generateAlphanumericString(STRING_LENGHT), "");
     }
 
     @Given("^the user is logged in to Admin page with \"(.*?)\" role$")
@@ -82,7 +89,7 @@ public class LoginSteps {
 
     @Then("^the user should login to Admin page successfully$")
     public void verifyLoginToAdminPage() {
-        boolean isMyAccountButtonDisplayed = homeAdminPage.topBarMenu.isMyAccountButtonDisplayed();
+        boolean isMyAccountButtonDisplayed = homeAdminPage.getTopBarMenu().isMyAccountButtonDisplayed();
 
         Assert.assertTrue(isMyAccountButtonDisplayed, "My account button was not displayed");
     }
@@ -98,7 +105,9 @@ public class LoginSteps {
 
     @Then("^an error message that indicates that the username is not registered should be displayed$")
     public void verifyUsernameNotRegisteredErrorMessage() {
-        String expectedErrorMessage = String.format("Error: The username %s is not registered on this site. If you are unsure of your username, try your email address instead.", username);
+        String expectedErrorMessage = String.format(
+                "Error: The username %s is not registered on this site. If you are unsure of your username, try your email address instead.",
+                username);
         String actualErrorMessage = loginAdminPage.getErrorMessage();
 
         Assert.assertEquals(actualErrorMessage, expectedErrorMessage, "displayed error message was not correct");

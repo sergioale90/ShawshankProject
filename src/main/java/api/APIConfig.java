@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2023 Jala University.
+ *
+ * This software is the confidential and proprieraty information of Jala University
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * Licence agreement you entered into with Jala University.
+ */
 package api;
 
 import utils.LoggerManager;
@@ -9,8 +17,8 @@ import java.util.Properties;
 
 public class APIConfig {
     private Properties properties;
-    private static final LoggerManager log = LoggerManager.getInstance();
-    private static final String apiFilePath = System.getProperty("user.dir") + File.separator + "api.properties";
+    private static final LoggerManager LOG = LoggerManager.getInstance();
+    private static final String API_FILE_PATH = System.getProperty("user.dir") + File.separator + "api.properties";
     private static APIConfig instance;
 
     protected APIConfig() {
@@ -18,13 +26,13 @@ public class APIConfig {
     }
 
     private void initialize() {
-        log.info("Reading API service config");
+        LOG.info("Reading API service config");
         properties = new Properties();
         Properties apiProperties = new Properties();
         try {
-            apiProperties.load(new FileInputStream(apiFilePath));
+            apiProperties.load(new FileInputStream(API_FILE_PATH));
         } catch (IOException e) {
-            log.error("unable to load properties file");
+            LOG.error("unable to load properties file");
         }
         properties.putAll(apiProperties);
     }
@@ -49,7 +57,7 @@ public class APIConfig {
     }
 
     public String getTokenEndpoint() {
-        return  getAPISetting("api.endpoint.token");
+        return getAPISetting("api.endpoint.token");
     }
 
     public String getPostsEndpoint() {
@@ -60,12 +68,18 @@ public class APIConfig {
         return getAPISetting("api.endpoint.postsById");
     }
 
-    public String getPagesEndpoint() { return getAPISetting("api.endpoint.pages"); }
+    public String getPagesEndpoint() {
+        return getAPISetting("api.endpoint.pages");
+    }
 
-    public String getPagesByIdEndpoint() { return getAPISetting("api.endpoint.pagesById"); }
+    public String getPagesByIdEndpoint() {
+        return getAPISetting("api.endpoint.pagesById");
+    }
+
     public String getCategoriesEndpoint() {
         return getAPISetting("api.endpoint.categories");
     }
+
     public String getCategoriesEndpointById() {
         return getAPISetting("api.endpoint.categoriesById");
     }

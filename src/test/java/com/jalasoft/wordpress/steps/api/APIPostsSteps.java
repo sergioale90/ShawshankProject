@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2023 Jala University.
+ *
+ * This software is the confidential and proprieraty information of Jala University
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * Licence agreement you entered into with Jala University.
+ */
 package com.jalasoft.wordpress.steps.api;
 
 import api.APIConfig;
@@ -15,13 +23,14 @@ import java.util.List;
 import java.util.Map;
 
 public class APIPostsSteps {
-    private static final APIConfig apiConfig = APIConfig.getInstance();
-    private static final APIManager apiManager = APIManager.getInstance();
+    private static final APIConfig API_CONFIG = APIConfig.getInstance();
+    private static final APIManager API_MANAGER = APIManager.getInstance();
     private final APIController controller;
-    private final String postsEndpoint = apiConfig.getPostsEndpoint();
+    private final String postsEndpoint = API_CONFIG.getPostsEndpoint();
 
-    private final String postByIdEndpoint = apiConfig.getPostsByIdEndpoint();
+    private final String postByIdEndpoint = API_CONFIG.getPostsByIdEndpoint();
     private Map<String, Object> params;
+    private static final int PER_PAGE = 100;
 
     public APIPostsSteps(APIController controller) {
         this.controller = controller;
@@ -31,9 +40,9 @@ public class APIPostsSteps {
     public void getAllPosts() {
         Header authHeader = controller.getHeader("Authorization");
         Map<String, Object> queryParams = new HashMap<>();
-        queryParams.put("per_page", 100);
+        queryParams.put("per_page", PER_PAGE);
 
-        Response requestResponse = apiManager.get(postsEndpoint, queryParams, authHeader);
+        Response requestResponse = API_MANAGER.get(postsEndpoint, queryParams, authHeader);
         controller.setResponse(requestResponse);
     }
 
@@ -45,7 +54,7 @@ public class APIPostsSteps {
         queryParams.put("status", "publish");
         queryParams.putAll(queryParamsList.get(0));
 
-        Response requestResponse = apiManager.post(postsEndpoint, queryParams, controller.getHeader("Authorization"));
+        Response requestResponse = API_MANAGER.post(postsEndpoint, queryParams, controller.getHeader("Authorization"));
         controller.setResponse(requestResponse);
         params = queryParams;
     }
@@ -57,7 +66,7 @@ public class APIPostsSteps {
         queryParams.put("status", "draft");
         queryParams.putAll(queryParamsList.get(0));
 
-        Response requestResponse = apiManager.post(postsEndpoint, queryParams, controller.getHeader("Authorization"));
+        Response requestResponse = API_MANAGER.post(postsEndpoint, queryParams, controller.getHeader("Authorization"));
         controller.setResponse(requestResponse);
         params = queryParams;
     }
@@ -66,7 +75,7 @@ public class APIPostsSteps {
     public void getPostById() {
         String id = controller.getResponse().jsonPath().getString("id");
         Header authHeader = controller.getHeader("Authorization");
-        Response requestResponse = apiManager.get(postByIdEndpoint.replace("<id>", id), authHeader);
+        Response requestResponse = API_MANAGER.get(postByIdEndpoint.replace("<id>", id), authHeader);
 
         Map<String, Object> queryParams = new HashMap<>();
         String content = controller.getResponse().jsonPath().getString("content.raw");
@@ -87,7 +96,7 @@ public class APIPostsSteps {
         Header authHeader = controller.getHeader("Authorization");
         List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
         Map<String, Object> queryParams = queryParamsList.get(0);
-        Response requestResponse = apiManager.put(postByIdEndpoint.replace("<id>", id), queryParams, authHeader);
+        Response requestResponse = API_MANAGER.put(postByIdEndpoint.replace("<id>", id), queryParams, authHeader);
 
         params = new HashMap<>(queryParams);
         params.put("id", id);
@@ -98,7 +107,7 @@ public class APIPostsSteps {
     public void deletePostByIdTrash() {
         String id = controller.getResponse().jsonPath().getString("id");
         Header authHeader = controller.getHeader("Authorization");
-        Response requestResponse = apiManager.delete(postByIdEndpoint.replace("<id>", id), authHeader);
+        Response requestResponse = API_MANAGER.delete(postByIdEndpoint.replace("<id>", id), authHeader);
         Map<String, Object> queryParams = new HashMap<>();
 
         String content = controller.getResponse().jsonPath().getString("content.raw");
@@ -136,7 +145,7 @@ public class APIPostsSteps {
 
         jsonAsMap.put("force", true);
 
-        Response requestResponse = apiManager.delete(postByIdEndpoint.replace("<id>", id), jsonAsMap,  authHeader);
+        Response requestResponse = API_MANAGER.delete(postByIdEndpoint.replace("<id>", id), jsonAsMap,  authHeader);
         params = queryParams;
         controller.setResponse(requestResponse);
     }

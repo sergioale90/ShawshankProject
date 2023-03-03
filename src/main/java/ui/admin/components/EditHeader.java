@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2023 Jala University.
+ *
+ * This software is the confidential and proprieraty information of Jala University
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * Licence agreement you entered into with Jala University.
+ */
 package ui.admin.components;
 
 import org.openqa.selenium.By;
@@ -11,19 +19,19 @@ import ui.sections.PublishPanel;
 public class EditHeader extends BasePageObject {
 
     @FindBy(xpath = "//button[contains(@class, 'editor-post-publish')]")
-    WebElement publishButton;
+    private WebElement publishButton;
 
     @FindBy(css = "button.editor-post-save-draft")
-    WebElement saveDraftButton;
+    private WebElement saveDraftButton;
 
     @FindBy(css = "button.editor-post-publish-button")
-    WebElement updateButton;
+    private WebElement updateButton;
 
     @FindBy(css = "button.editor-post-switch-to-draft")
-    WebElement switchToDraftButton;
+    private WebElement switchToDraftButton;
 
     @FindBy(css = "button[class='components-button components-dropdown-menu__toggle has-icon']")
-    WebElement optionsButton;
+    private WebElement optionsButton;
 
     public EditHeader() {
         PageFactory.initElements(driver, this);
