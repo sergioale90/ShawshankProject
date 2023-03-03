@@ -48,6 +48,44 @@ public class APITagsSteps {
         params = queryRequest;
     }
 
+    // retrieve
+    @Given("^the user tries to retrieve a tag$")
+    public void getATagById() {
+        String id = controller.getResponse().jsonPath().getString("id");
+        Header authHeader = controller.getHeader("Authorization");
+        Response requestResponse = apiManager.get(tagsByIdEndpoint.replace("<id>", id), authHeader);
+
+        Map<String, Object> queryParams = new HashMap<>();
+        String name = controller.getResponse().jsonPath().getString("name");
+        String slug = controller.getResponse().jsonPath().getString("slug");
+        String description = controller.getResponse().jsonPath().getString("description");
+
+        queryParams.put("id", id);
+        queryParams.put("name", name);
+        queryParams.put("slug", slug);
+        queryParams.put("description", description);
+        params = queryParams;
+        controller.setResponse(requestResponse);
+    }
+    // assert retrieve
+    @Then("^the user reviews that the tag should have been retrieved with the proper values$")
+    public void verifyRetrievedTag() {
+        String expectedId = (String) params.get("id");
+        String expectedName = (String) params.get("name");
+        String expectedSlug = (String) params.get("slug");
+        String expectedDescription = (String) params.get("description");
+
+        String actualId = controller.getResponse().jsonPath().getString("id");
+        String actualName = controller.getResponse().jsonPath().getString("name");
+        String actualSlug = controller.getResponse().jsonPath().getString("slug");
+        String actualDescription = controller.getResponse().jsonPath().getString("description");
+
+        Assert.assertEquals(actualId, expectedId, "wrong id value returned");
+        Assert.assertEquals(actualName, expectedName, "wrong name value returned");
+        Assert.assertEquals(actualSlug, expectedSlug, "wrong slug returned");
+        Assert.assertEquals(actualDescription, expectedDescription, "wrong description value returned");
+    }
+
     @Then("^the user should get a proper amount of tags$")
     public void verifyTagsAmount() {
         int expectedAmountOfTags = Integer.parseInt(controller.getResponse().getHeaders().getValue("X-WP-Total"));

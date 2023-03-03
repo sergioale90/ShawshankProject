@@ -27,6 +27,18 @@ Feature: API Tags
       | administrator    | HTTP/1.1 201 Created |
       | editor           | HTTP/1.1 201 Created |
 
+  @RetrieveATag
+  Scenario Outline: A user with proper role should be able to retrieve a tag
+    Given the user is authenticated with "<User Role>" role
+    When the user tries to retrieve a tag
+    Then the user should get a "<Status Line>" response
+    And the user should get a valid response and have a body
+    And the user reviews that the tag should have been retrieved with the proper values
+
+    Examples:
+      | User Role     | Status Line     |
+      | administrator | HTTP/1.1 200 OK |
+      | editor        | HTTP/1.1 200 OK |
 
   @UnableToGetAllTags @Bug
   Scenario Outline: A user without a proper role should not be able to retrieve all tags

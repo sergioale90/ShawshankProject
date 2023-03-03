@@ -55,6 +55,7 @@ Feature: API Pages
     Examples:
       | User Role     | Status Line     |
       | administrator | HTTP/1.1 200 OK |
+      | editor        | HTTP/1.1 200 OK |
 
   @UpdateAPagePublished
   Scenario Outline: A user with proper role should be able to update a page
