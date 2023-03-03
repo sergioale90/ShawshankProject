@@ -48,7 +48,6 @@ public class APITagsSteps {
         params = queryRequest;
     }
 
-    // retrieve
     @Given("^the user tries to retrieve a tag$")
     public void getATagById() {
         String id = controller.getResponse().jsonPath().getString("id");
@@ -67,7 +66,7 @@ public class APITagsSteps {
         params = queryParams;
         controller.setResponse(requestResponse);
     }
-    // assert retrieve
+
     @Then("^the user reviews that the tag should have been retrieved with the proper values$")
     public void verifyRetrievedTag() {
         String expectedId = (String) params.get("id");
@@ -107,5 +106,4 @@ public class APITagsSteps {
         Assert.assertEquals(actualSlug, expectedSlug, "wrong slug value returned");
         Assert.assertEquals(actualDescription, expectedDescription, "wrong description value returned");
     }
-
 }
