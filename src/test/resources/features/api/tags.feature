@@ -80,7 +80,7 @@ Feature: API Tags
     Examples:
       | User Role     | Status Line     |
       | administrator | HTTP/1.1 200 OK |
-      #| editor        | HTTP/1.1 200 OK |
+      | editor        | HTTP/1.1 200 OK |
 
 
   @UnableToGetAllTags @Bug
