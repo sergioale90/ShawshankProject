@@ -103,7 +103,7 @@ public class APIPostsSteps {
         controller.setResponse(requestResponse);
     }
 
-    @Given("^the user makes a request to delete a post by trash$")
+    @Given("^the user makes a request to delete a (?:published|draft) post by trash$")
     public void deletePostByIdTrash() {
         String id = controller.getResponse().jsonPath().getString("id");
         Header authHeader = controller.getHeader("Authorization");
@@ -124,7 +124,7 @@ public class APIPostsSteps {
         controller.setResponse(requestResponse);
     }
 
-    @Given("^the user makes a request to delete a post permanently$")
+    @Given("^the user makes a request to delete a (?:published|draft) post permanently$")
     public void deletePostByIdPermanently() {
         String id = controller.getResponse().jsonPath().getString("id");
         Header authHeader = controller.getHeader("Authorization");
@@ -208,7 +208,7 @@ public class APIPostsSteps {
         Assert.assertEquals(actualExcerpt, expectedExcerpt, "wrong excerpt value returned");
     }
 
-    @Then("^post should have been trashed$")
+    @Then("^(?:the published|the draft) post should have been trashed$")
     public void verifyTrashedPost() {
         String expectedId = (String) params.get("id");
         String expectedContent = (String) params.get("content");
@@ -229,7 +229,7 @@ public class APIPostsSteps {
         Assert.assertEquals(actualStatus, expectedStatus, "wrong status value returned");
     }
 
-    @Then("^post should have been deleted permanently$")
+    @Then("^(?:the published|the draft) post should have been deleted permanently$")
     public void verifyTrueDeletedPost() {
         String expectedId = (String) params.get("id");
         String expectedContent = (String) params.get("content");

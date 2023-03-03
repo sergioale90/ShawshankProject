@@ -107,12 +107,12 @@ Feature: API Posts
       | editor        | HTTP/1.1 200 OK |
 
   @DeleteAPostTrash
-  Scenario Outline: A user with proper role should be able to delete a post
+  Scenario Outline: A user with proper role should be able to delete a published post by trash
     Given the user is authenticated with "<User Role>" role
-    When the user makes a request to delete a post by trash
+    When the user makes a request to delete a published post by trash
     Then the user should get a "<Status Line>" response
     And the user should get a valid response and have a body
-    And post should have been trashed
+    And the published post should have been trashed
 
     Examples:
       | User Role     | Status Line     |
@@ -120,12 +120,38 @@ Feature: API Posts
       | editor        | HTTP/1.1 200 OK |
 
   @DeleteAPost
-  Scenario Outline: A user with proper role should be able to delete a post permanently
+  Scenario Outline: A user with proper role should be able to delete a published post permanently
     Given the user is authenticated with "<User Role>" role
-    When the user makes a request to delete a post permanently
+    When the user makes a request to delete a published post permanently
     Then the user should get a "<Status Line>" response
     And the user should get a valid response and have a body
-    And post should have been deleted permanently
+    And the published post should have been deleted permanently
+
+    Examples:
+      | User Role     | Status Line     |
+      | administrator | HTTP/1.1 200 OK |
+      | editor        | HTTP/1.1 200 OK |
+
+  @DeleteADraftPostTrash
+  Scenario Outline: A user with proper role should be able to delete a Draft post by trash
+    Given the user is authenticated with "<User Role>" role
+    When the user makes a request to delete a draft post by trash
+    Then the user should get a "<Status Line>" response
+    And the user should get a valid response and have a body
+    And the draft post should have been trashed
+
+    Examples:
+      | User Role     | Status Line     |
+      | administrator | HTTP/1.1 200 OK |
+      | editor        | HTTP/1.1 200 OK |
+
+  @DeleteADraftPost
+  Scenario Outline: A user with proper role should be able to delete a Draft post permanently
+    Given the user is authenticated with "<User Role>" role
+    When the user makes a request to delete a draft post permanently
+    Then the user should get a "<Status Line>" response
+    And the user should get a valid response and have a body
+    And the draft post should have been deleted permanently
 
     Examples:
       | User Role     | Status Line     |
