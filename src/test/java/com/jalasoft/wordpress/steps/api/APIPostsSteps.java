@@ -76,7 +76,7 @@ public class APIPostsSteps {
         String id = controller.getResponse().jsonPath().getString("id");
         Header authHeader = controller.getHeader("Authorization");
         Response requestResponse = API_MANAGER.get(postByIdEndpoint.replace("<id>", id), authHeader);
-
+        controller.setIdAux(id);
         Map<String, Object> queryParams = new HashMap<>();
         String content = controller.getResponse().jsonPath().getString("content.raw");
         String title = controller.getResponse().jsonPath().getString("title.raw");

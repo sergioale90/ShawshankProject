@@ -40,7 +40,7 @@ public class APIPostsFeatureHook {
     }
 
     @After(("@CreateAPost or @CreateADraftPost or @RetrieveAPost or @RetrieveADraftPost or @UpdateAPost or @UpdateADraftPost or @DeleteAPostTrash")
-            + (" or @DeleteADraftPostTrash or @CreateAndUpdateAPost or @CreateAndUpdateADraftPost"))
+            + (" or @DeleteADraftPostTrash or @CreateAndRetrieveAPost or @CreateAndRetrieveADraftPost or @CreateAndUpdateAPost or @CreateAndUpdateADraftPost"))
     public void deleteAPostById() {
         String id;
         if (Status.SUCCESS.matches(controller.getResponse().getStatusCode())) {
