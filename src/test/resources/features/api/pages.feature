@@ -98,7 +98,7 @@ Feature: API Pages
       | administrator | HTTP/1.1 200 OK |
       | editor        | HTTP/1.1 200 OK |
 
-  @UnableToCreateAndPublishAPage @Bug
+  @UnableToCreateAndPublishAPage @Bug @ST-63
   Scenario Outline: A user without a proper role should not be able to create a page with publish status
     Given the user is authenticated with "<User Role>" role
     When the user creates a page with the following values
@@ -116,7 +116,7 @@ Feature: API Pages
       | contributor   | HTTP/1.1 403 Forbidden    | rest_cannot_create  | Sorry, you are not allowed to create pages as this user.  | [status:403] |
       | subscriber    | HTTP/1.1 403 Forbidden    | rest_cannot_create  | Sorry, you are not allowed to create pages as this user.  | [status:403] |
 
-  @UnableToGetAllPages @Bug
+  @UnableToGetAllPages @Bug @ST-62 @ST-63
   Scenario Outline: A user without a proper role should not be able to retrieve all pages
     Given the user is authenticated with "<User Role>" role
     When the user tries to retrieve all pages list
@@ -132,7 +132,7 @@ Feature: API Pages
       | contributor   | HTTP/1.1 403 Forbidden    | rest_cannot_create  | Sorry, you are not allowed to get posts as this user.  | [status:403] |
       | subscriber    | HTTP/1.1 403 Forbidden    | rest_cannot_create  | Sorry, you are not allowed to get posts as this user.  | [status:403] |
 
-  @UnableCreateAPageWithoutTitle @Bug
+  @UnableCreateAPageWithoutTitle @Bug @ST-64
   Scenario Outline: A user with proper role should not able to create a page without title
     Given the user is authenticated with "<User Role>" role
     When the user creates a page with the following values
