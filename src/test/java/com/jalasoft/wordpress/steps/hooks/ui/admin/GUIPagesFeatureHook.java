@@ -52,7 +52,6 @@ public class GUIPagesFeatureHook {
     public void afterPages() {
         CommonMethods.logout();
         String title = controller.getTitle();
-        System.out.println(title);
         Response requestResponse = APIPagesMethods.deleteAPageByTitle(title);
 
         Assert.assertNotNull(requestResponse, "page with title -> " + title + " was not found");
