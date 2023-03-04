@@ -123,10 +123,10 @@ Feature: API Tags
       | <Code> | <Message> | <Data> |
 
     Examples:
-      | User Role   | Status Line            | Code               | Message                                              | Data         |
-      | author      | HTTP/1.1 403 Forbidden | rest_cannot_create | Sorry, you are not allowed to get tags as this user. | [status:403] |
-      | contributor | HTTP/1.1 403 Forbidden | rest_cannot_create | Sorry, you are not allowed to get tags as this user. | [status:403] |
-      | subscriber  | HTTP/1.1 403 Forbidden | rest_cannot_create | Sorry, you are not allowed to get tags as this user. | [status:403] |
+      | User Role   | Status Line            | Code                 | Message                                              | Data         |
+      | author      | HTTP/1.1 403 Forbidden | rest_cannot_retrieve | Sorry, you are not allowed to get tags as this user. | [status:403] |
+      | contributor | HTTP/1.1 403 Forbidden | rest_cannot_retrieve | Sorry, you are not allowed to get tags as this user. | [status:403] |
+      | subscriber  | HTTP/1.1 403 Forbidden | rest_cannot_retrieve | Sorry, you are not allowed to get tags as this user. | [status:403] |
 
   @UnableCreateATag @Bug
   Scenario Outline: A user without a proper role should not be able to create a tag
