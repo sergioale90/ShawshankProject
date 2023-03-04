@@ -97,7 +97,7 @@ Feature: API Tags
       | administrator | HTTP/1.1 501 Not Implemented | rest_trash_not_supported | Terms do not support trashing. Set 'force=true' to delete. | [status:501] |
       | editor        | HTTP/1.1 501 Not Implemented | rest_trash_not_supported | Terms do not support trashing. Set 'force=true' to delete. | [status:501] |
 
-  @CreateATagWithSameName @Bug
+  @CreateATagWithSameName @Bug @ST-59
   Scenario Outline: A user with a proper role should not be able to create a tag with the same name
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to create a tag with the same name that other already created
@@ -112,7 +112,7 @@ Feature: API Tags
       | administrator | HTTP/1.1 400 Bad Request | term_exists | A term with the name provided already exists in this taxonomy. | [status:400] |
       | editor        | HTTP/1.1 400 Bad Request | term_exists | A term with the name provided already exists in this taxonomy. | [status:400] |
 
-  @UnableToGetAllTags @Bug
+  @UnableToGetAllTags @Bug @ST-60
   Scenario Outline: A user without a proper role should not be able to retrieve all tags
     Given the user is authenticated with "<User Role>" role
     When the user tries to retrieve all tags list
@@ -128,7 +128,7 @@ Feature: API Tags
       | contributor | HTTP/1.1 403 Forbidden | rest_cannot_retrieve | Sorry, you are not allowed to get tags as this user. | [status:403] |
       | subscriber  | HTTP/1.1 403 Forbidden | rest_cannot_retrieve | Sorry, you are not allowed to get tags as this user. | [status:403] |
 
-  @UnableCreateATag @Bug
+  @UnableCreateATag @Bug @ST-61
   Scenario Outline: A user without a proper role should not be able to create a tag
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to create a tag
