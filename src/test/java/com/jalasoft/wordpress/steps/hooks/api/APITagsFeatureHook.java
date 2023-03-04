@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2023 Jala University.
- *
+ * <p>
  * This software is the confidential and proprieraty information of Jala University
  * ("Confidential Information"). You shall not disclose such Confidential
  * Information and shall use it only in accordance with the terms of the
@@ -41,7 +41,7 @@ public class APITagsFeatureHook {
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "tag with id -> " + id + " was not deleted");
     }
 
-    @After(value = "@CreateATagWithSameName or @DeleteWithoutForceParam", order = ORDER)
+    @After(value = "@APITags", order = ORDER)
     public void afterTags() {
         List<Integer> objects = APITagsMethods.getAllTags().jsonPath().getList("id");
         for (Integer id : objects) {
