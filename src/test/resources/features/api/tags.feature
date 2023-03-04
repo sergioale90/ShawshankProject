@@ -128,7 +128,7 @@ Feature: API Tags
       | contributor | HTTP/1.1 403 Forbidden | rest_cannot_create | Sorry, you are not allowed to get tags as this user. | [status:403] |
       | subscriber  | HTTP/1.1 403 Forbidden | rest_cannot_create | Sorry, you are not allowed to get tags as this user. | [status:403] |
 
-  @UnableCreateATag
+  @UnableCreateATag @Bug
   Scenario Outline: A user without proper role should not be able to create a tag
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to create a tag

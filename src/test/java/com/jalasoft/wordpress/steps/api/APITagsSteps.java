@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2023 Jala University.
+ *
+ * This software is the confidential and proprieraty information of Jala University
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * Licence agreement you entered into with Jala University.
+ */
 package com.jalasoft.wordpress.steps.api;
 
 import api.APIConfig;
@@ -22,16 +30,17 @@ import java.util.Map;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class APITagsSteps {
-    private static final APIConfig apiConfig = APIConfig.getInstance();
-    private static final APIManager apiManager = APIManager.getInstance();
+    private static final APIConfig API_CONFIG = APIConfig.getInstance();
+    private static final APIManager API_MANAGER = APIManager.getInstance();
+
     private final APIController controller;
-    private final String tagsEndpoint = apiConfig.getTagsEndpoint();
-    private final String tagsByIdEndpoint = apiConfig.getTagsEndpointById();
+    private final String tagsEndpoint = API_CONFIG.getTagsEndpoint();
+    private final String tagsByIdEndpoint = API_CONFIG.getTagsEndpointById();
     private Map<String, Object> params;
     private static final int PER_PAGE = 100;
     private static final int NAME_STRING_LENGHT = 7;
     private static final int SLUG_STRING_LENGHT = 5;
-    private static final int DESCRIPTION_STRING_LENGHT = 5;
+    private static final int DESCRIPTION_STRING_LENGHT = 15;
 
     public APITagsSteps(APIController controller) {
         this.controller = controller;
@@ -43,7 +52,7 @@ public class APITagsSteps {
         Map<String, Object> queryParams = new HashMap<>();
         queryParams.put("per_page", PER_PAGE);
 
-        Response requestResponse = apiManager.get(tagsEndpoint, queryParams, authHeader);
+        Response requestResponse = API_MANAGER.get(tagsEndpoint, queryParams, authHeader);
         controller.setResponse(requestResponse);
     }
 
@@ -55,7 +64,7 @@ public class APITagsSteps {
         queryRequest.put("slug", StringManager.generateAlphanumericString(SLUG_STRING_LENGHT).toLowerCase());
         queryRequest.put("description", StringManager.generateAlphanumericString(DESCRIPTION_STRING_LENGHT));
 
-        Response requestResponse = apiManager.post(tagsEndpoint, queryRequest, authHeader);
+        Response requestResponse = API_MANAGER.post(tagsEndpoint, queryRequest, authHeader);
         controller.setResponse(requestResponse);
         params = queryRequest;
     }
@@ -66,7 +75,7 @@ public class APITagsSteps {
         List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
         Map<String, Object> queryParams = queryParamsList.get(0);
 
-        Response requestResponse = apiManager.post(tagsEndpoint, queryParams, authHeader);
+        Response requestResponse = API_MANAGER.post(tagsEndpoint, queryParams, authHeader);
         controller.setResponse(requestResponse);
         params = queryParams;
     }
@@ -86,7 +95,7 @@ public class APITagsSteps {
     public void getATagById() {
         String id = controller.getResponse().jsonPath().getString("id");
         Header authHeader = controller.getHeader("Authorization");
-        Response requestResponse = apiManager.get(tagsByIdEndpoint.replace("<id>", id), authHeader);
+        Response requestResponse = API_MANAGER.get(tagsByIdEndpoint.replace("<id>", id), authHeader);
 
         Map<String, Object> queryParams = new HashMap<>();
         String name = controller.getResponse().jsonPath().getString("name");
@@ -115,7 +124,7 @@ public class APITagsSteps {
         queryParams.put("slug", JsonPath.from(requestBodyFile).getString("slug").toLowerCase());
         queryParams.put("description", JsonPath.from(requestBodyFile).getString("description"));
 
-        Response requestResponse = apiManager.put(tagsByIdEndpoint.replace("<id>", id), authHeader, ContentType.JSON, requestBody);
+        Response requestResponse = API_MANAGER.put(tagsByIdEndpoint.replace("<id>", id), authHeader, ContentType.JSON, requestBody);
         controller.setResponse(requestResponse);
 
         params = new HashMap<>(queryParams);
@@ -129,7 +138,7 @@ public class APITagsSteps {
         Map<String, Object> queryParamDelete = new HashMap<>();
         queryParamDelete.put("force", true);
 
-        Response requestResponse = apiManager.delete(tagsByIdEndpoint.replace("<id>", id), queryParamDelete, authHeader);
+        Response requestResponse = API_MANAGER.delete(tagsByIdEndpoint.replace("<id>", id), queryParamDelete, authHeader);
 
         Map<String, Object> queryParams = new HashMap<>();
         String name = controller.getResponse().jsonPath().getString("name");
@@ -151,7 +160,7 @@ public class APITagsSteps {
         String id = controller.getResponse().jsonPath().getString("id");
         Header authHeader = controller.getHeader("Authorization");
 
-        Response requestResponse = apiManager.delete(tagsByIdEndpoint.replace("<id>", id), authHeader);
+        Response requestResponse = API_MANAGER.delete(tagsByIdEndpoint.replace("<id>", id), authHeader);
         controller.setResponse(requestResponse);
     }
 
@@ -162,10 +171,10 @@ public class APITagsSteps {
 
         Map<String, Object> queryRequest = new HashMap<>();
         queryRequest.put("name", nameTagCreated);
-        queryRequest.put("slug", StringManager.generateAlphanumericString(5).toLowerCase());
-        queryRequest.put("description", StringManager.generateAlphanumericString(25));
+        queryRequest.put("slug", StringManager.generateAlphanumericString(SLUG_STRING_LENGHT).toLowerCase());
+        queryRequest.put("description", StringManager.generateAlphanumericString(DESCRIPTION_STRING_LENGHT));
 
-        Response requestResponse = apiManager.post(tagsEndpoint, queryRequest, authHeader);
+        Response requestResponse = API_MANAGER.post(tagsEndpoint, queryRequest, authHeader);
         controller.setResponse(requestResponse);
     }
 
@@ -249,11 +258,11 @@ public class APITagsSteps {
     @Then("^the user reviews that the response should be returned and have a body with the following values$")
     public void verifyResponseAndBody(DataTable table) {
         List<Map<String, Object>> paramsList = table.asMaps(String.class, Object.class);
-        Map<String, Object> params = paramsList.get(0);
+        Map<String, Object> queryParams = paramsList.get(0);
 
-        String expectedCode = (String) params.get("code");
-        String expectedMessage = (String) params.get("message");
-        String expectedData = (String) params.get("data");
+        String expectedCode = (String) queryParams.get("code");
+        String expectedMessage = (String) queryParams.get("message");
+        String expectedData = (String) queryParams.get("data");
 
         String actualCode = controller.getResponse().jsonPath().getString("code");
         String actualMessage = controller.getResponse().jsonPath().getString("message");

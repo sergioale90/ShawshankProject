@@ -1,3 +1,12 @@
+/**
+ * Copyright (c) 2023 Jala University.
+ *
+ * This software is the confidential and proprieraty information of Jala University
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * Licence agreement you entered into with Jala University.
+ */
+
 package com.jalasoft.wordpress.steps.hooks.api;
 
 import api.controller.APIController;
@@ -12,6 +21,7 @@ import java.util.List;
 
 public class APITagsFeatureHook {
     private final APIController controller;
+    private static final int ORDER = 100;
 
     public APITagsFeatureHook(APIController controller) {
         this.controller = controller;
@@ -19,7 +29,7 @@ public class APITagsFeatureHook {
 
     @Before("@RetrieveATag or @UnableToGetAllTags or @UpdateATag or @DeleteATag or @CreateATagWithSameName or @DeleteWithoutForceParam")
     public void createATag() {
-        Response requestResponse = APITagsMethods.CreateATag();
+        Response requestResponse = APITagsMethods.createATag();
         controller.setResponse(requestResponse);
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "tag was not created");
     }
@@ -31,7 +41,7 @@ public class APITagsFeatureHook {
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "tag with id -> " + id + " was not deleted");
     }
 
-    @After(value = "@CreateATagWithSameName or @DeleteWithoutForceParam", order = 100)
+    @After(value = "@CreateATagWithSameName or @DeleteWithoutForceParam", order = ORDER)
     public void afterTags() {
         List<Integer> objects = APITagsMethods.getAllTags().jsonPath().getList("id");
         for (Integer id : objects) {
