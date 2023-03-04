@@ -17,7 +17,7 @@ public class CategoriesPage extends BaseAdminPage {
     }
     @Override
     public void waitUntilPageObjectIsLoaded() throws WebDriverException {
-        categoriesPageTitle = wait.until(ExpectedConditions.elementToBeClickable(categoriesPageTitle));
+        categoriesPageTitle = wait.until(ExpectedConditions.visibilityOf(categoriesPageTitle));
     }
     public boolean isOnTheCategoryPage() {
         return categoriesPageTitle.isDisplayed();

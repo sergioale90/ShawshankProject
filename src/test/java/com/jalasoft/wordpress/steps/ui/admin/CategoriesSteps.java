@@ -17,12 +17,20 @@ public class CategoriesSteps {
     }
 
 
-    @Given("^the user hover over of Pages menu in the left side bar menu and click on the categories button")
+    @Given("^the user hover over of Posts menu in the left side bar menu and click on the categories button$")
     public void enterToCategoriesPage() {
         categoriesPage = homeAdminPage.getLeftSideBarMenu().goToCategoriesPage();
     }
-    @Then("^the user can access to the categories page")
+    @Then("^the user can access to the categories page$")
     public void isTheUserInTheCategoriesPage() {
         Assert.assertTrue(categoriesPage.isOnTheCategoryPage());
+    }
+    @Then("^the user hover over of Posts menu in the left side bar menu can't see the categories button$")
+    public void categoriesButtonIsNotAvailable() {
+        Assert.assertFalse(homeAdminPage.getLeftSideBarMenu().categoriesButtonIsNotAvailable());
+    }
+    @Then("^the user doesn't have the option of Post Menu in the left side bar")
+    public void postMenuIsNotAvailable() {
+        Assert.assertFalse(homeAdminPage.getLeftSideBarMenu().postMenuIsNotAvailable());
     }
 }

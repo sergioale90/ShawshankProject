@@ -72,11 +72,29 @@ public class LeftSideBarMenu extends BasePageObject {
     }
     public void hoverPostMenu() {
         hoverPostMenu = new Actions(driver);
-        hoverPostMenu.moveToElement(postsMenu);
+        hoverPostMenu.moveToElement(postsMenu).perform();
     }
     public void clickCategoriesButton() {
-        hoverPostMenu.moveToElement(postsMenuButton);
-        postsMenuButton.click();
+        hoverPostMenu.moveToElement(categoriesButton).perform();
+        categoriesButton.click();
+
+    }
+    public boolean categoriesButtonIsNotAvailable() {
+        hoverPostMenu();
+        try {
+            categoriesButton.isDisplayed();
+            return true;
+        } catch (org.openqa.selenium.NoSuchElementException e) {
+            return false;
+        }
+    }
+    public boolean postMenuIsNotAvailable() {
+        try {
+            postsMenu.isDisplayed();
+            return true;
+        } catch (org.openqa.selenium.NoSuchElementException e) {
+            return false;
+        }
     }
     public CategoriesPage goToCategoriesPage() {
         hoverPostMenu();
