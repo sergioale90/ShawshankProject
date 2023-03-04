@@ -10,14 +10,18 @@ package com.jalasoft.wordpress.steps.hooks.api;
 
 import api.controller.APIController;
 import api.methods.APIPagesMethods;
+import api.methods.APITagsMethods;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.restassured.internal.http.Status;
 import io.restassured.response.Response;
 import org.testng.Assert;
 
+import java.util.List;
+
 public class APIPagesFeatureHook {
     private final APIController controller;
+    private static final int ORDER = 100;
     public APIPagesFeatureHook(APIController controller) {
         this.controller = controller;
     }
@@ -41,5 +45,13 @@ public class APIPagesFeatureHook {
         Response requestResponse = APIPagesMethods.deleteAPageById(id);
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()),
                 "page with id -> " + id + " was not deleted");
+    }
+
+    @After(value = "@APIPages", order = ORDER)
+    public void afterPages() {
+        List<Integer> objects = APIPagesMethods.getAllPages().jsonPath().getList("id");
+        for (Integer id : objects) {
+            APIPagesMethods.deleteAPageById(id.toString());
+        }
     }
 }
