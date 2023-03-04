@@ -14,10 +14,13 @@ import api.controller.APIController;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.restassured.http.ContentType;
 import io.restassured.http.Header;
+import io.restassured.internal.http.Status;
 import io.restassured.response.Response;
 import org.testng.Assert;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -196,7 +199,7 @@ public class APIPagesSteps {
         Assert.assertEquals(actualContent, expectedContent, "wrong content value returned");
         Assert.assertEquals(actualExcerpt, expectedExcerpt, "wrong excerpt value returned");
     }
-    // the user should not get a response valid and have a body
+
     @Then("^the user should see the response returned and have a body with the following values$")
     public void verifyResponseAndBody(DataTable table) {
         List<Map<String, Object>> paramsList = table.asMaps(String.class, Object.class);
@@ -273,5 +276,15 @@ public class APIPagesSteps {
         Assert.assertEquals(actualContent, expectedContent, "wrong content value returned");
         Assert.assertEquals(actualExcerpt, expectedExcerpt, "wrong excerpt value returned");
         Assert.assertEquals(auxActualStatus, expectedStatus, "wrong status value returned");
+    }
+
+    @Then("^the user should not get a response valid and have a body$")
+    public void verifyInvalidResponseAndBody() {
+        String expectedContentType = ContentType.JSON.withCharset(StandardCharsets.UTF_8);
+        String actualContentType = controller.getResponse().getContentType();
+
+        Assert.assertTrue(Status.FAILURE.matches(controller.getResponse().getStatusCode()), "invalid status code returned");
+        Assert.assertFalse(controller.getResponse().getBody().asString().isEmpty(), "response body is empty");
+        Assert.assertEquals(actualContentType, expectedContentType, "wrong content type returned");
     }
 }

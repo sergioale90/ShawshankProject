@@ -147,13 +147,16 @@ public class APITagsSteps {
         Header authHeader = controller.getHeader("Authorization");
         String nameTagCreated = controller.getResponse().jsonPath().getString("name");
 
+        System.out.println(controller.getResponse().jsonPath().getString("name"));
+
         Map<String, Object> queryRequest = new HashMap<>();
-        queryRequest.put("name", nameTagCreated);
+        queryRequest.put("name", nameTagCreated + "2");
         queryRequest.put("slug", StringManager.generateAlphanumericString(5).toLowerCase());
         queryRequest.put("description", StringManager.generateAlphanumericString(25));
 
         Response requestResponse = apiManager.post(tagsEndpoint, queryRequest, authHeader);
         controller.setResponse(requestResponse);
+        System.out.println(controller.getResponse().jsonPath().getString("name"));
     }
 
     @Then("^the user reviews that the tag should have been retrieved with the proper values$")

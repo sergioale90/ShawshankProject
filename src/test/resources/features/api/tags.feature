@@ -97,7 +97,6 @@ Feature: API Tags
       | administrator    | HTTP/1.1 400 Bad Request | term_exists   | A term with the name provided already exists in this taxonomy. | [status:400] |
       #| editor           | HTTP/1.1 400 Bad Request | term_exists   | A term with the name provided already exists in this taxonomy. | [status:400] |
 
-
   @UnableToGetAllTags @Bug
   Scenario Outline: A user without a proper role should not be able to retrieve all tags
     Given the user is authenticated with "<User Role>" role
