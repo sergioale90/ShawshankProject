@@ -16,12 +16,9 @@ import api.APIManager;
 import api.controller.APIController;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
-//import io.restassured.internal.http.Status;
 import io.restassured.response.Response;
-//import io.restassured.module.jsv.JsonSchemaValidator;
 import org.testng.Assert;
 
-//import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
@@ -96,7 +93,6 @@ public class APIUsersSteps {
 
     @When("the user makes a request to create a new user with the following params")
     public void theUserMakesARequestToCreateANewUserWithTheFollowingParams(DataTable table) {
-
         List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
         Map<String, Object> queryParams = queryParamsList.get(0);
 
@@ -125,8 +121,6 @@ public class APIUsersSteps {
         String id = controller.getResponse().jsonPath().getString("id");
         Header authHeader = controller.getHeader("Authorization");
         Response requestResponse = API_MANAGER.get(usersByIdEndpoint.replace("<id>", id), authHeader);
-
-        System.out.println(id);
 
         Map<String, Object> queryParams = new HashMap<>();
         String name = controller.getResponse().jsonPath().getString("name");
@@ -157,7 +151,6 @@ public class APIUsersSteps {
 
     @When("the user makes a request to update a user with the following params")
     public void theUserMakesARequestToUpdateAUserWithTheFollowingParams(DataTable table) {
-
         String id = controller.getResponse().jsonPath().getString("id");
         Header authHeader = controller.getHeader("Authorization");
         List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
@@ -186,7 +179,6 @@ public class APIUsersSteps {
 
     @When("the user makes a request to delete a user")
     public void theUserMakesARequestToDeleteAUser() {
-
         Map<String, Object> jsonAsMap = new HashMap<>();
         jsonAsMap.put("reassign", 1);
         jsonAsMap.put("force", true);
@@ -235,8 +227,6 @@ public class APIUsersSteps {
         Header authHeader = controller.getHeader("Authorization");
         Response requestResponse = API_MANAGER.get(usersByIdEndpoint.replace("<id>", "me"), authHeader);
 
-        // System.out.println(id);
-
         Map<String, Object> queryParams = new HashMap<>();
         String name = controller.getResponse().jsonPath().getString("name");
         String slug = controller.getResponse().jsonPath().getString("slug");
@@ -264,7 +254,6 @@ public class APIUsersSteps {
 
     @When("the user makes a request to delete the current user")
     public void theUserMakesARequestToDeleteTheCurrentUser() {
-
         Map<String, Object> jsonAsMap = new HashMap<>();
         jsonAsMap.put("reassign", 1);
         jsonAsMap.put("force", true);
@@ -289,8 +278,5 @@ public class APIUsersSteps {
 
     @And("the body should comply with the schema")
     public void theBodyShouldComplyWithTheSchema() {
-//        controller.getResponse().then()
-//                .assertThat()
-//                .body(JsonSchemaValidator.matchesJsonSchema(new File("src/test/resources/schemas/schema_create_users.json")));
     }
 }

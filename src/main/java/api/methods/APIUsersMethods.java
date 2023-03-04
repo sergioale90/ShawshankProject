@@ -15,7 +15,6 @@ import io.restassured.http.Header;
 import io.restassured.internal.http.Status;
 import io.restassured.response.Response;
 import utils.LoggerManager;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,7 +60,6 @@ public class APIUsersMethods {
     }
 
     public static Response deleteAUsersById(String id) {
-
         String usersByIdEndpoint = API_CONFIG.getUsersByIdEndpoint().replace("<id>", id);
         Header authHeader = APIAuthMethods.getAuthHeader("administrator");
         Map<String, Object> jsonAsMap = new HashMap<>();
