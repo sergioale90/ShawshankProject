@@ -43,7 +43,7 @@ public class APIPostsFeatureHook {
             + (" or @DeleteADraftPostTrash or @CreateAndUpdateAPost or @CreateAndUpdateADraftPost"))
     public void deleteAPostById() {
         String id;
-        if (Status.SUCCESS.matches(controller.getResponse().getStatusCode())){
+        if (Status.SUCCESS.matches(controller.getResponse().getStatusCode())) {
             id = controller.getResponse().jsonPath().getString("id");
         } else {
             id = controller.getIdAux();
