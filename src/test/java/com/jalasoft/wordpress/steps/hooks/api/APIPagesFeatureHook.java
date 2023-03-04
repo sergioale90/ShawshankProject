@@ -16,13 +16,14 @@ import io.restassured.internal.http.Status;
 import io.restassured.response.Response;
 import org.testng.Assert;
 
+import java.util.List;
+
 public class APIPagesFeatureHook {
     private final APIController controller;
-
+    private static final int ORDER = 100;
     public APIPagesFeatureHook(APIController controller) {
         this.controller = controller;
     }
-
     @Before("@RetrieveAPage or @DeleteAPage or @MoveAPageToTrash or @DeleteAPage")
     public void createADrafPage() {
         Response requestResponse = APIPagesMethods.createADraftPage();
@@ -43,5 +44,13 @@ public class APIPagesFeatureHook {
         Response requestResponse = APIPagesMethods.deleteAPageById(id);
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()),
                 "page with id -> " + id + " was not deleted");
+    }
+
+    @After(value = "@APIPages", order = ORDER)
+    public void afterPages() {
+        List<Integer> objects = APIPagesMethods.getAllPages().jsonPath().getList("id");
+        for (Integer id : objects) {
+            APIPagesMethods.deleteAPageById(id.toString());
+        }
     }
 }

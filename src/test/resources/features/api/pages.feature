@@ -55,6 +55,7 @@ Feature: API Pages
     Examples:
       | User Role     | Status Line     |
       | administrator | HTTP/1.1 200 OK |
+      | editor        | HTTP/1.1 200 OK |
 
   @UpdateAPagePublished
   Scenario Outline: A user with proper role should be able to update a page
@@ -97,7 +98,7 @@ Feature: API Pages
       | administrator | HTTP/1.1 200 OK |
       | editor        | HTTP/1.1 200 OK |
 
-  @UnableToCreateAndPublishAPage @Bug
+  @UnableToCreateAndPublishAPage @Bug @ST-63
   Scenario Outline: A user without a proper role should not be able to create a page with publish status
     Given the user is authenticated with "<User Role>" role
     When the user creates a page with the following values
@@ -111,11 +112,11 @@ Feature: API Pages
 
     Examples:
       | User Role     | Status Line               | Code                | Message                                                   | Data         |
-      | author        | HTTP/1.1 403 Forbidden    | rest_cannot_create  | Sorry, you are not allowed to create pages as this user.  | [status:403] |
-      | contributor   | HTTP/1.1 403 Forbidden    | rest_cannot_create  | Sorry, you are not allowed to create pages as this user.  | [status:403] |
-      | subscriber    | HTTP/1.1 403 Forbidden    | rest_cannot_create  | Sorry, you are not allowed to create pages as this user.  | [status:403] |
+      | author        | HTTP/1.1 403 Forbidden    | rest_cannot_create  | Sorry, you are not allowed to create posts as this user.  | [status:403] |
+      | contributor   | HTTP/1.1 403 Forbidden    | rest_cannot_create  | Sorry, you are not allowed to create posts as this user.  | [status:403] |
+      | subscriber    | HTTP/1.1 403 Forbidden    | rest_cannot_create  | Sorry, you are not allowed to create posts as this user.  | [status:403] |
 
-  @UnableToGetAllPages @Bug
+  @UnableToGetAllPages @Bug @ST-62
   Scenario Outline: A user without a proper role should not be able to retrieve all pages
     Given the user is authenticated with "<User Role>" role
     When the user tries to retrieve all pages list
@@ -124,14 +125,14 @@ Feature: API Pages
     And the user should see the response returned and have a body with the following values
       | code   | message   | data   |
       | <Code> | <Message> | <Data> |
-
+    # | author      | HTTP/1.1 403 Forbidden | rest_cannot_retrieve | Sorry, you are not allowed to get tags as this user. | [status:403] |
     Examples:
-      | User Role     | Status Line               | Code                | Message                                                | Data         |
-      | author        | HTTP/1.1 403 Forbidden    | rest_cannot_create  | Sorry, you are not allowed to get posts as this user.  | [status:403] |
-      | contributor   | HTTP/1.1 403 Forbidden    | rest_cannot_create  | Sorry, you are not allowed to get posts as this user.  | [status:403] |
-      | subscriber    | HTTP/1.1 403 Forbidden    | rest_cannot_create  | Sorry, you are not allowed to get posts as this user.  | [status:403] |
+      | User Role     | Status Line               | Code                  | Message                                                | Data         |
+      | author        | HTTP/1.1 403 Forbidden    | rest_cannot_retrieve  | Sorry, you are not allowed to get pages as this user.  | [status:403] |
+      | contributor   | HTTP/1.1 403 Forbidden    | rest_cannot_retrieve  | Sorry, you are not allowed to get pages as this user.  | [status:403] |
+      | subscriber    | HTTP/1.1 403 Forbidden    | rest_cannot_retrieve  | Sorry, you are not allowed to get pages as this user.  | [status:403] |
 
-  @UnableCreateAPageWithoutTitle @Bug
+  @UnableCreateAPageWithoutTitle @Bug @ST-64
   Scenario Outline: A user with proper role should not able to create a page without title
     Given the user is authenticated with "<User Role>" role
     When the user creates a page with the following values

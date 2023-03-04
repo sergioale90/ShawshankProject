@@ -43,6 +43,7 @@ public class StringManager {
 
         return formatter.format(date);
     }
+
     public static String generateAlphanumericString(int length) {
         Random random = new Random();
 

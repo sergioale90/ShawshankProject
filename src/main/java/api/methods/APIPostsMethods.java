@@ -83,7 +83,6 @@ public class APIPostsMethods {
             }
             index++;
         }
-
         return response;
     }
 }

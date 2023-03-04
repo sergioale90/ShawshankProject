@@ -37,7 +37,7 @@ public class APISteps {
         Assert.assertEquals(controller.getResponse().getContentType(), expectedContentType, "wrong content type returned");
     }
 
-    @Then("^the user should not get a response valid and have a body$")
+    @Then("^the user should see the response invalid and have a body$")
     public void verifyInvalidResponseAndBody() {
         String expectedContentType = ContentType.JSON.withCharset(StandardCharsets.UTF_8);
         String actualContentType = controller.getResponse().getContentType();

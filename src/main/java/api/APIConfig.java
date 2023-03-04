@@ -91,4 +91,12 @@ public class APIConfig {
     public String getUsersByIdEndpoint() {
         return getAPISetting("api.endpoint.usersById");
     }
+
+    public String getTagsEndpoint() {
+        return getAPISetting("api.endpoint.tags");
+    }
+
+    public String getTagsEndpointById() {
+        return getAPISetting("api.endpoint.tagsById");
+    }
 }
