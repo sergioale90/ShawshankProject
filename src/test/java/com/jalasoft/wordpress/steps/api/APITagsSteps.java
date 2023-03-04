@@ -8,9 +8,9 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
+import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
-import io.restassured.module.jsv.JsonSchemaValidator;
 import org.testng.Assert;
 import utils.StringManager;
 
@@ -28,6 +28,10 @@ public class APITagsSteps {
     private final String tagsEndpoint = apiConfig.getTagsEndpoint();
     private final String tagsByIdEndpoint = apiConfig.getTagsEndpointById();
     private Map<String, Object> params;
+    private static final int PER_PAGE = 100;
+    private static final int NAME_STRING_LENGHT = 7;
+    private static final int SLUG_STRING_LENGHT = 5;
+    private static final int DESCRIPTION_STRING_LENGHT = 5;
 
     public APITagsSteps(APIController controller) {
         this.controller = controller;
@@ -37,7 +41,7 @@ public class APITagsSteps {
     public void getAllTags() {
         Header authHeader = controller.getHeader("Authorization");
         Map<String, Object> queryParams = new HashMap<>();
-        queryParams.put("per_page", 100);
+        queryParams.put("per_page", PER_PAGE);
 
         Response requestResponse = apiManager.get(tagsEndpoint, queryParams, authHeader);
         controller.setResponse(requestResponse);
@@ -47,9 +51,9 @@ public class APITagsSteps {
     public void createATagStringGenerator() {
         Header authHeader = controller.getHeader("Authorization");
         Map<String, Object> queryRequest = new HashMap<>();
-        queryRequest.put("name", StringManager.generateAlphanumericString(7));
-        queryRequest.put("slug", StringManager.generateAlphanumericString(5).toLowerCase());
-        queryRequest.put("description", StringManager.generateAlphanumericString(25));
+        queryRequest.put("name", StringManager.generateAlphanumericString(NAME_STRING_LENGHT));
+        queryRequest.put("slug", StringManager.generateAlphanumericString(SLUG_STRING_LENGHT).toLowerCase());
+        queryRequest.put("description", StringManager.generateAlphanumericString(DESCRIPTION_STRING_LENGHT));
 
         Response requestResponse = apiManager.post(tagsEndpoint, queryRequest, authHeader);
         controller.setResponse(requestResponse);
@@ -142,7 +146,6 @@ public class APITagsSteps {
         controller.setResponse(requestResponse);
     }
 
-    // the user makes a request to delete a tag without force param
     @Given("^the user makes a request to delete a tag without force param$")
     public void deleteATagByIdWithoutForceParam() {
         String id = controller.getResponse().jsonPath().getString("id");
