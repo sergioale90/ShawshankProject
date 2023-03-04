@@ -58,7 +58,5 @@ public class ScenarioHooks {
         if (isAUIScenario) {
             DriverManager.getInstance().quitWebDriver();
         }
-
-
     }
 }

@@ -142,22 +142,30 @@ public class APITagsSteps {
         controller.setResponse(requestResponse);
     }
 
+    // the user makes a request to delete a tag without force param
+    @Given("^the user makes a request to delete a tag without force param$")
+    public void deleteATagByIdWithoutForceParam() {
+        String id = controller.getResponse().jsonPath().getString("id");
+        Header authHeader = controller.getHeader("Authorization");
+
+        Response requestResponse = apiManager.delete(tagsByIdEndpoint.replace("<id>", id), authHeader);
+        controller.setResponse(requestResponse);
+    }
+
     @Given("^the user makes a request to create a tag with the same name that other already created$")
     public void createATagWithTheSameName() {
         Header authHeader = controller.getHeader("Authorization");
         String nameTagCreated = controller.getResponse().jsonPath().getString("name");
 
-        System.out.println(controller.getResponse().jsonPath().getString("name"));
-
         Map<String, Object> queryRequest = new HashMap<>();
-        queryRequest.put("name", nameTagCreated + "2");
+        queryRequest.put("name", nameTagCreated);
         queryRequest.put("slug", StringManager.generateAlphanumericString(5).toLowerCase());
         queryRequest.put("description", StringManager.generateAlphanumericString(25));
 
         Response requestResponse = apiManager.post(tagsEndpoint, queryRequest, authHeader);
         controller.setResponse(requestResponse);
-        System.out.println(controller.getResponse().jsonPath().getString("name"));
     }
+
 
     @Then("^the user reviews that the tag should have been retrieved with the proper values$")
     public void verifyRetrievedTag() {
@@ -246,7 +254,7 @@ public class APITagsSteps {
 
         String actualCode = controller.getResponse().jsonPath().getString("code");
         String actualMessage = controller.getResponse().jsonPath().getString("message");
-        String actualData = controller.getResponse().jsonPath().getString("data.status");
+        String actualData = controller.getResponse().jsonPath().getString("data");
 
         Assert.assertEquals(actualCode, expectedCode, "wrong code value returned");
         Assert.assertEquals(actualMessage, expectedMessage, "wrong message value returned");
