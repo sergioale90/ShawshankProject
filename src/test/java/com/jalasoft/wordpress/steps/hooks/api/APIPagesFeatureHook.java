@@ -10,7 +10,6 @@ package com.jalasoft.wordpress.steps.hooks.api;
 
 import api.controller.APIController;
 import api.methods.APIPagesMethods;
-import api.methods.APITagsMethods;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.restassured.internal.http.Status;
