@@ -97,7 +97,7 @@ public class APIPostsSteps {
         List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
         Map<String, Object> queryParams = queryParamsList.get(0);
         Response requestResponse = API_MANAGER.put(postByIdEndpoint.replace("<id>", id), queryParams, authHeader);
-
+        controller.setIdAux(id);
         params = new HashMap<>(queryParams);
         params.put("id", id);
         controller.setResponse(requestResponse);

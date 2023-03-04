@@ -33,9 +33,11 @@ public class APISteps {
     @Then("^the user should get a valid response and have a body$")
     public void verifyValidResponseAndBody() {
         String expectedContentType = ContentType.JSON.withCharset(StandardCharsets.UTF_8);
-        Assert.assertTrue(Status.SUCCESS.matches(controller.getResponse().getStatusCode()), "invalid status code returned");
+        Assert.assertTrue(Status.SUCCESS.matches(controller.getResponse()
+                .getStatusCode()), "invalid status code returned");
         Assert.assertFalse(controller.getResponse().getBody().asString().isEmpty(), "response body is empty");
-        Assert.assertEquals(controller.getResponse().getContentType(), expectedContentType, "wrong content type returned");
+        Assert.assertEquals(controller.getResponse()
+                .getContentType(), expectedContentType, "wrong content type returned");
     }
 
     @Then("^the user should see the response invalid and have a body$")
@@ -43,7 +45,8 @@ public class APISteps {
         String expectedContentType = ContentType.JSON.withCharset(StandardCharsets.UTF_8);
         String actualContentType = controller.getResponse().getContentType();
 
-        Assert.assertTrue(Status.FAILURE.matches(controller.getResponse().getStatusCode()), "invalid status code returned");
+        Assert.assertTrue(Status.FAILURE.matches(controller.getResponse()
+                .getStatusCode()), "invalid status code returned");
         Assert.assertFalse(controller.getResponse().getBody().asString().isEmpty(), "response body is empty");
         Assert.assertEquals(actualContentType, expectedContentType, "wrong content type returned");
     }
@@ -51,8 +54,18 @@ public class APISteps {
     @And("the user should get a invalid response and have a body")
     public void theUserShouldGetAInvalidResponseAndHaveABody() {
         String expectedContentType = ContentType.JSON.withCharset(StandardCharsets.UTF_8);
-        Assert.assertTrue(Status.FAILURE.matches(controller.getResponse().getStatusCode()), "invalid status code returned");
+        Assert.assertTrue(Status.FAILURE.matches(controller.getResponse()
+                .getStatusCode()), "invalid status code returned");
         Assert.assertFalse(controller.getResponse().getBody().asString().isEmpty(), "response body is empty");
-        Assert.assertEquals(controller.getResponse().getContentType(), expectedContentType, "wrong content type returned");
+        Assert.assertEquals(controller.getResponse()
+                .getContentType(), expectedContentType, "wrong content type returned");
+    }
+
+    @Then("^the user should get a valid response format and have a body$")
+    public void verifyResponseAndBodyNeutral() {
+        String expectedContentType = ContentType.JSON.withCharset(StandardCharsets.UTF_8);
+        String actualContentType = controller.getResponse().getContentType();
+        Assert.assertFalse(controller.getResponse().getBody().asString().isEmpty(), "response body is empty");
+        Assert.assertEquals(actualContentType, expectedContentType, "wrong content type returned");
     }
 }

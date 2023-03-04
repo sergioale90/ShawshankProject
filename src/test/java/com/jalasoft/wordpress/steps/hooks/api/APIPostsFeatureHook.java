@@ -40,11 +40,15 @@ public class APIPostsFeatureHook {
     }
 
     @After(("@CreateAPost or @CreateADraftPost or @RetrieveAPost or @RetrieveADraftPost or @UpdateAPost or @UpdateADraftPost or @DeleteAPostTrash")
-            + (" or @DeleteADraftPostTrash"))
+            + (" or @DeleteADraftPostTrash or @CreateAndUpdateAPost or @CreateAndUpdateADraftPost"))
     public void deleteAPostById() {
-        String id = controller.getResponse().jsonPath().getString("id");
+        String id;
+        if (Status.SUCCESS.matches(controller.getResponse().getStatusCode())){
+            id = controller.getResponse().jsonPath().getString("id");
+        } else {
+            id = controller.getIdAux();
+        }
         Response requestResponse = APIPostsMethods.deleteAPostById(id);
-
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "post with id -> " + id + " was not deleted");
     }
 }

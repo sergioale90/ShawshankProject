@@ -106,6 +106,73 @@ Feature: API Posts
       | administrator | HTTP/1.1 200 OK |
       | editor        | HTTP/1.1 200 OK |
 
+  @CreateAndUpdateAPost
+  Scenario Outline: A user with proper role should be able to create and update a post
+    Given the user is authenticated with "<Poster User Role>" role
+    When the user makes a request to create a post with the following params
+      | content                   | title              | excerpt              |
+      | Test CU WAPI Post Content | Test CU WAPI Title | Test CU WAPI Excerpt |
+    When the user is authenticated with "<Updater User Role>" role
+    When the user makes a request to update a post with the following params
+      | content                        | title                   | excerpt                   |
+      | Test WAPI Post Content Updated | Test WAPI Title Updated | Test WAPI Excerpt Updated |
+    Then the user should get a "<Status Line>" response
+    And the user should get a valid response format and have a body
+
+    Examples:
+      | Poster User Role | Updater User Role | Status Line            |
+      | administrator    | administrator     | HTTP/1.1 200 OK        |
+      | administrator    | author            | HTTP/1.1 403 Forbidden |
+      | administrator    | contributor       | HTTP/1.1 403 Forbidden |
+      | administrator    | editor            | HTTP/1.1 200 OK        |
+      | administrator    | subscriber        | HTTP/1.1 403 Forbidden |
+      | author           | administrator     | HTTP/1.1 200 OK        |
+      | author           | author            | HTTP/1.1 200 OK        |
+      | author           | contributor       | HTTP/1.1 403 Forbidden |
+      | author           | editor            | HTTP/1.1 200 OK        |
+      | author           | subscriber        | HTTP/1.1 403 Forbidden |
+      | editor           | administrator     | HTTP/1.1 200 OK        |
+      | editor           | author            | HTTP/1.1 403 Forbidden |
+      | editor           | contributor       | HTTP/1.1 403 Forbidden |
+      | editor           | editor            | HTTP/1.1 200 OK        |
+      | editor           | subscriber        | HTTP/1.1 403 Forbidden |
+
+  @CreateAndUpdateADraftPost
+  Scenario Outline: A user with proper role should be able to create and update a Draft post
+    Given the user is authenticated with "<Poster User Role>" role
+    When the user makes a request to create a draft post with the following params
+      | content                      | title                 | excerpt                 |
+      | Draft Test WAPI Post Content | Draft Test WAPI Title | Draft Test WAPI Excerpt |
+    When the user is authenticated with "<Updater User Role>" role
+    When the user makes a request to update a post with the following params
+      | content                              | title                         | excerpt                         | status  |
+      | Draft Test WAPI Post Content Updated | Draft Test WAPI Title Updated | Draft Test WAPI Excerpt Updated | publish |
+    Then the user should get a "<Status Line>" response
+    And the user should get a valid response format and have a body
+
+    Examples:
+      | Poster User Role | Updater User Role | Status Line            |
+      | administrator    | administrator     | HTTP/1.1 200 OK        |
+      | administrator    | author            | HTTP/1.1 403 Forbidden |
+      | administrator    | contributor       | HTTP/1.1 403 Forbidden |
+      | administrator    | editor            | HTTP/1.1 200 OK        |
+      | administrator    | subscriber        | HTTP/1.1 403 Forbidden |
+      | author           | administrator     | HTTP/1.1 200 OK        |
+      | author           | author            | HTTP/1.1 200 OK        |
+      | author           | contributor       | HTTP/1.1 403 Forbidden |
+      | author           | editor            | HTTP/1.1 200 OK        |
+      | author           | subscriber        | HTTP/1.1 403 Forbidden |
+      | contributor      | administrator     | HTTP/1.1 200 OK        |
+      | contributor      | author            | HTTP/1.1 403 Forbidden |
+      | contributor      | contributor       | HTTP/1.1 200 OK        |
+      | contributor      | editor            | HTTP/1.1 200 OK        |
+      | contributor      | subscriber        | HTTP/1.1 403 Forbidden |
+      | editor           | administrator     | HTTP/1.1 200 OK        |
+      | editor           | author            | HTTP/1.1 403 Forbidden |
+      | editor           | contributor       | HTTP/1.1 403 Forbidden |
+      | editor           | editor            | HTTP/1.1 200 OK        |
+      | editor           | subscriber        | HTTP/1.1 403 Forbidden |
+
   @DeleteAPostTrash
   Scenario Outline: A user with proper role should be able to delete a published post by trash
     Given the user is authenticated with "<User Role>" role
