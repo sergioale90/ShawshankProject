@@ -10,6 +10,7 @@ package com.jalasoft.wordpress.steps.api;
 
 import api.controller.APIController;
 import api.methods.APIAuthMethods;
+import api.methods.APIUsersMethods;
 import io.cucumber.java.en.Given;
 import io.restassured.http.Header;
 import org.testng.Assert;
@@ -24,6 +25,13 @@ public class AuthorizationSteps {
     @Given("^(?:I am|the user is) authenticated with \"(.*?)\" role$")
     public void getToken(String userRole) {
         Header authHeader = APIAuthMethods.getAuthHeader(userRole);
+        controller.addHeader(authHeader);
+        Assert.assertNotNull(authHeader, "Unable to retrieve authorization header for user with role --> " + userRole);
+    }
+
+    @Given("the current user is authenticated with {string} role")
+    public void theCurrentUserIsAuthenticatedWithRole(String userRole) {
+        Header authHeader = APIUsersMethods.loginAUser();
         controller.addHeader(authHeader);
         Assert.assertNotNull(authHeader, "Unable to retrieve authorization header for user with role --> " + userRole);
     }
