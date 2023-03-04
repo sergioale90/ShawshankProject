@@ -15,7 +15,7 @@ Feature: API Tags
       | editor        | HTTP/1.1 200 OK |
 
   @CreateATag
-  Scenario Outline: A user with proper role should be able to create a tag
+  Scenario Outline: A user with a proper role should be able to create a tag
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to create a tag
     Then the user should get a "<Status Line>" response
@@ -28,7 +28,7 @@ Feature: API Tags
       | editor        | HTTP/1.1 201 Created |
 
   @CreateATag
-  Scenario Outline: A user with proper role should be able to create a tag
+  Scenario Outline: A user with a proper role should be able to create a tag
     Given the user is authenticated with "<User Role>" role
     When the user creates a tag with the following params
       | name     | slug       | description                 |
@@ -44,7 +44,7 @@ Feature: API Tags
       | editor        | HTTP/1.1 201 Created |
 
   @RetrieveATag
-  Scenario Outline: A user with proper role should be able to retrieve a tag
+  Scenario Outline: A user with a proper role should be able to retrieve a tag
     Given the user is authenticated with "<User Role>" role
     When the user tries to retrieve a tag
     Then the user should get a "<Status Line>" response
@@ -57,7 +57,7 @@ Feature: API Tags
       | editor        | HTTP/1.1 200 OK |
 
   @UpdateATag
-  Scenario Outline: A user with proper role should be able to update a tag
+  Scenario Outline: A user with a proper role should be able to update a tag
     Given the user is authenticated with "<User Role>" role
     When the user updates a tag using a json file
     Then the user should get a "<Status Line>" response
@@ -70,7 +70,7 @@ Feature: API Tags
       | editor        | HTTP/1.1 200 OK |
 
   @DeleteATag
-  Scenario Outline: A user with proper role should be able to delete a tag
+  Scenario Outline: A user with a proper role should be able to delete a tag
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to delete a tag
     Then the user should get a "<Status Line>" response
@@ -83,7 +83,7 @@ Feature: API Tags
       | editor        | HTTP/1.1 200 OK |
 
   @DeleteWithoutForceParam
-  Scenario Outline: A user with proper role should not be able to delete a tag without force param
+  Scenario Outline: A user with a proper role should not be able to delete a tag without force param
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to delete a tag without force param
     Then the user should get a "<Status Line>" response
@@ -98,7 +98,7 @@ Feature: API Tags
       | editor        | HTTP/1.1 501 Not Implemented | rest_trash_not_supported | Terms do not support trashing. Set 'force=true' to delete. | [status:501] |
 
   @CreateATagWithSameName @Bug
-  Scenario Outline: A user with proper role should not be able to create a tag with the same name
+  Scenario Outline: A user with a proper role should not be able to create a tag with the same name
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to create a tag with the same name that other already created
     Then the user should get a "<Status Line>" response
@@ -129,7 +129,7 @@ Feature: API Tags
       | subscriber  | HTTP/1.1 403 Forbidden | rest_cannot_create | Sorry, you are not allowed to get tags as this user. | [status:403] |
 
   @UnableCreateATag @Bug
-  Scenario Outline: A user without proper role should not be able to create a tag
+  Scenario Outline: A user without a proper role should not be able to create a tag
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to create a tag
     Then the user should get a "<Status Line>" response
