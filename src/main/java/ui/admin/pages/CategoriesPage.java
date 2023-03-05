@@ -22,6 +22,7 @@ import utils.StringManager;
 public class CategoriesPage extends BaseAdminPage {
     private String categoryName;
     private Actions hoverRowCategory;
+    private final int STRING_LENGHT = 7;
     @FindBy(xpath = "//h1[@class='wp-heading-inline' and text()='Categories']")
     WebElement categoriesPageTitle;
     @FindBy(xpath = "//input[@id='tag-name']")
@@ -63,7 +64,7 @@ public class CategoriesPage extends BaseAdminPage {
     }
     public String fillCategoryNameField() {
         categoryNameField = wait.until(ExpectedConditions.visibilityOf(categoryNameField));
-        categoryName = StringManager.generateAlphanumericString(7);
+        categoryName = StringManager.generateAlphanumericString(STRING_LENGHT);
         categoryNameField.clear();
         categoryNameField.sendKeys(categoryName);
         return categoryName;
@@ -75,14 +76,14 @@ public class CategoriesPage extends BaseAdminPage {
     }
     public String fillCategorySlugField() {
         categorySlugField = wait.until(ExpectedConditions.visibilityOf(categorySlugField));
-        String slug = StringManager.generateAlphanumericString(7);
+        String slug = StringManager.generateAlphanumericString(STRING_LENGHT);
         categorySlugField.clear();
         categorySlugField.sendKeys(slug);
         return slug;
     }
     public String fillCategoryDescriptionField() {
         categoryDescriptionField = wait.until(ExpectedConditions.visibilityOf(categoryDescriptionField));
-        String description = StringManager.generateAlphanumericString(7);
+        String description = StringManager.generateAlphanumericString(STRING_LENGHT);
         categoryDescriptionField.clear();
         categoryDescriptionField.sendKeys(description);
         return description;
@@ -177,7 +178,7 @@ public class CategoriesPage extends BaseAdminPage {
         return quickEditFormLocator.isDisplayed();
     }
     public String quickEditCategoryName(String id) {
-        String newCategoryName = StringManager.generateAlphanumericString(7);
+        String newCategoryName = StringManager.generateAlphanumericString(STRING_LENGHT);
         String nameTextBoxString = String.format("//tr[@id='edit-%s']/descendant::input[@name='name']", id);
         WebElement nameTextBoxLocator = driver.findElement(By.xpath(nameTextBoxString));
         nameTextBoxLocator = wait.until(ExpectedConditions.visibilityOf(nameTextBoxLocator));
@@ -186,7 +187,7 @@ public class CategoriesPage extends BaseAdminPage {
         return newCategoryName;
     }
     public String quickEditCategorySlug(String id) {
-        String newCategorySlug = StringManager.generateAlphanumericString(7);
+        String newCategorySlug = StringManager.generateAlphanumericString(STRING_LENGHT);
         String slugTextBoxString = String.format("//tr[@id='edit-%s']/descendant::input[@name='slug']", id);
         WebElement slugTextBoxLocator = driver.findElement(By.xpath(slugTextBoxString));
         slugTextBoxLocator.clear();
