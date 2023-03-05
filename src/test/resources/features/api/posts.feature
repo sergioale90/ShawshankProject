@@ -479,3 +479,21 @@ Feature: API Posts
       | incorrect JWT format      | HTTP/1.1 401 Unauthorized | error  | INVALID_AUTHORIZATION_HEADER_TOKEN_TYPE | 401  | Authorization header must be type of Bearer Token.                                                                                    |
       | invalid header token type | HTTP/1.1 401 Unauthorized | error  | INVALID_AUTHORIZATION_HEADER_TOKEN_TYPE | 401  | Authorization header must be type of Bearer Token.                                                                                    |
       | missing                   | HTTP/1.1 401 Unauthorized | error  | MISSING_AUTHORIZATION_HEADER            | 401  | Authorization header not received. Either authorization header was not sent or it was removed by your server due to security reasons. |
+
+  @UnableToCreateAndPublishAPost
+  Scenario Outline: A user without a proper role should not be able to create and publish a post
+    Given the user is authenticated with "<User Role>" role
+    When the user makes a request to create a post with the following params
+      | content                   | title              | excerpt              | status   |
+      | NG Test WAPI Post Content | NG Test WAPI Title | NG Test WAPI Excerpt | <Status> |
+    Then the user should get a "<Status Line>" response
+    And the user should see the response invalid and have a body
+    And the response should be returned and have a body with the following values
+      | code   | message   | data   |
+      | <Code> | <Message> | <Data> |
+
+    Examples:
+      | User Role   | Status  | Status Line            | Code                | Message                                                        | Data         |
+      | contributor | publish | HTTP/1.1 403 Forbidden | rest_cannot_publish | Sorry, you are not allowed to publish posts in this post type. | [status:403] |
+      | subscriber  | publish | HTTP/1.1 403 Forbidden | rest_cannot_create  | Sorry, you are not allowed to create posts as this user.       | [status:403] |
+      | subscriber  | draft   | HTTP/1.1 403 Forbidden | rest_cannot_create  | Sorry, you are not allowed to create posts as this user.       | [status:403] |
