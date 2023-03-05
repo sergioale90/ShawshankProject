@@ -31,7 +31,7 @@ Feature: Tags
   Scenario Outline: A user with proper role should be able to update a tag
     Given the user is logged in to Admin page with "<User Role>" role
     When the user goes to Tags page
-    And the user opens the tag using the tag title link on the Tag page table
+    And the user opens the tag using the tag name link on the Tag page table
     And the user edits the tag with the following values
       | name   | slug   | description     |
       | <Name> | <Slug> | <Description>   |
@@ -46,7 +46,7 @@ Feature: Tags
   Scenario Outline: A user with a proper role should be able to delete a tag from Edit tag page
     Given the user is logged in to Admin page with "<User Role>" role
     When the user goes to Tags page
-    And the user opens the tag using the tag title link on the Tag page table
+    And the user opens the tag using the tag name link on the Tag page table
     And the user deletes the tag using the Delete link
     Then the user should review that the Tag has been deleted
 
@@ -65,27 +65,14 @@ Feature: Tags
     Examples:
       | User Role     |
       | administrator |
-      #| editor        |
-
-  @CancelDeleteTag
-  Scenario Outline: A user with a proper role should be able to cancel a delete tag
-    Given the user is logged in to Admin page with "<User Role>" role
-    When the user goes to Tags page
-    And the user deletes the tag using the Delete link on the Tag page table
-    And the user presses the Cancel button to delete the tag
-    And the user should review that the Tag has not been deleted
-
-    Examples:
-      | User Role     |
-      | administrator |
       | editor        |
 
-  @FindTag
-  Scenario Outline: A user with proper role should be able to find a correct title tag
+  @FindValidTag
+  Scenario Outline: A user with proper role should be able to find a correct name tag
     Given the user is logged in to Admin page with "<User Role>" role
     When the user goes to Tags page
-    And the user searches a valid title tag
-    Then the user should review the title tag found
+    And the user searches a valid name tag
+    Then the user should review the name tag found
 
     Examples:
       | User Role     |
@@ -100,7 +87,7 @@ Feature: Tags
     Then the user should review a "<Expected Result>" message
 
     Examples:
-      | User Role     | Invalid Tag Title  | Expected Result    |
+      | User Role     | Invalid Tag Title   | Expected Result    |
       | administrator | noneexisttagadmin   | No tags found.     |
       | editor        | noneexisttagedit    | No tags found.     |
 

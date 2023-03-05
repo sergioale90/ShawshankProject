@@ -97,9 +97,15 @@ public class TagsPage extends BaseAdminPage {
         deleteLink.click();
         return this;
     }
-    public boolean isNameTagLinkNotPresent(String title) {
-        String titleLocator = String.format("//a[text()='%s']", title);
+    public boolean isNameTagLinkNotPresent(String name) {
+        String titleLocator = String.format("//a[text()='%s']", name);
         return wait.until(webDriver -> UIMethods.isWebElementNotPresentByXpathJs(titleLocator));
     }
 
+    public boolean isNameTagLinkPresent(String tagId) {
+        String tagRowLocator = "tr#tag-<id> a.row-title";
+        String link = tagRowLocator.replace("<id>", tagId);
+        WebElement tagNameLink = driver.findElement(By.cssSelector(link));
+        return tagNameLink.isDisplayed();
+    }
 }

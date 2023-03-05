@@ -54,7 +54,7 @@ public class TagsSteps {
         newTagPage.addNewTag(name, slug, description);
     }
 
-    @Given("^the user opens the tag using the tag title link on the Tag page table$")
+    @Given("^the user opens the tag using the tag name link on the Tag page table$")
     public void goToTagUsingLink() {
         String id = controller.getId();
         editTagPage = tagsPage.editTagByIdOnTable(id);
@@ -104,6 +104,20 @@ public class TagsSteps {
         Assert.assertTrue(alertIsPresent, "alert message was not displayed");
     }
 
+    @Then("^the user searches a valid name tag$")
+    public void searchValidTag() {
+        String name = controller.getName();
+        tagsPage.setTextboxSearch(name);
+        tagsPage.getSearchTagsButton();
+    }
+
+    @Then("^the user should review the name tag found$")
+    public void verifyTagSearchedIsPresent() {
+        String name = controller.getName();
+        String id = controller.getId();
+        boolean isNameTagLinkPresent = tagsPage.isNameTagLinkPresent(id);
+        Assert.assertTrue(isNameTagLinkPresent, "wrong the tag is not present");
+    }
 
     @Then("^the user should review that the tag has been updated successfully$")
     public void verifyTagWasEdited() {
@@ -155,4 +169,5 @@ public class TagsSteps {
 
         Assert.assertTrue(tagsPage.isNameTagLinkNotPresent(tagName), "wrong the tag was no deleted");
     }
+
 }

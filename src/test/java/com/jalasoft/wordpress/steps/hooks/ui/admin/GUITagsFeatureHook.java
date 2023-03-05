@@ -29,7 +29,7 @@ public class GUITagsFeatureHook {
         this.controller = controller;
     }
 
-    @Before("@UpdateTag or @OpenTag or @DeleteTagFromEditPage or @DeleteTag")
+    @Before("@UpdateTag or @OpenTag or @DeleteTagFromEditPage or @DeleteTag or @FindValidTag")
     public void createTag() {
         LOG.info("Creating a tag");
         Response requestResponse = APITagsMethods.createATag();
