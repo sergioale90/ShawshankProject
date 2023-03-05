@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2023 Jala University.
+ *
+ * This software is the confidential and proprieraty information of Jala University
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * Licence agreement you entered into with Jala University.
+ */
 package ui.admin.pages;
 
 import org.openqa.selenium.WebDriverException;
@@ -65,8 +73,13 @@ public class EditCategoryPage extends BaseAdminPage {
         updateButton.click();
     }
     public boolean isCategoryUpdatedMessageDisplayed() {
-        categoryUpdatedMessage = wait.until(ExpectedConditions.visibilityOf(categoryUpdatedMessage));
-        return categoryUpdatedMessage.isDisplayed();
+        try {
+            categoryUpdatedMessage = wait.until(ExpectedConditions.visibilityOf(categoryUpdatedMessage));
+            categoryUpdatedMessage.isDisplayed();
+            return true;
+        } catch (org.openqa.selenium.NoSuchElementException e) {
+            return false;
+        }
     }
     public CategoriesPage clickGoToCategoriesPageButton() {
         goToCategoriesPageButton = wait.until(ExpectedConditions.visibilityOf(goToCategoriesPageButton));
@@ -80,5 +93,7 @@ public class EditCategoryPage extends BaseAdminPage {
     public CategoriesPage clickDeleteButton() {
         deleteButton = wait.until(ExpectedConditions.visibilityOf(deleteButton));
         deleteButton.click();
+        this.acceptAlert();
+        return new CategoriesPage();
     }
 }

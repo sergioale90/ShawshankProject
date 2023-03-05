@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2023 Jala University.
+ *
+ * This software is the confidential and proprieraty information of Jala University
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * Licence agreement you entered into with Jala University.
+ */
 package ui.admin.pages;
 
 import api.methods.APICategoriesMethods;
@@ -30,7 +38,18 @@ public class CategoriesPage extends BaseAdminPage {
     WebElement errorMessage;
     @FindBy(xpath = "//button[@class='save button button-primary']")
     WebElement updateButton;
-
+    @FindBy(xpath = "//input[@id='tag-search-input']")
+    WebElement searchBox;
+    @FindBy(xpath = "//input[@id='search-submit']")
+    WebElement searchButton;
+    @FindBy(xpath = "//select[@id='bulk-action-selector-top']")
+    WebElement bulkActionMenu;
+    @FindBy(xpath = "//select[@id='bulk-action-selector-top']/descendant::option[@value='delete']")
+    WebElement deleteOptionBulkMenu;
+    @FindBy(xpath = "//input[@id='doaction']")
+    WebElement applyButton;
+    @FindBy(xpath = "//div[@class='updated notice is-dismissible']")
+    WebElement deleteMessage;
     public CategoriesPage() {
         PageFactory.initElements(driver, this);
         waitUntilPageObjectIsLoaded();
@@ -166,16 +185,66 @@ public class CategoriesPage extends BaseAdminPage {
         nameTextBoxLocator.sendKeys(newCategoryName);
         return newCategoryName;
     }
-    public String quickEditCategoryDescription(String id) {
-        String newCategoryDescription = StringManager.generateAlphanumericString(7);
-        String descriptionTextBoxString = String.format("//tr[@id='edit-%s']/descendant::input[@name='slug']", id);
-        WebElement descriptionTextBoxLocator = driver.findElement(By.xpath(descriptionTextBoxString));
-        descriptionTextBoxLocator.clear();
-        descriptionTextBoxLocator.sendKeys(newCategoryDescription);
-        return newCategoryDescription;
+    public String quickEditCategorySlug(String id) {
+        String newCategorySlug = StringManager.generateAlphanumericString(7);
+        String slugTextBoxString = String.format("//tr[@id='edit-%s']/descendant::input[@name='slug']", id);
+        WebElement slugTextBoxLocator = driver.findElement(By.xpath(slugTextBoxString));
+        slugTextBoxLocator.clear();
+        slugTextBoxLocator.sendKeys(newCategorySlug);
+        return newCategorySlug;
     }
     public void clickUpdateCategoryButton() {
         updateButton = wait.until(ExpectedConditions.visibilityOf(updateButton));
         updateButton.click();
+        driver.navigate().refresh();
+    }
+    public void fillSearchBox(String argument) {
+        searchBox = wait.until(ExpectedConditions.visibilityOf(searchBox));
+        searchBox.clear();
+        searchBox.sendKeys(argument);
+    }
+    public void clickSearchButton() {
+        searchButton = wait.until(ExpectedConditions.visibilityOf(searchButton));
+        searchButton.click();
+    }
+    public boolean isCategoryPresentOnTheList(String argument) {
+        try {
+            String resultsOfSearchString = String.format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::a[contains(text(),'%s')]", argument);
+            WebElement resultsOfSearchLocator = driver.findElement(By.xpath(resultsOfSearchString));
+            resultsOfSearchLocator.isDisplayed();
+            return true;
+        } catch (org.openqa.selenium.NoSuchElementException e) {
+            return false;
+        }
+    }
+    public void quickDeleteButton(String categoryId) {
+        String deleteButtonString = String.format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::tr[@id='tag-%s']/descendant::span[@class='delete']", categoryId);
+        WebElement deleteButtonLocator = driver.findElement(By.xpath(deleteButtonString));
+        deleteButtonLocator = wait.until(ExpectedConditions.visibilityOf(deleteButtonLocator));
+        deleteButtonLocator.click();
+        this.acceptAlert();
+        driver.navigate().refresh();
+    }
+    public void selectCategoryCheckBox(String id) {
+        String categoryCheckBoxString = String.format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::tr[@id='tag-%s']/descendant::input[@type='checkbox']", id);
+        WebElement categoryCheckBoxLocator = driver.findElement(By.xpath(categoryCheckBoxString));
+        categoryCheckBoxLocator = wait.until(ExpectedConditions.elementToBeClickable(categoryCheckBoxLocator));
+        categoryCheckBoxLocator.click();
+    }
+    public void selectActionBulkMenu() {
+        bulkActionMenu = wait.until(ExpectedConditions.elementToBeClickable(bulkActionMenu));
+        bulkActionMenu.click();
+    }
+    public void selectDeleteOptionBulkMenu() {
+        deleteOptionBulkMenu = wait.until(ExpectedConditions.elementToBeClickable(deleteOptionBulkMenu));
+        deleteOptionBulkMenu.click();
+    }
+    public void clickApplyButton() {
+        applyButton = wait.until(ExpectedConditions.elementToBeClickable(applyButton));
+        applyButton.click();
+    }
+    public boolean deleteMessageIsDisplayed() {
+        deleteMessage = wait.until(ExpectedConditions.visibilityOf(deleteMessage));
+        return deleteMessage.isDisplayed();
     }
 }

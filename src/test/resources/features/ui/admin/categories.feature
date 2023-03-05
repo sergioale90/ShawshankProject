@@ -1,4 +1,4 @@
-@Categories @UI
+@UICategories @UI
 Feature: Categories
 
   @EnterCategoriesPage
@@ -115,16 +115,48 @@ Feature: Categories
       | administrator   |
       | editor          |
 
-  @EditCategorySuccessfully
-  Scenario Outline: A user with the proper role should edit a existent category
+  @SearchACategory
+  Scenario Outline: A user with the proper role should be able to search a category using the search box
+    Given the user is logged in to Admin page with "<User Role>" role
+    When the user hover over of Posts menu in the left side bar menu and click on the categories button
+    And the user can enter a word to search in the search box
+    Then the list of categories display the coincidences
+    Examples:
+      | User Role       |
+      | administrator   |
+      | editor          |
+
+  @DeleteCategorySuccessfully
+  Scenario Outline: A user with the proper role should delete a existent category using the edit page
     Given the user is logged in to Admin page with "<User Role>" role
     When the user hover over of Posts menu in the left side bar menu and click on the categories button
     And the user hover over of one category created previously and enter to edit category page using the edit label
     Then the user redirects to the Edit Category Page
-    When the user edit the fields of the category and update the category information
-    Then a message confirm that the category was updated with the new information
-    When the user return to the categories page
-    Then the information of the category was updated correctly
+    When the user delete the category using de delete button and accept the alert
+    And the category was deleted successfully
+    Examples:
+      | User Role       |
+      | administrator   |
+      | editor          |
+
+  @DeleteCategorySuccessfully
+  Scenario Outline: A user with the proper role should delete a existent category directly in the categories page
+    Given the user is logged in to Admin page with "<User Role>" role
+    When the user hover over of Posts menu in the left side bar menu and click on the categories button
+    And the user hover over of one category created previously and enter to edit category page using the delete label
+    And the category was deleted successfully
+    Examples:
+      | User Role       |
+      | administrator   |
+      | editor          |
+
+  @DeleteCategorySuccessfully
+  Scenario Outline: A user with the proper role should delete a existent category using the bulk actions
+    Given the user is logged in to Admin page with "<User Role>" role
+    When the user hover over of Posts menu in the left side bar menu and click on the categories button
+    And the user can select a category using the checkbox on the left side of the category
+    And the user select delete in the bulk action menu and select apply
+    And the category was deleted successfully and page display the delete message
     Examples:
       | User Role       |
       | administrator   |

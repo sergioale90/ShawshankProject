@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2023 Jala University.
+ *
+ * This software is the confidential and proprieraty information of Jala University
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * Licence agreement you entered into with Jala University.
+ */
 package com.jalasoft.wordpress.steps.ui.admin;
 
 import api.methods.APICategoriesMethods;
@@ -90,9 +98,39 @@ public class CategoriesSteps {
     @Given("the user edit the name and slug information of the category$")
     public void quickEditCategory() {
         String categoryId = controller.getId();
-        categoriesPage.quickEditCategoryName(categoryId);
-        categoriesPage.quickEditCategoryDescription(categoryId);
+        String newCategoryName = categoriesPage.quickEditCategoryName(categoryId);
+        String newCategorySlug = categoriesPage.quickEditCategorySlug(categoryId);
         categoriesPage.clickUpdateCategoryButton();
+
+        controller.setName(newCategoryName);
+        controller.setSlug(newCategorySlug);
+    }
+    @Given("^the user can enter a word to search in the search box")
+    public void searchBox() {
+        String argument = controller.getName();
+        categoriesPage.fillSearchBox(argument);
+        categoriesPage.clickSearchButton();
+    }
+    @Given("^the user delete the category using de delete button and accept the alert$")
+    public void deleteACategoryInEditCategoryPage() {
+        categoriesPage = editCategoryPage.clickDeleteButton();
+    }
+    @Given("^the user hover over of one category created previously and enter to edit category page using the delete label$")
+    public void deleteACategoryInCategoriesPage() {
+        String categoryId = controller.getId();
+        categoriesPage.hoverOneCategoryCreated(categoryId);
+        categoriesPage.quickDeleteButton(categoryId);
+    }
+    @Given("^the user can select a category using the checkbox on the left side of the category$")
+    public void selectACategoryUsingCheckBox() {
+        String categoryId = controller.getId();
+        categoriesPage.selectCategoryCheckBox(categoryId);
+        categoriesPage.selectActionBulkMenu();
+    }
+    @Given("^the user select delete in the bulk action menu and select apply$")
+    public void selectDeleteOptionAndApply() {
+        categoriesPage.selectDeleteOptionBulkMenu();
+        categoriesPage.clickApplyButton();
     }
     @Then("^the user can access to the categories page$")
     public void isTheUserInTheCategoriesPage() {
@@ -172,6 +210,20 @@ public class CategoriesSteps {
     @Then("^the page displays the form to edit the category$")
     public void verifyIfQuickEditFormIsDisplayed() {
         String categoryId = controller.getId();
-        Assert.assertTrue(categoriesPage.quickEditFormIsVisible(categoryId));
+        Assert.assertTrue(categoriesPage.quickEditFormIsVisible(categoryId), "The quick edit form is not displayed");
+    }
+    @Then("^the list of categories display the coincidences$")
+    public void verifyTheResultsOfTheSearch() {
+        String argument = controller.getName();
+        Assert.assertTrue(categoriesPage.isCategoryPresentOnTheList(argument), "The category doesn't exist");
+    }
+    @Then("^the category was deleted successfully$")
+    public void verifyIfCategoryWasDeleted() {
+        String argument = controller.getName();
+        Assert.assertFalse(categoriesPage.isCategoryPresentOnTheList(argument), "The Category was not deleted");
+    }
+    @Then("^the category was deleted successfully and page display the delete message$")
+    public void verifyIfDeleteMessageIsVisible() {
+        Assert.assertTrue(categoriesPage.deleteMessageIsDisplayed());
     }
 }
