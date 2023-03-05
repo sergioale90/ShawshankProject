@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2023 Jala University.
- * <p>
+ *
  * This software is the confidential and proprieraty information of Jala University
  * ("Confidential Information"). You shall not disclose such Confidential
  * Information and shall use it only in accordance with the terms of the
@@ -13,7 +13,11 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.testng.Assert;
 import ui.PageTransporter;
-import ui.admin.pages.*;
+import ui.admin.pages.TagsPage;
+import ui.admin.pages.NewTagPage;
+import ui.admin.pages.EditTagPage;
+import ui.admin.pages.ViewTagPage;
+import ui.admin.pages.HomeAdminPage;
 import ui.controller.UIController;
 
 import java.util.List;
@@ -22,6 +26,7 @@ import java.util.Map;
 public class TagsSteps {
     private final UIController controller;
     private final PageTransporter pageTransporter;
+    private HomeAdminPage homeAdminPage;
     private TagsPage tagsPage;
     private NewTagPage newTagPage;
     private EditTagPage editTagPage;
@@ -29,6 +34,7 @@ public class TagsSteps {
 
     public TagsSteps(UIController controller, HomeAdminPage homeAdminPage) {
         this.pageTransporter = PageTransporter.getInstance();
+        this.homeAdminPage = homeAdminPage;
         this.controller = controller;
         this.tagsPage = new TagsPage();
         this.viewTagPage = new ViewTagPage();
@@ -120,9 +126,8 @@ public class TagsSteps {
 
     @Then("^the user should review a \"(.*?)\" message$")
     public void verifyTagSearchedIsNotPresent(String message) {
-        String name = controller.getName();
-        boolean isNameTagLinkPresent = tagsPage.isMessageNoTagsFoundDisplayed(name);
-        Assert.assertTrue(isNameTagLinkPresent, "wrong the tag is not present");
+        boolean isMessageDisplayed = tagsPage.isMessageNoTagsFoundDisplayed(message);
+        Assert.assertTrue(isMessageDisplayed, "wrong message is not displayed");
     }
 
     @Then("^the user should review the name tag found$")

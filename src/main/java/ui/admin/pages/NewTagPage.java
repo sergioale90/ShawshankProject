@@ -28,6 +28,7 @@ public class NewTagPage extends BaseAdminPage {
 
     @FindBy(css = "span#delete-link a")
     private WebElement deleteLink;
+
     private WebElement nameTextBox;
     private WebElement slugTextBox;
     private WebElement descriptionTextArea;
@@ -60,22 +61,6 @@ public class NewTagPage extends BaseAdminPage {
         descriptionTextArea.click();
         descriptionTextArea.clear();
         descriptionTextArea.sendKeys(description);
-    }
-
-    public String getNameText() {
-        WebElement nameTextBox = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(nameLocator)));
-        return nameTextBox.getText();
-    }
-
-    public String getSlugText() {
-        WebElement slugTextBox = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(slugLocator)));
-        return slugTextBox.getText();
-    }
-
-    public String getDescriptionText() {
-        WebElement descriptionTextArea = wait
-                .until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(descriptionLocator)));
-        return descriptionTextArea.getText();
     }
 
     public void addNewTag(String name, String slug, String description) {
