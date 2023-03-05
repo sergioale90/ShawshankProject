@@ -22,35 +22,35 @@ import utils.StringManager;
 public class CategoriesPage extends BaseAdminPage {
     private String categoryName;
     private Actions hoverRowCategory;
-    private final int STRING_LENGHT = 7;
+    private final int stringLenght = 7;
     @FindBy(xpath = "//h1[@class='wp-heading-inline' and text()='Categories']")
-    WebElement categoriesPageTitle;
+    private WebElement categoriesPageTitle;
     @FindBy(xpath = "//input[@id='tag-name']")
-    WebElement categoryNameField;
+    private WebElement categoryNameField;
     @FindBy(xpath = "//input[@id='tag-slug']")
-    WebElement categorySlugField;
+    private WebElement categorySlugField;
     @FindBy(xpath = "//textarea[@id='tag-description']")
-    WebElement categoryDescriptionField;
+    private WebElement categoryDescriptionField;
     @FindBy(xpath = "//input[@id='submit']")
-    WebElement addNewCategoryButton;
+    private WebElement addNewCategoryButton;
     @FindBy(xpath = "//div[@class='notice notice-success is-dismissible']")
-    WebElement successCreatedCategoryMessage;
+    private WebElement successCreatedCategoryMessage;
     @FindBy(xpath = "//div[@class='notice notice-error']")
-    WebElement errorMessage;
+    private WebElement errorMessage;
     @FindBy(xpath = "//button[@class='save button button-primary']")
-    WebElement updateButton;
+    private WebElement updateButton;
     @FindBy(xpath = "//input[@id='tag-search-input']")
-    WebElement searchBox;
+    private WebElement searchBox;
     @FindBy(xpath = "//input[@id='search-submit']")
-    WebElement searchButton;
+    private WebElement searchButton;
     @FindBy(xpath = "//select[@id='bulk-action-selector-top']")
-    WebElement bulkActionMenu;
+    private WebElement bulkActionMenu;
     @FindBy(xpath = "//select[@id='bulk-action-selector-top']/descendant::option[@value='delete']")
-    WebElement deleteOptionBulkMenu;
+    private WebElement deleteOptionBulkMenu;
     @FindBy(xpath = "//input[@id='doaction']")
-    WebElement applyButton;
+    private WebElement applyButton;
     @FindBy(xpath = "//div[@class='updated notice is-dismissible']")
-    WebElement deleteMessage;
+    private WebElement deleteMessage;
     public CategoriesPage() {
         PageFactory.initElements(driver, this);
         waitUntilPageObjectIsLoaded();
@@ -64,7 +64,7 @@ public class CategoriesPage extends BaseAdminPage {
     }
     public String fillCategoryNameField() {
         categoryNameField = wait.until(ExpectedConditions.visibilityOf(categoryNameField));
-        categoryName = StringManager.generateAlphanumericString(STRING_LENGHT);
+        categoryName = StringManager.generateAlphanumericString(stringLenght);
         categoryNameField.clear();
         categoryNameField.sendKeys(categoryName);
         return categoryName;
@@ -76,14 +76,14 @@ public class CategoriesPage extends BaseAdminPage {
     }
     public String fillCategorySlugField() {
         categorySlugField = wait.until(ExpectedConditions.visibilityOf(categorySlugField));
-        String slug = StringManager.generateAlphanumericString(STRING_LENGHT);
+        String slug = StringManager.generateAlphanumericString(stringLenght);
         categorySlugField.clear();
         categorySlugField.sendKeys(slug);
         return slug;
     }
     public String fillCategoryDescriptionField() {
         categoryDescriptionField = wait.until(ExpectedConditions.visibilityOf(categoryDescriptionField));
-        String description = StringManager.generateAlphanumericString(STRING_LENGHT);
+        String description = StringManager.generateAlphanumericString(stringLenght);
         categoryDescriptionField.clear();
         categoryDescriptionField.sendKeys(description);
         return description;
@@ -103,40 +103,46 @@ public class CategoriesPage extends BaseAdminPage {
     public String categoryNameCreated() {
         driver.navigate().refresh();
         String categoryId = APICategoriesMethods.getTheIdByName(categoryName);
-        String categoryNameInListString = String.format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::tr[@id='tag-%s']/descendant::a[@class='row-title']", categoryId);
+        String categoryNameInListString = String
+                .format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::tr[@id='tag-%s']/descendant::a[@class='row-title']", categoryId);
         WebElement categoryNameInListLocator = driver.findElement(By.xpath(categoryNameInListString));
         categoryNameInListLocator = wait.until(ExpectedConditions.visibilityOf(categoryNameInListLocator));
         return categoryNameInListLocator.getText();
     }
     public String categorySlugCreated() {
         String categoryId = APICategoriesMethods.getTheIdByName(categoryName);
-        String categorySlugInListString = String.format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::tr[@id='tag-%s']/descendant::td[@class='slug column-slug']", categoryId);
+        String categorySlugInListString = String
+                .format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::tr[@id='tag-%s']/descendant::td[@class='slug column-slug']", categoryId);
         WebElement categorySlugInListLocator = driver.findElement(By.xpath(categorySlugInListString));
         categorySlugInListLocator = wait.until(ExpectedConditions.visibilityOf(categorySlugInListLocator));
         return categorySlugInListLocator.getText();
     }
     public String categoryDescriptionCreated() {
         String categoryId = APICategoriesMethods.getTheIdByName(categoryName);
-        String categoryDescriptionInListString = String.format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::tr[@id='tag-%s']/descendant::td[@class='description column-description']", categoryId);
+        String categoryDescriptionInListString = String
+                .format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::tr[@id='tag-%s']/descendant::td[@class='description column-description']", categoryId);
         WebElement categoryDescriptionInListLocator = driver.findElement(By.xpath(categoryDescriptionInListString));
         categoryDescriptionInListLocator = wait.until(ExpectedConditions.visibilityOf(categoryDescriptionInListLocator));
         return categoryDescriptionInListLocator.getText();
     }
     public String categoryNameUpdated(String categoryId) {
         driver.navigate().refresh();
-        String categoryNameInListString = String.format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::tr[@id='tag-%s']/descendant::a[@class='row-title']", categoryId);
+        String categoryNameInListString = String
+                .format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::tr[@id='tag-%s']/descendant::a[@class='row-title']", categoryId);
         WebElement categoryNameInListLocator = driver.findElement(By.xpath(categoryNameInListString));
         categoryNameInListLocator = wait.until(ExpectedConditions.visibilityOf(categoryNameInListLocator));
         return categoryNameInListLocator.getText();
     }
     public String categorySlugUpdated(String categoryId) {
-        String categorySlugInListString = String.format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::tr[@id='tag-%s']/descendant::td[@class='slug column-slug']", categoryId);
+        String categorySlugInListString = String
+                .format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::tr[@id='tag-%s']/descendant::td[@class='slug column-slug']", categoryId);
         WebElement categorySlugInListLocator = driver.findElement(By.xpath(categorySlugInListString));
         categorySlugInListLocator = wait.until(ExpectedConditions.visibilityOf(categorySlugInListLocator));
         return categorySlugInListLocator.getText();
     }
     public String categoryDescriptionUpdated(String categoryId) {
-        String categoryDescriptionInListString = String.format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::tr[@id='tag-%s']/descendant::td[@class='description column-description']", categoryId);
+        String categoryDescriptionInListString = String
+                .format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::tr[@id='tag-%s']/descendant::td[@class='description column-description']", categoryId);
         WebElement categoryDescriptionInListLocator = driver.findElement(By.xpath(categoryDescriptionInListString));
         categoryDescriptionInListLocator = wait.until(ExpectedConditions.visibilityOf(categoryDescriptionInListLocator));
         return categoryDescriptionInListLocator.getText();
@@ -150,14 +156,16 @@ public class CategoriesPage extends BaseAdminPage {
         return errorMessage.getText();
     }
     public void hoverOneCategoryCreated(String categoryId) {
-        String categoryRowByIdString = String.format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::tr[@id='tag-%s']", categoryId);
+        String categoryRowByIdString = String
+                .format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::tr[@id='tag-%s']", categoryId);
         WebElement categoryRowByIdLocator = driver.findElement(By.xpath(categoryRowByIdString));
         categoryRowByIdLocator = wait.until(ExpectedConditions.visibilityOf(categoryRowByIdLocator));
         hoverRowCategory = new Actions(driver);
         hoverRowCategory.moveToElement(categoryRowByIdLocator).perform();
     }
     public EditCategoryPage clickOnEditLabel(String id) {
-        String editButtonInHiddenMenuString = String.format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::tr[@id='tag-%s']/descendant::span[@class='edit']", id);
+        String editButtonInHiddenMenuString = String
+                .format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::tr[@id='tag-%s']/descendant::span[@class='edit']", id);
         WebElement editButtonInHiddenMenuLocator = driver.findElement(By.xpath(editButtonInHiddenMenuString));
         editButtonInHiddenMenuLocator = wait.until(ExpectedConditions.visibilityOf(editButtonInHiddenMenuLocator));
         hoverRowCategory.moveToElement(editButtonInHiddenMenuLocator).perform();
@@ -165,7 +173,8 @@ public class CategoriesPage extends BaseAdminPage {
         return new EditCategoryPage();
     }
     public void clickQuickEditButton(String id) {
-        String quickEditButtonString = String.format ("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::tr[@id='tag-%s']/descendant::span[@class='inline hide-if-no-js']", id);
+        String quickEditButtonString = String
+                .format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::tr[@id='tag-%s']/descendant::span[@class='inline hide-if-no-js']", id);
         WebElement quickEditButtonLocator = driver.findElement(By.xpath(quickEditButtonString));
         quickEditButtonLocator = wait.until(ExpectedConditions.visibilityOf(quickEditButtonLocator));
         hoverRowCategory.moveToElement(quickEditButtonLocator).perform();
@@ -178,7 +187,7 @@ public class CategoriesPage extends BaseAdminPage {
         return quickEditFormLocator.isDisplayed();
     }
     public String quickEditCategoryName(String id) {
-        String newCategoryName = StringManager.generateAlphanumericString(STRING_LENGHT);
+        String newCategoryName = StringManager.generateAlphanumericString(stringLenght);
         String nameTextBoxString = String.format("//tr[@id='edit-%s']/descendant::input[@name='name']", id);
         WebElement nameTextBoxLocator = driver.findElement(By.xpath(nameTextBoxString));
         nameTextBoxLocator = wait.until(ExpectedConditions.visibilityOf(nameTextBoxLocator));
@@ -187,7 +196,7 @@ public class CategoriesPage extends BaseAdminPage {
         return newCategoryName;
     }
     public String quickEditCategorySlug(String id) {
-        String newCategorySlug = StringManager.generateAlphanumericString(STRING_LENGHT);
+        String newCategorySlug = StringManager.generateAlphanumericString(stringLenght);
         String slugTextBoxString = String.format("//tr[@id='edit-%s']/descendant::input[@name='slug']", id);
         WebElement slugTextBoxLocator = driver.findElement(By.xpath(slugTextBoxString));
         slugTextBoxLocator.clear();
@@ -210,7 +219,8 @@ public class CategoriesPage extends BaseAdminPage {
     }
     public boolean isCategoryPresentOnTheList(String argument) {
         try {
-            String resultsOfSearchString = String.format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::a[contains(text(),'%s')]", argument);
+            String resultsOfSearchString = String
+                    .format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::a[contains(text(),'%s')]", argument);
             WebElement resultsOfSearchLocator = driver.findElement(By.xpath(resultsOfSearchString));
             resultsOfSearchLocator.isDisplayed();
             return true;
@@ -219,7 +229,8 @@ public class CategoriesPage extends BaseAdminPage {
         }
     }
     public void quickDeleteButton(String categoryId) {
-        String deleteButtonString = String.format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::tr[@id='tag-%s']/descendant::span[@class='delete']", categoryId);
+        String deleteButtonString = String
+                .format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::tr[@id='tag-%s']/descendant::span[@class='delete']", categoryId);
         WebElement deleteButtonLocator = driver.findElement(By.xpath(deleteButtonString));
         deleteButtonLocator = wait.until(ExpectedConditions.visibilityOf(deleteButtonLocator));
         deleteButtonLocator.click();
@@ -227,7 +238,8 @@ public class CategoriesPage extends BaseAdminPage {
         driver.navigate().refresh();
     }
     public void selectCategoryCheckBox(String id) {
-        String categoryCheckBoxString = String.format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::tr[@id='tag-%s']/descendant::input[@type='checkbox']", id);
+        String categoryCheckBoxString = String
+                .format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::tr[@id='tag-%s']/descendant::input[@type='checkbox']", id);
         WebElement categoryCheckBoxLocator = driver.findElement(By.xpath(categoryCheckBoxString));
         categoryCheckBoxLocator = wait.until(ExpectedConditions.elementToBeClickable(categoryCheckBoxLocator));
         categoryCheckBoxLocator.click();

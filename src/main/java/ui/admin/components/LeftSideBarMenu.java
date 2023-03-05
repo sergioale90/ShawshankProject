@@ -21,7 +21,6 @@ import ui.admin.pages.PagesPage;
 
 import ui.admin.pages.NewPostPage;
 import ui.admin.pages.PostsPage;
-import ui.controller.UIController;
 
 public class LeftSideBarMenu extends BasePageObject {
     @FindBy(id = "menu-posts")
@@ -31,10 +30,10 @@ public class LeftSideBarMenu extends BasePageObject {
     @FindBy(xpath = "//li[@id='menu-posts']/descendant::a[text()='Add New']")
     private WebElement addNewPostButton;
     @FindBy(xpath = "//div[@class='wp-menu-name' and text()='Posts']")
-    WebElement postsMenu;
+    private WebElement postsMenu;
     @FindBy(xpath = "//a[@href='edit-tags.php?taxonomy=category']")
-    WebElement categoriesButton;
-    Actions hoverPostMenu;
+    private WebElement categoriesButton;
+    private Actions hoverPostMenu;
 
     public LeftSideBarMenu() {
         PageFactory.initElements(driver, this);

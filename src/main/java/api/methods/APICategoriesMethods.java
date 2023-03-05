@@ -10,7 +10,6 @@ package api.methods;
 
 import api.APIConfig;
 import api.APIManager;
-import api.controller.APIController;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
 import utils.LoggerManager;

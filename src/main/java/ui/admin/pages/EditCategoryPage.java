@@ -17,25 +17,25 @@ import ui.admin.BaseAdminPage;
 import utils.StringManager;
 
 public class EditCategoryPage extends BaseAdminPage {
-    private final int STRING_LENGHT = 6;
+    private final int stringLenght = 6;
     @FindBy(xpath = "//div[@class='wrap']//h1")
-    WebElement editCategoryTitle;
+    private WebElement editCategoryTitle;
     @FindBy(xpath = "//form[@id='edittag']")
-    WebElement editCategoryForm;
+    private WebElement editCategoryForm;
     @FindBy(xpath = "//input[@id='name']")
-    WebElement nameTextBox;
+    private WebElement nameTextBox;
     @FindBy(xpath = "//input[@id='slug']")
-    WebElement slugTextBox;
+    private WebElement slugTextBox;
     @FindBy(xpath = "//textarea[@id='description']")
-    WebElement descriptionTexBox;
+    private WebElement descriptionTexBox;
     @FindBy(xpath = "//input[@class='button button-primary']")
-    WebElement updateButton;
+    private WebElement updateButton;
     @FindBy(xpath = "//div[@id='message']")
-    WebElement categoryUpdatedMessage;
+    private WebElement categoryUpdatedMessage;
     @FindBy(xpath = "//div[@id='message']/descendant::a")
-    WebElement goToCategoriesPageButton;
+    private WebElement goToCategoriesPageButton;
     @FindBy(xpath = "//a[@class='delete']")
-    WebElement deleteButton;
+    private WebElement deleteButton;
     public EditCategoryPage() {
         PageFactory.initElements(driver, this);
         waitUntilPageObjectIsLoaded();
@@ -50,21 +50,21 @@ public class EditCategoryPage extends BaseAdminPage {
     }
     public String editNameTextBox() {
         nameTextBox = wait.until(ExpectedConditions.visibilityOf(nameTextBox));
-        String newName = StringManager.generateAlphanumericString(STRING_LENGHT);
+        String newName = StringManager.generateAlphanumericString(stringLenght);
         nameTextBox.clear();
         nameTextBox.sendKeys(newName);
         return newName;
     }
     public String editSlugTextBox() {
         slugTextBox = wait.until(ExpectedConditions.visibilityOf(slugTextBox));
-        String newSlug = StringManager.generateAlphanumericString(STRING_LENGHT);
+        String newSlug = StringManager.generateAlphanumericString(stringLenght);
         slugTextBox.clear();
         slugTextBox.sendKeys(newSlug);
         return newSlug;
     }
     public String editDescriptionTextBox() {
         descriptionTexBox = wait.until(ExpectedConditions.visibilityOf(descriptionTexBox));
-        String newDescription = StringManager.generateAlphanumericString(STRING_LENGHT);
+        String newDescription = StringManager.generateAlphanumericString(stringLenght);
         descriptionTexBox.clear();
         descriptionTexBox.sendKeys(newDescription);
         return newDescription;
