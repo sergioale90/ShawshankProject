@@ -9,7 +9,6 @@
 package com.jalasoft.wordpress.steps.ui.admin;
 
 import io.cucumber.datatable.DataTable;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.testng.Assert;
@@ -85,7 +84,7 @@ public class PostsSteps {
         newPostPage.publishPost(title, content);
     }
 
-    @And("the user creates a new Draft Post with the following values")
+    @Given("the user creates a new Draft Post with the following values")
     public void createDraftPost(DataTable table) {
         List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
         Map<String, Object> values = queryParamsList.get(0);

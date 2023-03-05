@@ -110,3 +110,34 @@ Feature: Posts
       | User Role     |
       | administrator |
       | editor        |
+
+  @CreatePublishPost
+  Scenario Outline: A user with proper role should be able to create and publish a Post with the submenu
+    Given the user is logged in to Admin page with "<User Role>" role
+    When the user goes to New Post page using the popup submenu button from the left side menu bar
+    And the user publishes a new Post with the following values
+      | title   | content   |
+      | <Title> | <Content> |
+    Then the Post should have been published successfully
+
+    Examples:
+      | User Role     | Title                  | Content                           |
+      | administrator | Insert Funny Title     | Insert Funny Comment              |
+      | author        | Eating People is Wrong | BTW, this is title of a real book |
+      | editor        | I Yam What I Yam       | And Dats What I Yam!              |
+
+  @CreatePublishPost
+  Scenario Outline: A user with proper role should be able to create and publish a Post
+    Given the user is logged in to Admin page with "<User Role>" role
+    When the user goes to New Post page
+    And the user publishes a new Post with the following values
+      | title   | content   |
+      | <Title> | <Content> |
+    Then the Post should have been published successfully
+
+    Examples:
+      | User Role     | Title                  | Content                           |
+      | administrator | Insert Funny Title     | Insert Funny Comment              |
+      | author        | Eating People is Wrong | BTW, this is title of a real book |
+      | editor        | I Yam What I Yam       | And Dats What I Yam!              |
+
