@@ -11,6 +11,7 @@ package ui.admin;
 import ui.BasePageObject;
 import ui.admin.components.LeftSideBarMenu;
 import ui.admin.components.TopBarMenu;
+import ui.controller.UIController;
 
 public abstract class BaseAdminPage extends BasePageObject {
     private TopBarMenu topBarMenu;

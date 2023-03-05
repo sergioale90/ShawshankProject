@@ -21,6 +21,7 @@ import ui.admin.pages.PagesPage;
 
 import ui.admin.pages.NewPostPage;
 import ui.admin.pages.PostsPage;
+import ui.controller.UIController;
 
 public class LeftSideBarMenu extends BasePageObject {
     @FindBy(id = "menu-posts")
