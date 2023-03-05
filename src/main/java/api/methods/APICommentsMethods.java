@@ -64,12 +64,12 @@ public class APICommentsMethods {
 
     public static Response deleteACommentById(String id) {
 
-        String usersByIdEndpoint = API_CONFIG.getCommentsByIdEndpoint().replace("<id>", id);
+        String commentsByIdEndpoint = API_CONFIG.getCommentsByIdEndpoint().replace("<id>", id.replaceAll("\\[|\\]", ""));
         Header authHeader = APIAuthMethods.getAuthHeader("administrator");
         Map<String, Object> jsonAsMap = new HashMap<>();
         jsonAsMap.put("force", true);
 
-        return API_MANAGER.delete(usersByIdEndpoint, jsonAsMap, authHeader);
+        return API_MANAGER.delete(commentsByIdEndpoint, jsonAsMap, authHeader);
     }
 
     public static Response createADraftPost() {
