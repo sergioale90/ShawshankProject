@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2023 Jala University.
+ *
+ * This software is the confidential and proprieraty information of Jala University
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * Licence agreement you entered into with Jala University.
+ */
 package ui.admin.pages;
 
 import org.openqa.selenium.By;
@@ -12,9 +20,8 @@ public class NewTagPage extends BaseAdminPage {
     private String slugLocator = "input#tag-slug";
     private String descriptionLocator = "textarea#tag-description";
 
-
     @FindBy(css = "input#submit")
-    WebElement addNewTagButton;
+    private WebElement addNewTagButton;
 
     public NewTagPage() {
         PageFactory.initElements(driver, this);
@@ -68,6 +75,7 @@ public class NewTagPage extends BaseAdminPage {
         setDescriptionTextArea(description);
         addNewTagButton.submit();
     }
+
     public boolean isTagMessageDisplayed() {
         String tagMessageLocator = "div#message p";
         return wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(tagMessageLocator))).isDisplayed();

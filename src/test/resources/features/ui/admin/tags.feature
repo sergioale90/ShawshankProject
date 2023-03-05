@@ -13,4 +13,4 @@ Feature: Tags
     Examples:
       | User Role       | Name                | Slug                  | Description                          |
       | administrator   | Test Tag Admin      | testtagadmin          | Testing description tag as admin     |
-      #| editor          | Test Tag Editor     | testtagedit           | Testing description tag as editor    |
+      | editor          | Test Tag Editor     | testtagedit           | Testing description tag as editor    |

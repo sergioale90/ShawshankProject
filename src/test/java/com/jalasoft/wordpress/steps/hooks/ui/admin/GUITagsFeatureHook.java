@@ -8,32 +8,29 @@
  */
 package com.jalasoft.wordpress.steps.hooks.ui.admin;
 
-import api.methods.APIPagesMethods;
+import api.methods.APITagsMethods;
 import io.cucumber.java.After;
-import io.restassured.internal.http.Status;
-import io.restassured.response.Response;
-import org.testng.Assert;
 import ui.controller.UIController;
 import ui.methods.CommonMethods;
 import utils.LoggerManager;
 
+import java.util.List;
+
 public class GUITagsFeatureHook {
     private static final LoggerManager LOG = LoggerManager.getInstance();
     private final UIController controller;
+    private static final int ORDER = 100;
 
     public GUITagsFeatureHook(UIController controller) {
         this.controller = controller;
     }
 
-    @After("@CreateTag")
+    @After(value = "@Tags", order = ORDER)
     public void afterTags() {
         CommonMethods.logout();
-        String title = controller.getName();
-        // Response requestResponse = APIPagesMethods.deleteAPageByTitle(title);
-
-        // Assert.assertNotNull(requestResponse, "page with title -> " + title + " was not found");
-        // Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "page with title -> " + title + " was not deleted");
+        List<Integer> objects = APITagsMethods.getAllTags().jsonPath().getList("id");
+        for (Integer id : objects) {
+            APITagsMethods.deleteATagById(id.toString());
+        }
     }
-
-
 }

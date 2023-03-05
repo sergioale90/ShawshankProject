@@ -70,4 +70,19 @@ public class APITagsMethods {
         }
         return response;
     }
+
+    public static String findAIDTagByTitle(String title) {
+        String id = "";
+        List<Object> objects = getAllTags().jsonPath().getList("$");
+
+        int index = 0;
+        for (Object object : objects) {
+            if (object.toString().contains(title)) {
+                id = getAllTags().jsonPath().getList("id", String.class).get(index);
+                break;
+            }
+            index++;
+        }
+        return id;
+    }
 }

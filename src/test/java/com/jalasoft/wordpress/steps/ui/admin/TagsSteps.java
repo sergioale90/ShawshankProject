@@ -32,6 +32,7 @@ public class TagsSteps {
         this.pageTransporter = PageTransporter.getInstance();
         this.controller = controller;
         this.homeAdminPage = homeAdminPage;
+        this.tagsPage = new TagsPage();
     }
 
     @Given("^the user goes to Tags page$")
@@ -58,19 +59,19 @@ public class TagsSteps {
     public void verifyIfTagWasCreated() {
         boolean isTagAddedMessageDisplayed = newTagPage.isTagMessageDisplayed();
 
-        String actualName = newTagPage.getNameText();
-        String actualSlug = newTagPage.getSlugText();
-        String actualDescription = newTagPage.getDescriptionText();
+        String actualName = controller.getName();
+        String actualSlug = controller.getSlug();
+        String actualDescription = controller.getDescription();
 
+        Map<String, String> valueTag = tagsPage.verifyTheTagCreated(controller.getName());
+        String expectedName = valueTag.get("name");
+        String expectedSlug = valueTag.get("slug");
+        String expectedDescription = valueTag.get("description");
 
-        String expectedName = controller.getName();
-        String expectedSlug = controller.getSlug();
-        String expectedDescription = controller.getDescription();
-
-        Assert.assertTrue(isTagAddedMessageDisplayed, "tag added message was not displayed");
-        Assert.assertEquals(actualName, expectedName, "wrong name found");
-        Assert.assertEquals(actualSlug, expectedSlug, "wrong slug found");
-        Assert.assertEquals(actualDescription, expectedDescription, "wrong description found");
+        Assert.assertTrue(isTagAddedMessageDisplayed, "wrong message value returned");
+        Assert.assertEquals(actualName, expectedName, "wrong name value returned");
+        Assert.assertEquals(actualSlug, expectedSlug, "wrong slug value returned");
+        Assert.assertEquals(actualDescription, expectedDescription, "wrong description value returned");
     }
 
 }
