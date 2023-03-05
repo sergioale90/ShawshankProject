@@ -13,7 +13,7 @@ public class GUICategoriesFeatureHook {
     public GUICategoriesFeatureHook(UIController controller) {
         this.controller = controller;
     }
-    @After("@CreateANewCategory or @EnterToEditCategory or @EditCategorySuccessfully")
+    @After("@CreateANewCategory or @EnterToEditCategory or @EditCategorySuccessfully or @EditCategoryUnsuccessfully or @QuickEditCategory")
     public void deleteCategoryCreated() {
         String id = controller.getId();
         Response requestResponse = APICategoriesMethods.deleteACategory(id);
@@ -21,7 +21,7 @@ public class GUICategoriesFeatureHook {
         Assert.assertNotNull(requestResponse, "category with id -> " + id + " was not found");
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "category with id -> " + id + " was not deleted");
     }
-    @Before("@EnterToEditCategory or @EditCategorySuccessfully")
+    @Before("@EnterToEditCategory or @EditCategorySuccessfully or @EditCategoryUnsuccessfully or @QuickEditCategory")
     public void createACategory() {
         Response requestResponse = APICategoriesMethods.createACategory();
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "category was not created");

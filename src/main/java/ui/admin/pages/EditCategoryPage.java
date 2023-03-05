@@ -23,6 +23,10 @@ public class EditCategoryPage extends BaseAdminPage {
     WebElement updateButton;
     @FindBy(xpath = "//div[@id='message']")
     WebElement categoryUpdatedMessage;
+    @FindBy(xpath = "//div[@id='message']/descendant::a")
+    WebElement goToCategoriesPageButton;
+    @FindBy(xpath = "//a[@class='delete']")
+    WebElement deleteButton;
     public EditCategoryPage() {
         PageFactory.initElements(driver, this);
         waitUntilPageObjectIsLoaded();
@@ -63,5 +67,18 @@ public class EditCategoryPage extends BaseAdminPage {
     public boolean isCategoryUpdatedMessageDisplayed() {
         categoryUpdatedMessage = wait.until(ExpectedConditions.visibilityOf(categoryUpdatedMessage));
         return categoryUpdatedMessage.isDisplayed();
+    }
+    public CategoriesPage clickGoToCategoriesPageButton() {
+        goToCategoriesPageButton = wait.until(ExpectedConditions.visibilityOf(goToCategoriesPageButton));
+        goToCategoriesPageButton.click();
+        return new CategoriesPage();
+    }
+    public void eraseTheCategorySlug() {
+        slugTextBox = wait.until(ExpectedConditions.visibilityOf(slugTextBox));
+        slugTextBox.clear();
+    }
+    public CategoriesPage clickDeleteButton() {
+        deleteButton = wait.until(ExpectedConditions.visibilityOf(deleteButton));
+        deleteButton.click();
     }
 }

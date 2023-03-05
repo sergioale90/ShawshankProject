@@ -35,17 +35,17 @@ public class CategoriesSteps {
     }
     @Given("^the user can create a new category with all params$")
     public void createANewCategoryWithAllParams() {
-        String name = categoriesPage.fillCategoryNameField();
-        String slug = categoriesPage.fillCategorySlugField();
-        String description = categoriesPage.fillCategoryDescriptionField();
+        String categoryName = categoriesPage.fillCategoryNameField();
+        String categorySlug = categoriesPage.fillCategorySlugField();
+        String categoryDescription = categoriesPage.fillCategoryDescriptionField();
 
-        controller.setName(name);
-        controller.setSlug(slug);
-        controller.setDescription(description);
+        controller.setName(categoryName);
+        controller.setSlug(categorySlug);
+        controller.setDescription(categoryDescription);
 
         categoriesPage.clickAddNewCategoryButton();
 
-        String categoryId = APICategoriesMethods.getTheIdByName(name);
+        String categoryId = APICategoriesMethods.getTheIdByName(categoryName);
         controller.setId(categoryId);
     }
     @Given("^the user can create a new category without name$")
@@ -60,12 +60,39 @@ public class CategoriesSteps {
         categoriesPage.hoverOneCategoryCreated(categoryId);
         editCategoryPage = categoriesPage.clickOnEditLabel(categoryId);
     }
+    @Given("^the user hover over of one category created previously edit category page using the quick label")
+    public void enterToQuickEditOption() {
+        String categoryId = controller.getId();
+        categoriesPage.hoverOneCategoryCreated(categoryId);
+        categoriesPage.clickQuickEditButton(categoryId);
+    }
     @Given ("^the user edit the fields of the category and update the category information$")
     public void editACategory() {
-        editCategoryPage.editNameTextBox();
-        editCategoryPage.editSlugTextBox();
-        editCategoryPage.editDescriptionTextBox();
+        String categoryName = editCategoryPage.editNameTextBox();
+        String categorySlug = editCategoryPage.editSlugTextBox();
+        String categoryDescription = editCategoryPage.editDescriptionTextBox();
+
+        controller.setName(categoryName);
+        controller.setSlug(categorySlug);
+        controller.setDescription(categoryDescription);
+
         editCategoryPage.clickOnUpdateButton();
+    }
+    @Given("the user return to the categories page$")
+    public void returnCategoriesPage() {
+        categoriesPage = editCategoryPage.clickGoToCategoriesPageButton();
+    }
+    @Given("^the user erase the information of the slug field and update the category$")
+    public void tryToUpdateACategoryWithoutName() {
+        editCategoryPage.eraseTheCategorySlug();
+        editCategoryPage.clickOnUpdateButton();
+    }
+    @Given("the user edit the name and slug information of the category$")
+    public void quickEditCategory() {
+        String categoryId = controller.getId();
+        categoriesPage.quickEditCategoryName(categoryId);
+        categoriesPage.quickEditCategoryDescription(categoryId);
+        categoriesPage.clickUpdateCategoryButton();
     }
     @Then("^the user can access to the categories page$")
     public void isTheUserInTheCategoriesPage() {
@@ -119,8 +146,32 @@ public class CategoriesSteps {
     public void verifyIfUserIsOnEditCategoryPage() {
         Assert.assertTrue(editCategoryPage.isOnEditCategoryPage());
     }
-    @Then("^the category is updated with the new information$")
-    public void verifyIfTheCategoryWasUpdated() {
+    @Then("^a message confirm that the category was updated with the new information$")
+    public void verifyIfTheUpdateMessageIsDisplayed() {
         Assert.assertTrue(editCategoryPage.isCategoryUpdatedMessageDisplayed());
+    }
+    @Then("^the information of the category was updated correctly$")
+    public void verifyIfTheCategoryWasUpdated() {
+        String id = controller.getId();
+        String expectedCategoryName = controller.getName();
+        String expectedCategorySlug = controller.getSlug().toLowerCase();
+        String expectedCategoryDescription = controller.getDescription();
+
+        String actualCategoryName = categoriesPage.categoryNameUpdated(id);
+        String actualCategorySlug = categoriesPage.categorySlugUpdated(id).toLowerCase();
+        String actualCategoryDescription = categoriesPage.categoryDescriptionUpdated(id);
+
+        Assert.assertEquals(actualCategoryName, expectedCategoryName, "The category name was not updated");
+        Assert.assertEquals(actualCategorySlug, expectedCategorySlug, "The category slug was not updated");
+        Assert.assertEquals(actualCategoryDescription, expectedCategoryDescription, "The category description was not updated");
+    }
+    @Then("^the page displays a error and the category is not update$")
+    public void verifyIfTheCategoryWasNotUpdated() {
+        Assert.assertFalse(editCategoryPage.isCategoryUpdatedMessageDisplayed(), "The Slug category can't be in blank");
+    }
+    @Then("^the page displays the form to edit the category$")
+    public void verifyIfQuickEditFormIsDisplayed() {
+        String categoryId = controller.getId();
+        Assert.assertTrue(categoriesPage.quickEditFormIsVisible(categoryId));
     }
 }
