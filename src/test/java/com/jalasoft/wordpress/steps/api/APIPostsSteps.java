@@ -15,12 +15,17 @@ import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.restassured.http.Header;
+import io.restassured.internal.http.Status;
+import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import org.testng.Assert;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class APIPostsSteps {
     private static final APIConfig API_CONFIG = APIConfig.getInstance();
@@ -146,6 +151,7 @@ public class APIPostsSteps {
         jsonAsMap.put("force", true);
 
         Response requestResponse = API_MANAGER.delete(postByIdEndpoint.replace("<id>", id), jsonAsMap,  authHeader);
+
         params = queryParams;
         controller.setResponse(requestResponse);
     }
@@ -174,79 +180,100 @@ public class APIPostsSteps {
 
     @Then("^post should have been retrieved with the proper params$")
     public void verifyRetrievedPost() {
-        String expectedId = (String) params.get("id");
-        String expectedContent = (String) params.get("content");
-        String expectedTitle = (String) params.get("title");
-        String expectedExcerpt = (String) params.get("excerpt");
+        if (Status.SUCCESS.matches(controller.getResponse().getStatusCode())) {
+            String expectedId = (String) params.get("id");
+            String expectedContent = (String) params.get("content");
+            String expectedTitle = (String) params.get("title");
+            String expectedExcerpt = (String) params.get("excerpt");
 
-        String actualId = controller.getResponse().jsonPath().getString("id");
-        String actualContent = controller.getResponse().jsonPath().getString("content.rendered").replaceAll("<[^>]*>", "").strip();
-        String actualTitle = controller.getResponse().jsonPath().getString("title.rendered");
-        String actualExcerpt = controller.getResponse().jsonPath().getString("excerpt.rendered").replaceAll("<[^>]*>", "").strip();
+            String actualId = controller.getResponse().jsonPath().getString("id");
+            String actualContent = controller.getResponse().jsonPath().getString("content.rendered")
+                    .replaceAll("<[^>]*>", "").strip();
+            String actualTitle = controller.getResponse().jsonPath().getString("title.rendered");
+            String actualExcerpt = controller.getResponse().jsonPath().getString("excerpt.rendered")
+                    .replaceAll("<[^>]*>", "").strip();
 
-        Assert.assertEquals(actualId, expectedId, "wrong id value returned");
-        Assert.assertEquals(actualContent, expectedContent, "wrong content value returned");
-        Assert.assertEquals(actualTitle, expectedTitle, "wrong title value returned");
-        Assert.assertEquals(actualExcerpt, expectedExcerpt, "wrong excerpt value returned");
+            Assert.assertEquals(actualId, expectedId, "wrong id value returned");
+            Assert.assertEquals(actualContent, expectedContent, "wrong content value returned");
+            Assert.assertEquals(actualTitle, expectedTitle, "wrong title value returned");
+            Assert.assertEquals(actualExcerpt, expectedExcerpt, "wrong excerpt value returned");
+        }
     }
 
     @Then("^post should have been updated with the proper params$")
     public void verifyUpdatedPost() {
-        String expectedId = (String) params.get("id");
-        String expectedContent = (String) params.get("content");
-        String expectedTitle = (String) params.get("title");
-        String expectedExcerpt = (String) params.get("excerpt");
+        if (Status.SUCCESS.matches(controller.getResponse().getStatusCode())) {
+            String expectedId = (String) params.get("id");
+            String expectedContent = (String) params.get("content");
+            String expectedTitle = (String) params.get("title");
+            String expectedExcerpt = (String) params.get("excerpt");
 
-        String actualId = controller.getResponse().jsonPath().getString("id");
-        String actualContent = controller.getResponse().jsonPath().getString("content.raw");
-        String actualTitle = controller.getResponse().jsonPath().getString("title.raw");
-        String actualExcerpt = controller.getResponse().jsonPath().getString("excerpt.raw");
+            String actualId = controller.getResponse().jsonPath().getString("id");
+            String actualContent = controller.getResponse().jsonPath().getString("content.raw");
+            String actualTitle = controller.getResponse().jsonPath().getString("title.raw");
+            String actualExcerpt = controller.getResponse().jsonPath().getString("excerpt.raw");
 
-        Assert.assertEquals(actualId, expectedId, "wrong id value returned");
-        Assert.assertEquals(actualContent, expectedContent, "wrong content value returned");
-        Assert.assertEquals(actualTitle, expectedTitle, "wrong title value returned");
-        Assert.assertEquals(actualExcerpt, expectedExcerpt, "wrong excerpt value returned");
+            Assert.assertEquals(actualId, expectedId, "wrong id value returned");
+            Assert.assertEquals(actualContent, expectedContent, "wrong content value returned");
+            Assert.assertEquals(actualTitle, expectedTitle, "wrong title value returned");
+            Assert.assertEquals(actualExcerpt, expectedExcerpt, "wrong excerpt value returned");
+        }
     }
 
     @Then("^(?:the published|the draft) post should have been trashed$")
     public void verifyTrashedPost() {
-        String expectedId = (String) params.get("id");
-        String expectedContent = (String) params.get("content");
-        String expectedTitle = (String) params.get("title");
-        String expectedExcerpt = (String) params.get("excerpt");
-        String expectedStatus = (String) params.get("status");
+        if (Status.SUCCESS.matches(controller.getResponse().getStatusCode())) {
+            String expectedId = (String) params.get("id");
+            String expectedContent = (String) params.get("content");
+            String expectedTitle = (String) params.get("title");
+            String expectedExcerpt = (String) params.get("excerpt");
+            String expectedStatus = (String) params.get("status");
 
-        String actualId = controller.getResponse().jsonPath().getString("id");
-        String actualContent = controller.getResponse().jsonPath().getString("content.raw");
-        String actualTitle = controller.getResponse().jsonPath().getString("title.raw");
-        String actualExcerpt = controller.getResponse().jsonPath().getString("excerpt.raw");
-        String actualStatus = controller.getResponse().jsonPath().getString("status");
+            String actualId = controller.getResponse().jsonPath().getString("id");
+            String actualContent = controller.getResponse().jsonPath().getString("content.raw");
+            String actualTitle = controller.getResponse().jsonPath().getString("title.raw");
+            String actualExcerpt = controller.getResponse().jsonPath().getString("excerpt.raw");
+            String actualStatus = controller.getResponse().jsonPath().getString("status");
 
-        Assert.assertEquals(actualId, expectedId, "wrong id value returned");
-        Assert.assertEquals(actualContent, expectedContent, "wrong content value returned");
-        Assert.assertEquals(actualTitle, expectedTitle, "wrong title value returned");
-        Assert.assertEquals(actualExcerpt, expectedExcerpt, "wrong excerpt value returned");
-        Assert.assertEquals(actualStatus, expectedStatus, "wrong status value returned");
+            Assert.assertEquals(actualId, expectedId, "wrong id value returned");
+            Assert.assertEquals(actualContent, expectedContent, "wrong content value returned");
+            Assert.assertEquals(actualTitle, expectedTitle, "wrong title value returned");
+            Assert.assertEquals(actualExcerpt, expectedExcerpt, "wrong excerpt value returned");
+            Assert.assertEquals(actualStatus, expectedStatus, "wrong status value returned");
+        }
     }
 
     @Then("^(?:the published|the draft) post should have been deleted permanently$")
     public void verifyTrueDeletedPost() {
-        String expectedId = (String) params.get("id");
-        String expectedContent = (String) params.get("content");
-        String expectedTitle = (String) params.get("title");
-        String expectedExcerpt = (String) params.get("excerpt");
-        String expectedStatus = (String) params.get("status");
+        if (Status.SUCCESS.matches(controller.getResponse().getStatusCode())) {
+            String expectedId = (String) params.get("id");
+            String expectedContent = (String) params.get("content");
+            String expectedTitle = (String) params.get("title");
+            String expectedExcerpt = (String) params.get("excerpt");
+            String expectedStatus = (String) params.get("status");
 
-        String actualId = controller.getResponse().jsonPath().getString("previous.id");
-        String actualContent = controller.getResponse().jsonPath().getString("previous.content.raw");
-        String actualTitle = controller.getResponse().jsonPath().getString("previous.title.raw");
-        String actualExcerpt = controller.getResponse().jsonPath().getString("previous.excerpt.raw");
-        String actualStatus = controller.getResponse().jsonPath().getString("previous.status");
+            String actualId = controller.getResponse().jsonPath().getString("previous.id");
+            String actualContent = controller.getResponse().jsonPath().getString("previous.content.raw");
+            String actualTitle = controller.getResponse().jsonPath().getString("previous.title.raw");
+            String actualExcerpt = controller.getResponse().jsonPath().getString("previous.excerpt.raw");
+            String actualStatus = controller.getResponse().jsonPath().getString("previous.status");
 
-        Assert.assertEquals(actualId, expectedId, "wrong id value returned");
-        Assert.assertEquals(actualContent, expectedContent, "wrong content value returned");
-        Assert.assertEquals(actualTitle, expectedTitle, "wrong title value returned");
-        Assert.assertEquals(actualExcerpt, expectedExcerpt, "wrong excerpt value returned");
-        Assert.assertEquals(actualStatus, expectedStatus, "wrong status value returned");
+            Assert.assertEquals(actualId, expectedId, "wrong id value returned");
+            Assert.assertEquals(actualContent, expectedContent, "wrong content value returned");
+            Assert.assertEquals(actualTitle, expectedTitle, "wrong title value returned");
+            Assert.assertEquals(actualExcerpt, expectedExcerpt, "wrong excerpt value returned");
+            Assert.assertEquals(actualStatus, expectedStatus, "wrong status value returned");
+        }
+    }
+
+    @Then("^new post request response should have a valid schema for \"(.*?)\"$")
+    public void verifyNewPostResponseSchema(String userRole) {
+        String schemaFilePath = (API_CONFIG.getSchemaPathByUserRole(userRole)).replace("|", File.separator);
+        File schemaFile = new File(schemaFilePath);
+
+        String actualResponseBody = controller.getResponse().getBody().asString();
+        JsonSchemaValidator expectedJsonSchema = JsonSchemaValidator.matchesJsonSchema(schemaFile);
+
+        assertThat(actualResponseBody, expectedJsonSchema);
     }
 }

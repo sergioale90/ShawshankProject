@@ -26,6 +26,7 @@ Feature: API Posts
     Then the user should get a "<Status Line>" response
     And the user should get a valid response and have a body
     And post should have been created with the proper params
+    And new post request response should have a valid schema for "<User Role>"
 
     Examples:
       | User Role     | Status Line          |
@@ -42,6 +43,7 @@ Feature: API Posts
     Then the user should get a "<Status Line>" response
     And the user should get a valid response and have a body
     And post should have been created with the proper params
+    And new post request response should have a valid schema for "<User Role>"
 
     Examples:
       | User Role     | Status Line          |
@@ -192,6 +194,7 @@ Feature: API Posts
     When the user makes a request to retrieve a post
     Then the user should get a "<Status Line>" response
     And the user should get a valid response format and have a body
+    And post should have been retrieved with the proper params
 
     Examples:
       | Poster User Role | Retriever User Role | Status Line     |
@@ -221,6 +224,7 @@ Feature: API Posts
     When the user makes a request to retrieve a post
     Then the user should get a "<Status Line>" response
     And the user should get a valid response format and have a body
+    And post should have been retrieved with the proper params
 
     Examples:
       | Poster User Role | Retriever User Role | Status Line            |
@@ -257,6 +261,7 @@ Feature: API Posts
       | Test RU WAPI Post Content Updated | Test RU WAPI Title Updated | Test RU WAPI Excerpt Updated |
     Then the user should get a "<Status Line>" response
     And the user should get a valid response format and have a body
+    And post should have been updated with the proper params
 
     Examples:
       | Poster User Role | Updater User Role | Status Line            |
@@ -288,6 +293,7 @@ Feature: API Posts
       | Draft Test CU WAPI Post Content Updated | Draft Test CU WAPI Title Updated | Draft Test CU WAPI Excerpt Updated | publish |
     Then the user should get a "<Status Line>" response
     And the user should get a valid response format and have a body
+    And post should have been updated with the proper params
 
     Examples:
       | Poster User Role | Updater User Role | Status Line            |
@@ -322,6 +328,7 @@ Feature: API Posts
     When the user makes a request to delete a published post by trash
     Then the user should get a "<Status Line>" response
     And the user should get a valid response format and have a body
+    And the published post should have been trashed
 
     Examples:
       | Poster User Role | Deleter User Role | Status Line            |
@@ -351,6 +358,7 @@ Feature: API Posts
     When the user makes a request to delete a draft post by trash
     Then the user should get a "<Status Line>" response
     And the user should get a valid response format and have a body
+    And the draft post should have been trashed
 
     Examples:
       | Poster User Role | Deleter User Role | Status Line            |
@@ -385,6 +393,7 @@ Feature: API Posts
     When the user makes a request to delete a published post permanently
     Then the user should get a "<Status Line>" response
     And the user should get a valid response format and have a body
+    And the published post should have been deleted permanently
 
     Examples:
       | Poster User Role | Deleter User Role | Status Line            |
@@ -411,9 +420,10 @@ Feature: API Posts
       | content                         | title                    | excerpt                    |
       | Draft Test CD WAPI Post Content | Draft Test CD WAPI Title | Draft Test CD WAPI Excerpt |
     When the user is authenticated with "<Deleter User Role>" role
-    When the user makes a request to delete a published post permanently
+    When the user makes a request to delete a draft post permanently
     Then the user should get a "<Status Line>" response
     And the user should get a valid response format and have a body
+    And the draft post should have been deleted permanently
 
     Examples:
       | Poster User Role | Deleter User Role | Status Line            |
