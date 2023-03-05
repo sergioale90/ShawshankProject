@@ -462,3 +462,20 @@ Feature: API Posts
       | administrator | HTTP/1.1 201 Created |
       | author        | HTTP/1.1 201 Created |
       | editor        | HTTP/1.1 201 Created |
+
+  @GetAllPosts
+  Scenario Outline: A user without authorization should not be able to retrieve all posts
+    Given the user is using an authorization token with "<Token Value>" value
+    When the user makes a request to retrieve all posts
+    Then the user should get a "<Status Line>" response
+    And the user should see the response invalid and have a body
+    And an error response should be returned and have a body with the following values
+      | status   | error   | code   | error_description   |
+      | <Status> | <Error> | <Code> | <Error Description> |
+
+    Examples:
+      | Token Value               | Status Line               | Status | Error                                   | Code | Error Description                                                                                                                     |
+      | invalid JWT signature     | HTTP/1.1 401 Unauthorized | error  | INVALID_SIGNATURE                       | 401  | JWT Signature is invalid.                                                                                                             |
+      | incorrect JWT format      | HTTP/1.1 401 Unauthorized | error  | INVALID_AUTHORIZATION_HEADER_TOKEN_TYPE | 401  | Authorization header must be type of Bearer Token.                                                                                    |
+      | invalid header token type | HTTP/1.1 401 Unauthorized | error  | INVALID_AUTHORIZATION_HEADER_TOKEN_TYPE | 401  | Authorization header must be type of Bearer Token.                                                                                    |
+      | missing                   | HTTP/1.1 401 Unauthorized | error  | MISSING_AUTHORIZATION_HEADER            | 401  | Authorization header not received. Either authorization header was not sent or it was removed by your server due to security reasons. |

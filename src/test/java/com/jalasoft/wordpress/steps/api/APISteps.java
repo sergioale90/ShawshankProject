@@ -9,13 +9,19 @@
 package com.jalasoft.wordpress.steps.api;
 
 import api.controller.APIController;
+<<<<<<< HEAD
 import io.cucumber.java.en.And;
+=======
+import io.cucumber.datatable.DataTable;
+>>>>>>> 3be197c (add negative retrieval for posts, no access)
 import io.cucumber.java.en.Then;
 import io.restassured.http.ContentType;
 import io.restassured.internal.http.Status;
 import org.testng.Assert;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Map;
 
 public class APISteps {
     private final APIController controller;
@@ -67,5 +73,26 @@ public class APISteps {
         String actualContentType = controller.getResponse().getContentType();
         Assert.assertFalse(controller.getResponse().getBody().asString().isEmpty(), "response body is empty");
         Assert.assertEquals(actualContentType, expectedContentType, "wrong content type returned");
+    }
+
+    @Then("^an error response should be returned and have a body with the following values$")
+    public void verifyErrorResponseAndBody(DataTable table) {
+        List<Map<String, Object>> paramsList = table.asMaps(String.class, Object.class);
+        Map<String, Object> params = paramsList.get(0);
+
+        String expectedStatus = (String) params.get("status");
+        String expectedError = (String) params.get("error");
+        String expectedCode = (String) params.get("code");
+        String expectedErrorDescription = (String) params.get("error_description");
+
+        String actualStatus = controller.getResponse().jsonPath().getString("status");
+        String actualError = controller.getResponse().jsonPath().getString("error");
+        String actualCode = controller.getResponse().jsonPath().getString("code");
+        String actualErrorDescription = controller.getResponse().jsonPath().getString("error_description");
+
+        Assert.assertEquals(actualStatus, expectedStatus, "wrong status value returned");
+        Assert.assertEquals(actualError, expectedError, "wrong error value returned");
+        Assert.assertEquals(actualCode, expectedCode, "wrong code value returned");
+        Assert.assertEquals(actualErrorDescription, expectedErrorDescription, "wrong error description value returned");
     }
 }
