@@ -51,3 +51,16 @@ Feature: Categories
       | User Role       |      message    |
       | administrator   | Category added. |
       | editor          | Category added. |
+
+  @NotCreateANewCategory
+  Scenario Outline: A user with the proper role shouldn't be able to create a new category without name
+    Given the user is logged in to Admin page with "<User Role>" role
+    When the user hover over of Posts menu in the left side bar menu and click on the categories button
+    And the user can create a new category without name
+    Then the page displays a error "<message>"
+    Examples:
+      | User Role       |              message              |
+      | administrator   | A name is required for this term. |
+      | editor          | A name is required for this term. |
+
+  @

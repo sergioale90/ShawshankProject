@@ -24,8 +24,9 @@ public class CategoriesPage extends BaseAdminPage {
     WebElement addNewCategoryButton;
     @FindBy(xpath = "//div[@class='notice notice-success is-dismissible']")
     WebElement successCreatedCategoryMessage;
-    @FindBy (xpath = "//table[@class='wp-list-table widefat fixed striped table-view-list tags']")
-    WebElement listOfCategories;
+    @FindBy(xpath = "//div[@class='notice notice-error']")
+    WebElement errorMessage;
+
     public CategoriesPage() {
         PageFactory.initElements(driver, this);
         waitUntilPageObjectIsLoaded();
@@ -43,6 +44,11 @@ public class CategoriesPage extends BaseAdminPage {
         categoryNameField.clear();
         categoryNameField.sendKeys(categoryName);
         return categoryName;
+    }
+    public void blankCategoryNameField(String blankName) {
+        categoryNameField = wait.until(ExpectedConditions.visibilityOf(categoryNameField));
+        categoryNameField.clear();
+        categoryNameField.sendKeys(blankName);
     }
     public String fillCategorySlugField() {
         categorySlugField = wait.until(ExpectedConditions.visibilityOf(categorySlugField));
@@ -91,5 +97,13 @@ public class CategoriesPage extends BaseAdminPage {
         WebElement categoryDescriptionInListLocator = driver.findElement(By.xpath(categoryDescriptionInListString));
         categoryDescriptionInListLocator = wait.until(ExpectedConditions.visibilityOf(categoryDescriptionInListLocator));
         return categoryDescriptionInListLocator.getText();
+    }
+    public boolean isErrorCreatedMessageDisplayed() {
+        errorMessage = wait.until(ExpectedConditions.visibilityOf(errorMessage));
+        return errorMessage.isDisplayed();
+    }
+    public String errorMessageDisplayed() {
+        errorMessage = wait.until(ExpectedConditions.visibilityOf(errorMessage));
+        return errorMessage.getText();
     }
 }

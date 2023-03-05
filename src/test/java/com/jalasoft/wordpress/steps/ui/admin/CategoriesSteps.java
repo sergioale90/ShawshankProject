@@ -27,6 +27,9 @@ public class CategoriesSteps {
         String name = categoriesPage.fillCategoryNameField();
         controller.setName(name);
         categoriesPage.clickAddNewCategoryButton();
+
+        String categoryId = APICategoriesMethods.getTheIdByName(name);
+        controller.setId(categoryId);
     }
     @Given("^the user can create a new category with all params$")
     public void createANewCategoryWithAllParams() {
@@ -42,6 +45,12 @@ public class CategoriesSteps {
 
         String categoryId = APICategoriesMethods.getTheIdByName(name);
         controller.setId(categoryId);
+    }
+    @Given("^the user can create a new category without name$")
+    public void createANewCategoryWithoutName() {
+        String name = "";
+        categoriesPage.blankCategoryNameField(name);
+        categoriesPage.clickAddNewCategoryButton();
     }
     @Then("^the user can access to the categories page$")
     public void isTheUserInTheCategoriesPage() {
@@ -83,5 +92,12 @@ public class CategoriesSteps {
         Assert.assertEquals(actualName, expectedName, "The name of the category is not set correctly");
         Assert.assertEquals(actualSlug, expectedSlug.toLowerCase(), "The slug of the category is not set correctly");
         Assert.assertEquals(actualDescription, expectedDescription, "The description of the category is not set correctly");
+    }
+    @Then("^the page displays a error \"(.*?)\"")
+    public void verifyErrorMessage(String errorMessage) {
+        String actualErrorMessage = categoriesPage.errorMessageDisplayed();
+
+        Assert.assertTrue(categoriesPage.isErrorCreatedMessageDisplayed());
+        Assert.assertEquals(actualErrorMessage, errorMessage);
     }
 }
