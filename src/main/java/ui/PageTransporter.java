@@ -13,6 +13,7 @@ import framework.selenium.DriverManager;
 import org.openqa.selenium.WebDriver;
 import ui.admin.pages.LoginAdminPage;
 import ui.admin.pages.NewPostPage;
+import ui.admin.pages.NewTagPage;
 import utils.LoggerManager;
 
 public class PageTransporter {
@@ -23,6 +24,7 @@ public class PageTransporter {
     private String loginAdminURL;
     private String adminURL;
     private String adminAddNewPostURL;
+    private String adminAddNewTagURL;
     private static PageTransporter instance;
 
     protected PageTransporter() {
@@ -41,6 +43,7 @@ public class PageTransporter {
         this.loginAdminURL = CREDENTIALS_MANAGER.getAdminLoginURL();
         this.adminURL = CREDENTIALS_MANAGER.getAdminURL();
         this.adminAddNewPostURL = CREDENTIALS_MANAGER.getAdminNewPostURL();
+        this.adminAddNewTagURL = CREDENTIALS_MANAGER.getAdminNewTagURL();
         this.driver = DriverManager.getInstance().getWebDriver();
     }
 
@@ -59,6 +62,10 @@ public class PageTransporter {
     public boolean isOnAdminNewPostPage() {
         return driver.getCurrentUrl().contains(adminAddNewPostURL);
     }
+    public boolean isOnAdminNewTagPage() {
+        return driver.getCurrentUrl().contains(adminAddNewTagURL);
+    }
+
 
     public LoginAdminPage navigateToAdminLoginPage() {
         if (!isOnLoginAdminPage()) {
@@ -73,4 +80,12 @@ public class PageTransporter {
         }
         return new NewPostPage();
     }
+
+    public NewTagPage navigateToNewTagPage() {
+        if (!isOnAdminNewTagPage()) {
+            goToURL(adminAddNewTagURL);
+        }
+        return new NewTagPage();
+    }
+
 }

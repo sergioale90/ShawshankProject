@@ -88,4 +88,9 @@ public class CredentialsManager {
     public String getAdminNewPostURL() {
         return getAdminURL() + getEnvironmentSetting(getEnvId() + ".admin.newPostURL");
     }
+
+    public String getAdminNewTagURL() {
+        return getAdminURL() + getEnvironmentSetting(getEnvId() + ".admin.newTagURL");
+    }
+
 }
