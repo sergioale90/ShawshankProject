@@ -53,7 +53,7 @@ Feature: Tags
     Examples:
       | User Role     |
       | administrator |
-      #| editor        |
+      | editor        |
 
   @DeleteTag
   Scenario Outline: A user with a proper role should be able to delete a tag
