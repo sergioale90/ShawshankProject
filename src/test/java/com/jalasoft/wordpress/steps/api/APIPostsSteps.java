@@ -109,7 +109,7 @@ public class APIPostsSteps {
         Header authHeader = controller.getHeader("Authorization");
         Response requestResponse = API_MANAGER.delete(postByIdEndpoint.replace("<id>", id), authHeader);
         Map<String, Object> queryParams = new HashMap<>();
-
+        controller.setIdAux(id);
         String content = controller.getResponse().jsonPath().getString("content.raw");
         String title = controller.getResponse().jsonPath().getString("title.raw");
         String excerpt = controller.getResponse().jsonPath().getString("excerpt.raw");
@@ -130,7 +130,7 @@ public class APIPostsSteps {
         Header authHeader = controller.getHeader("Authorization");
         Map<String, Object> queryParams = new HashMap<>();
         Map<String, Object> jsonAsMap = new HashMap<>();
-
+        controller.setIdAux(id);
         String content = controller.getResponse().jsonPath().getString("content.raw");
         String title = controller.getResponse().jsonPath().getString("title.raw");
         String excerpt = controller.getResponse().jsonPath().getString("excerpt.raw");

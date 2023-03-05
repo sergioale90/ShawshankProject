@@ -23,7 +23,7 @@ public class APIPostsFeatureHook {
         this.controller = controller;
     }
 
-    @Before("@RetrieveAPost or @UpdateAPost or @DeleteAPost or @DeleteAPostTrash")
+    @Before("@RetrieveAPost or @DeleteAPost or @DeleteAPostTrash")
     public void createAPost() {
         Response requestResponse = APIPostsMethods.createAPost();
         controller.setResponse(requestResponse);
@@ -31,7 +31,7 @@ public class APIPostsFeatureHook {
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "post was not created");
     }
 
-    @Before("@RetrieveADraftPost or @UpdateADraftPost or @DeleteADraftPost or @DeleteADraftPostTrash")
+    @Before("@RetrieveADraftPost or @DeleteADraftPost or @DeleteADraftPostTrash")
     public void createADraftPost() {
         Response requestResponse = APIPostsMethods.createADraftPost();
         controller.setResponse(requestResponse);
@@ -40,13 +40,15 @@ public class APIPostsFeatureHook {
     }
 
     @After(("@CreateAPost or @CreateADraftPost or @RetrieveAPost or @RetrieveADraftPost or @UpdateAPost or @UpdateADraftPost or @DeleteAPostTrash")
-            + (" or @DeleteADraftPostTrash or @CreateAndRetrieveAPost or @CreateAndRetrieveADraftPost or @CreateAndUpdateAPost or @CreateAndUpdateADraftPost"))
+            + (" or @DeleteADraftPostTrash or @CreateAndRetrieveAPost or @CreateAndRetrieveADraftPost or @CreateAndUpdateAPost or @CreateAndUpdateADraftPost")
+            + (" or @CreateAndDeleteAPostTrash or @CreateAndDeleteADraftPostTrash or @UpdateADraftPostState"))
     public void deleteAPostById() {
         String id;
         if (Status.SUCCESS.matches(controller.getResponse().getStatusCode())) {
             id = controller.getResponse().jsonPath().getString("id");
         } else {
             id = controller.getIdAux();
+
         }
         Response requestResponse = APIPostsMethods.deleteAPostById(id);
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "post with id -> " + id + " was not deleted");
