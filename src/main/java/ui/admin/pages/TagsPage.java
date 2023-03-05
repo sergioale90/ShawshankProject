@@ -69,6 +69,7 @@ public class TagsPage extends BaseAdminPage {
         String link = tagRowLocator.replace("<id>", tagId);
 
         WebElement element = driver.findElement(By.cssSelector(link));
+
         element.click();
         return new EditTagPage();
     }
@@ -77,7 +78,6 @@ public class TagsPage extends BaseAdminPage {
         String tagRowLocator = "tr#tag-<id> a.row-title";
         String link = tagRowLocator.replace("<id>", tagId);
         WebElement tagNameLink = driver.findElement(By.cssSelector(link));
-        // WebElement pagesTitleLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(tagNameLocator)));
         UIMethods.moveToWebElement(tagNameLink);
 
         String viewLocator = String.format("//a[text()='%s']/ancestor::td//a[text()='View']", name);
@@ -85,4 +85,21 @@ public class TagsPage extends BaseAdminPage {
         viewLink.click();
         return this;
     }
+
+    public TagsPage deleteTagUsingLink(String tagId, String name) {
+        String tagRowLocator = "tr#tag-<id> a.row-title";
+        String link = tagRowLocator.replace("<id>", tagId);
+        WebElement tagNameLink = driver.findElement(By.cssSelector(link));
+        UIMethods.moveToWebElement(tagNameLink);
+
+        String deleteLocator = String.format("//a[text()='%s']/ancestor::td//a[text()='Delete']", name);
+        WebElement deleteLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(deleteLocator)));
+        deleteLink.click();
+        return this;
+    }
+    public boolean isNameTagLinkNotPresent(String title) {
+        String titleLocator = String.format("//a[text()='%s']", title);
+        return wait.until(webDriver -> UIMethods.isWebElementNotPresentByXpathJs(titleLocator));
+    }
+
 }

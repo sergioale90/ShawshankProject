@@ -91,4 +91,8 @@ public class EditTagPage extends BaseAdminPage {
         setSlugTextBox(slug);
         updateEditTagButton.submit();
     }
+
+    public void deleteTagLink() {
+        deleteLink.click();
+    }
 }

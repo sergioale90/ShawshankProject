@@ -21,7 +21,6 @@ import java.util.Map;
 
 public class TagsSteps {
     private final UIController controller;
-    // private final HomeAdminPage homeAdminPage;
     private final PageTransporter pageTransporter;
     private TagsPage tagsPage;
     private NewTagPage newTagPage;
@@ -31,7 +30,6 @@ public class TagsSteps {
     public TagsSteps(UIController controller, HomeAdminPage homeAdminPage) {
         this.pageTransporter = PageTransporter.getInstance();
         this.controller = controller;
-        // this.homeAdminPage = homeAdminPage;
         this.tagsPage = new TagsPage();
         this.viewTagPage = new ViewTagPage();
     }
@@ -87,6 +85,26 @@ public class TagsSteps {
         tagsPage = tagsPage.viewTagUsingLink(id, name);
     }
 
+    @Then("^the user deletes the tag using the Delete link$")
+    public void deleteTagFromEditPage() {
+        editTagPage.deleteTagLink();
+        boolean alertIsPresent = newTagPage.alertIsPresent();
+        newTagPage.acceptAlert();
+        Assert.assertTrue(alertIsPresent, "alert message was not displayed");
+
+    }
+
+    @Then("^the user deletes the tag using the Delete link on the Tag page table$")
+    public void deleteTagFromTagTable() {
+        String id = controller.getId();
+        String name = controller.getName();
+        tagsPage.deleteTagUsingLink(id, name);
+        boolean alertIsPresent = newTagPage.alertIsPresent();
+        newTagPage.acceptAlert();
+        Assert.assertTrue(alertIsPresent, "alert message was not displayed");
+    }
+
+
     @Then("^the user should review that the tag has been updated successfully$")
     public void verifyTagWasEdited() {
         String actualName = controller.getName();
@@ -129,5 +147,12 @@ public class TagsSteps {
         String actualName = controller.getName();
         boolean tagNameIsDisplayedInViewPage = viewTagPage.isTagNameDisplayed(actualName);
         Assert.assertTrue(tagNameIsDisplayedInViewPage, "wrong name value is not displayed");
+    }
+
+    @Then("^the user should review that the Tag has been deleted$")
+    public void pressesOkButtonToDeleteTag() {
+        String tagName = controller.getName();
+
+        Assert.assertTrue(tagsPage.isNameTagLinkNotPresent(tagName), "wrong the tag was no deleted");
     }
 }

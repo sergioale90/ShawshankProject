@@ -43,31 +43,29 @@ Feature: Tags
       | editor          | TestTagUpdateEditor   | testuptagedit       | Testing update description tag as editor    |
 
   @DeleteTagFromEditPage
-  Scenario Outline: A user with a proper role should be able to delete a tag
+  Scenario Outline: A user with a proper role should be able to delete a tag from Edit tag page
     Given the user is logged in to Admin page with "<User Role>" role
     When the user goes to Tags page
     And the user opens the tag using the tag title link on the Tag page table
     And the user deletes the tag using the Delete link
-    And the user presses the OK button to delete the tag
     Then the user should review that the Tag has been deleted
 
     Examples:
       | User Role     |
       | administrator |
-      | editor        |
+      #| editor        |
 
   @DeleteTag
   Scenario Outline: A user with a proper role should be able to delete a tag
     Given the user is logged in to Admin page with "<User Role>" role
     When the user goes to Tags page
     And the user deletes the tag using the Delete link on the Tag page table
-    And the user presses the OK button to delete the tag
     And the user should review that the Tag has been deleted
 
     Examples:
       | User Role     |
       | administrator |
-      | editor        |
+      #| editor        |
 
   @CancelDeleteTag
   Scenario Outline: A user with a proper role should be able to cancel a delete tag

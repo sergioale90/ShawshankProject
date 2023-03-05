@@ -8,7 +8,6 @@
  */
 package com.jalasoft.wordpress.steps.hooks.ui.admin;
 
-import api.methods.APIPagesMethods;
 import api.methods.APITagsMethods;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -30,7 +29,7 @@ public class GUITagsFeatureHook {
         this.controller = controller;
     }
 
-    @Before("@UpdateTag or @OpenTag or @DeleteTagFromEditPage")
+    @Before("@UpdateTag or @OpenTag or @DeleteTagFromEditPage or @DeleteTag")
     public void createTag() {
         LOG.info("Creating a tag");
         Response requestResponse = APITagsMethods.createATag();
