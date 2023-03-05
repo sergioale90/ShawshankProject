@@ -15,24 +15,19 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.admin.BaseAdminPage;
 
-public class NewTagPage extends BaseAdminPage {
-    private String nameLocator = "input#tag-name";
-    private String slugLocator = "input#tag-slug";
-    private String descriptionLocator = "textarea#tag-description";
-
-    @FindBy(css = "input#submit")
-    private WebElement submitButton;
+public class EditTagPage extends BaseAdminPage {
+    private String nameLocator = "input#name";
+    private String slugLocator = "input#slug";
+    private String descriptionLocator = "textarea#description";
 
     @FindBy(css = "div.edit-tag-actions input")
     private WebElement updateEditTagButton;
 
     @FindBy(css = "span#delete-link a")
     private WebElement deleteLink;
-    private WebElement nameTextBox;
-    private WebElement slugTextBox;
-    private WebElement descriptionTextArea;
 
-    public NewTagPage() {
+
+    public EditTagPage() {
         PageFactory.initElements(driver, this);
     }
 
@@ -41,21 +36,21 @@ public class NewTagPage extends BaseAdminPage {
     }
 
     public void setNameTextBox(String name) {
-        nameTextBox = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(nameLocator)));
+        WebElement nameTextBox = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(nameLocator)));
         nameTextBox.click();
         nameTextBox.clear();
         nameTextBox.sendKeys(name);
     }
 
     public void setSlugTextBox(String slug) {
-        slugTextBox = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(slugLocator)));
+        WebElement slugTextBox = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(slugLocator)));
         slugTextBox.click();
         slugTextBox.clear();
         slugTextBox.sendKeys(slug);
     }
 
     public void setDescriptionTextArea(String description) {
-        descriptionTextArea = wait
+        WebElement descriptionTextArea = wait
                 .until(ExpectedConditions.elementToBeClickable(By.cssSelector(descriptionLocator)));
         descriptionTextArea.click();
         descriptionTextArea.clear();
@@ -82,11 +77,11 @@ public class NewTagPage extends BaseAdminPage {
         setNameTextBox(name);
         setSlugTextBox(slug);
         setDescriptionTextArea(description);
-        submitButton.submit();
+        updateEditTagButton.submit();
     }
 
-    public boolean isTagAddedMessageDisplayed() {
-        String tagMessageLocator = "//div[contains(@id, 'message')]//p[contains(text(), 'Tag added.')]";
+    public boolean isTagUpdatedMessageDisplayed() {
+        String tagMessageLocator = "//div[contains(@id, 'message')]//strong[contains(text(), 'Tag updated.')]";
         return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(tagMessageLocator))).isDisplayed();
     }
 
@@ -94,6 +89,6 @@ public class NewTagPage extends BaseAdminPage {
         setNameTextBox(name);
         setDescriptionTextArea(description);
         setSlugTextBox(slug);
-        submitButton.submit();
+        updateEditTagButton.submit();
     }
 }

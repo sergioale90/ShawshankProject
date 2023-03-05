@@ -8,8 +8,13 @@
  */
 package com.jalasoft.wordpress.steps.hooks.ui.admin;
 
+import api.methods.APIPagesMethods;
 import api.methods.APITagsMethods;
 import io.cucumber.java.After;
+import io.cucumber.java.Before;
+import io.restassured.internal.http.Status;
+import io.restassured.response.Response;
+import org.testng.Assert;
 import ui.controller.UIController;
 import ui.methods.CommonMethods;
 import utils.LoggerManager;
@@ -23,6 +28,17 @@ public class GUITagsFeatureHook {
 
     public GUITagsFeatureHook(UIController controller) {
         this.controller = controller;
+    }
+
+    @Before("@UpdateTag or @OpenTag or @DeleteTagFromEditPage")
+    public void createTag() {
+        LOG.info("Creating a tag");
+        Response requestResponse = APITagsMethods.createATag();
+        Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "tag was not created");
+        String id = requestResponse.jsonPath().getString("id");
+        String name = requestResponse.jsonPath().getString("name");
+        controller.setId(id);
+        controller.setName(name);
     }
 
     @After(value = "@Tags", order = ORDER)

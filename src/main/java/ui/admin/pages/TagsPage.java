@@ -10,10 +10,12 @@
 package ui.admin.pages;
 
 import api.methods.APITagsMethods;
+import framework.selenium.UIMethods;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.admin.BaseAdminPage;
 
 import java.util.HashMap;
@@ -60,5 +62,27 @@ public class TagsPage extends BaseAdminPage {
         tagData.put("slug", slug);
         tagData.put("description", description);
         return tagData;
+    }
+
+    public EditTagPage editTagByIdOnTable(String tagId) {
+        String tagRowLocator = "tr#tag-<id> a.row-title";
+        String link = tagRowLocator.replace("<id>", tagId);
+
+        WebElement element = driver.findElement(By.cssSelector(link));
+        element.click();
+        return new EditTagPage();
+    }
+
+    public TagsPage viewTagUsingLink(String tagId, String name) {
+        String tagRowLocator = "tr#tag-<id> a.row-title";
+        String link = tagRowLocator.replace("<id>", tagId);
+        WebElement tagNameLink = driver.findElement(By.cssSelector(link));
+        // WebElement pagesTitleLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(tagNameLocator)));
+        UIMethods.moveToWebElement(tagNameLink);
+
+        String viewLocator = String.format("//a[text()='%s']/ancestor::td//a[text()='View']", name);
+        WebElement viewLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(viewLocator)));
+        viewLink.click();
+        return this;
     }
 }
