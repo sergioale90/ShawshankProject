@@ -5,6 +5,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.testng.Assert;
 import ui.admin.pages.CategoriesPage;
+import ui.admin.pages.EditCategoryPage;
 import ui.admin.pages.HomeAdminPage;
 import ui.controller.UIController;
 
@@ -12,6 +13,7 @@ public class CategoriesSteps {
     private final UIController controller;
     private final HomeAdminPage homeAdminPage;
     private CategoriesPage categoriesPage;
+    private EditCategoryPage editCategoryPage;
     public CategoriesSteps(UIController controller, HomeAdminPage homeAdminPage) {
         this.controller = controller;
         this.homeAdminPage = homeAdminPage;
@@ -51,6 +53,19 @@ public class CategoriesSteps {
         String name = "";
         categoriesPage.blankCategoryNameField(name);
         categoriesPage.clickAddNewCategoryButton();
+    }
+    @Given("^the user hover over of one category created previously and enter to edit category page using the edit label$")
+    public void enterToEditCategoryPage() {
+        String categoryId = controller.getId();
+        categoriesPage.hoverOneCategoryCreated(categoryId);
+        editCategoryPage = categoriesPage.clickOnEditLabel(categoryId);
+    }
+    @Given ("^the user edit the fields of the category and update the category information$")
+    public void editACategory() {
+        editCategoryPage.editNameTextBox();
+        editCategoryPage.editSlugTextBox();
+        editCategoryPage.editDescriptionTextBox();
+        editCategoryPage.clickOnUpdateButton();
     }
     @Then("^the user can access to the categories page$")
     public void isTheUserInTheCategoriesPage() {
@@ -99,5 +114,13 @@ public class CategoriesSteps {
 
         Assert.assertTrue(categoriesPage.isErrorCreatedMessageDisplayed());
         Assert.assertEquals(actualErrorMessage, errorMessage);
+    }
+    @Then("^the user redirects to the Edit Category Page$")
+    public void verifyIfUserIsOnEditCategoryPage() {
+        Assert.assertTrue(editCategoryPage.isOnEditCategoryPage());
+    }
+    @Then("^the category is updated with the new information$")
+    public void verifyIfTheCategoryWasUpdated() {
+        Assert.assertTrue(editCategoryPage.isCategoryUpdatedMessageDisplayed());
     }
 }

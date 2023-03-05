@@ -63,4 +63,26 @@ Feature: Categories
       | administrator   | A name is required for this term. |
       | editor          | A name is required for this term. |
 
-  @
+  @EnterToEditCategory
+  Scenario Outline: A user with the proper role should enter to edit category page to edit a category
+    Given the user is logged in to Admin page with "<User Role>" role
+    When the user hover over of Posts menu in the left side bar menu and click on the categories button
+    And the user hover over of one category created previously and enter to edit category page using the edit label
+    Then the user redirects to the Edit Category Page
+    Examples:
+      | User Role       |
+      | administrator   |
+      | editor          |
+
+  @EditCategorySuccessfully
+  Scenario Outline: A user with the proper role should edit a existent category
+    Given the user is logged in to Admin page with "<User Role>" role
+    When the user hover over of Posts menu in the left side bar menu and click on the categories button
+    And the user hover over of one category created previously and enter to edit category page using the edit label
+    Then the user redirects to the Edit Category Page
+    When the user edit the fields of the category and update the category information
+    Then the category is updated with the new information
+    Examples:
+      | User Role       |
+      | administrator   |
+      | editor          |

@@ -4,6 +4,7 @@ import api.methods.APICategoriesMethods;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -12,6 +13,7 @@ import utils.StringManager;
 
 public class CategoriesPage extends BaseAdminPage {
     private String categoryName;
+    private Actions hoverRowCategory;
     @FindBy(xpath = "//h1[@class='wp-heading-inline' and text()='Categories']")
     WebElement categoriesPageTitle;
     @FindBy(xpath = "//input[@id='tag-name']")
@@ -105,5 +107,20 @@ public class CategoriesPage extends BaseAdminPage {
     public String errorMessageDisplayed() {
         errorMessage = wait.until(ExpectedConditions.visibilityOf(errorMessage));
         return errorMessage.getText();
+    }
+    public void hoverOneCategoryCreated(String categoryId) {
+        String categoryRowByIdString = String.format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::tr[@id='tag-%s']", categoryId);
+        WebElement categoryRowByIdLocator = driver.findElement(By.xpath(categoryRowByIdString));
+        categoryRowByIdLocator = wait.until(ExpectedConditions.visibilityOf(categoryRowByIdLocator));
+        hoverRowCategory = new Actions(driver);
+        hoverRowCategory.moveToElement(categoryRowByIdLocator).perform();
+    }
+    public EditCategoryPage clickOnEditLabel(String id) {
+        String editButtonInHiddenMenuString = String.format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::tr[@id='tag-%s']/descendant::span[@class='edit']", id);
+        WebElement editButtonInHiddenMenuLocator = driver.findElement(By.xpath(editButtonInHiddenMenuString));
+        editButtonInHiddenMenuLocator = wait.until(ExpectedConditions.visibilityOf(editButtonInHiddenMenuLocator));
+        hoverRowCategory.moveToElement(editButtonInHiddenMenuLocator).perform();
+        editButtonInHiddenMenuLocator.click();
+        return new EditCategoryPage();
     }
 }
