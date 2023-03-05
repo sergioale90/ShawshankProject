@@ -14,9 +14,11 @@ import api.controller.APIController;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.internal.http.Status;
 import io.restassured.module.jsv.JsonSchemaValidator;
+import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.testng.Assert;
 
@@ -154,6 +156,21 @@ public class APIPostsSteps {
 
         params = queryParams;
         controller.setResponse(requestResponse);
+    }
+
+    @Given("the user makes a request to create a post using a json file")
+    public void createAPostUsingAJsonFile() {
+        String requestBodyFilePath = "src|test|resources|api|json|posts|NewPost.json".replace("|", File.separator);
+        File requestBodyFile = new File(requestBodyFilePath);
+        Object requestBody = JsonPath.from(requestBodyFile).get();
+        Map<String, Object> queryParams = new HashMap<>();
+        queryParams.put("content", JsonPath.from(requestBodyFile).getString("content"));
+        queryParams.put("title", JsonPath.from(requestBodyFile).getString("title"));
+        queryParams.put("excerpt", JsonPath.from(requestBodyFile).getString("excerpt"));
+
+        Response requestResponse = API_MANAGER.post(postsEndpoint, controller.getHeader("Authorization"), ContentType.JSON, requestBody);
+        controller.setResponse(requestResponse);
+        params = queryParams;
     }
 
     @Then("^response should have a proper amount of posts$")

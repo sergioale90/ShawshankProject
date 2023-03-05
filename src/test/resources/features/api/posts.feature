@@ -447,3 +447,18 @@ Feature: API Posts
       | editor           | contributor       | HTTP/1.1 403 Forbidden |
       | editor           | editor            | HTTP/1.1 200 OK        |
       | editor           | subscriber        | HTTP/1.1 403 Forbidden |
+
+  @CreateAPost
+  Scenario Outline: A user with proper role should be able to create a post with a json file
+    Given the user is authenticated with "<User Role>" role
+    When the user makes a request to create a post using a json file
+    Then the user should get a "<Status Line>" response
+    And the user should get a valid response format and have a body
+    And post should have been created with the proper params
+    And new post request response should have a valid schema for "<User Role>"
+
+    Examples:
+      | User Role     | Status Line          |
+      | administrator | HTTP/1.1 201 Created |
+      | author        | HTTP/1.1 201 Created |
+      | editor        | HTTP/1.1 201 Created |
