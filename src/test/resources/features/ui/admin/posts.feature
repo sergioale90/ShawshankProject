@@ -28,10 +28,11 @@ Feature: Posts
     Then the Post should have been saved as a Draft successfully
 
     Examples:
-      | User Role     | Title                  | Content                           |
-      | administrator | Insert Funny Title     | Insert Funny Comment              |
-      | author        | Eating People is Wrong | BTW, this is title of a real book |
-      | editor        | I Yam What I Yam       | And Dats What I Yam!              |
+      | User Role     | Title                            | Content                           |
+      | administrator | Insert Funny Title               | Insert Funny Comment              |
+      | author        | Eating People is Wrong           | BTW, this is title of a real book |
+      | contributor   | Eating People well don't do that | as simple as that                 |
+      | editor        | I Yam What I Yam                 | And Dats What I Yam!              |
 
   @OpenPublishPost
   Scenario Outline: A user with a proper role should be able to open a Published Post
@@ -43,7 +44,10 @@ Feature: Posts
     Examples:
       | User Role     |
       | administrator |
+#      | author        |
+#      | contributor   |
       | editor        |
+#      | subscriber    |
 
   @OpenDraftPost
   Scenario Outline: A user with a proper role should be able to open a Draft Post
