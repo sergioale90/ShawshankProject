@@ -80,14 +80,14 @@ Feature: Tags
       | editor        |
 
   @FindNotTag
-  Scenario Outline: A user with proper role should not be able to find an incorrect title page
+  Scenario Outline: A user with proper role should not be able to find an incorrect name tag
     Given the user is logged in to Admin page with "<User Role>" role
     When the user goes to Tags page
-    And the user searches a invalid title tag "<Invalid Tag Title>"
+    And the user searches a invalid tag name "<Invalid Tag Name>"
     Then the user should review a "<Expected Result>" message
 
     Examples:
-      | User Role     | Invalid Tag Title   | Expected Result    |
+      | User Role     | Invalid Tag Name    | Expected Result    |
       | administrator | noneexisttagadmin   | No tags found.     |
       | editor        | noneexisttagedit    | No tags found.     |
 

@@ -85,6 +85,7 @@ public class TagsSteps {
         tagsPage = tagsPage.viewTagUsingLink(id, name);
     }
 
+
     @Then("^the user deletes the tag using the Delete link$")
     public void deleteTagFromEditPage() {
         editTagPage.deleteTagLink();
@@ -111,9 +112,21 @@ public class TagsSteps {
         tagsPage.getSearchTagsButton();
     }
 
+    @Then("^the user searches a invalid tag name \"(.*?)\"$")
+    public void searchInvalidTag(String tagName) {
+        tagsPage.setTextboxSearch(tagName);
+        tagsPage.getSearchTagsButton();
+    }
+
+    @Then("^the user should review a \"(.*?)\" message$")
+    public void verifyTagSearchedIsNotPresent(String message) {
+        String name = controller.getName();
+        boolean isNameTagLinkPresent = tagsPage.isMessageNoTagsFoundDisplayed(name);
+        Assert.assertTrue(isNameTagLinkPresent, "wrong the tag is not present");
+    }
+
     @Then("^the user should review the name tag found$")
     public void verifyTagSearchedIsPresent() {
-        String name = controller.getName();
         String id = controller.getId();
         boolean isNameTagLinkPresent = tagsPage.isNameTagLinkPresent(id);
         Assert.assertTrue(isNameTagLinkPresent, "wrong the tag is not present");
@@ -166,8 +179,6 @@ public class TagsSteps {
     @Then("^the user should review that the Tag has been deleted$")
     public void pressesOkButtonToDeleteTag() {
         String tagName = controller.getName();
-
         Assert.assertTrue(tagsPage.isNameTagLinkNotPresent(tagName), "wrong the tag was no deleted");
     }
-
 }

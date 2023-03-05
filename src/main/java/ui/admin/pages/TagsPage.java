@@ -108,4 +108,10 @@ public class TagsPage extends BaseAdminPage {
         WebElement tagNameLink = driver.findElement(By.cssSelector(link));
         return tagNameLink.isDisplayed();
     }
+
+    public boolean isMessageNoTagsFoundDisplayed(String message) {
+        String titleLocator = String.format("//a[text()='%s']", message);
+        WebElement messageElement = driver.findElement(By.cssSelector(titleLocator));
+        return messageElement.isDisplayed();
+    }
 }
