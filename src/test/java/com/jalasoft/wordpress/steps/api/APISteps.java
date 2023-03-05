@@ -9,6 +9,7 @@
 package com.jalasoft.wordpress.steps.api;
 
 import api.controller.APIController;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.restassured.http.ContentType;
 import io.restassured.internal.http.Status;
@@ -45,5 +46,13 @@ public class APISteps {
         Assert.assertTrue(Status.FAILURE.matches(controller.getResponse().getStatusCode()), "invalid status code returned");
         Assert.assertFalse(controller.getResponse().getBody().asString().isEmpty(), "response body is empty");
         Assert.assertEquals(actualContentType, expectedContentType, "wrong content type returned");
+    }
+
+    @And("the user should get a invalid response and have a body")
+    public void theUserShouldGetAInvalidResponseAndHaveABody() {
+        String expectedContentType = ContentType.JSON.withCharset(StandardCharsets.UTF_8);
+        Assert.assertTrue(Status.FAILURE.matches(controller.getResponse().getStatusCode()), "invalid status code returned");
+        Assert.assertFalse(controller.getResponse().getBody().asString().isEmpty(), "response body is empty");
+        Assert.assertEquals(controller.getResponse().getContentType(), expectedContentType, "wrong content type returned");
     }
 }

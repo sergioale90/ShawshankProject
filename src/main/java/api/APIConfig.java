@@ -99,4 +99,13 @@ public class APIConfig {
     public String getTagsEndpointById() {
         return getAPISetting("api.endpoint.tagsById");
     }
+    public String getCommentsEndpoint() {
+        return getAPISetting("api.endpoint.comments");
+    }
+
+    public String getCommentsByIdEndpoint() {
+        return getAPISetting("api.endpoint.commentsById");
+    }
+
+
 }
