@@ -126,8 +126,23 @@ Feature: Posts
       | author        | Eating People is Wrong | BTW, this is title of a real book |
       | editor        | I Yam What I Yam       | And Dats What I Yam!              |
 
+  @CreateDraftPost
+  Scenario Outline: A user with proper role should be able to create a Draft Post with the submenu
+    Given the user is logged in to Admin page with "<User Role>" role
+    When the user goes to New Post page using the popup submenu button from the left side menu bar
+    And the user creates a new Draft Post with the following values
+      | title   | content   |
+      | <Title> | <Content> |
+    Then the Post should have been saved as a Draft successfully
+
+    Examples:
+      | User Role     | Title                  | Content                           |
+      | administrator | Insert Funny Title     | Insert Funny Comment              |
+      | author        | Eating People is Wrong | BTW, this is title of a real book |
+      | editor        | I Yam What I Yam       | And Dats What I Yam!              |
+
   @CreatePublishPost
-  Scenario Outline: A user with proper role should be able to create and publish a Post
+  Scenario Outline: A user with proper role should be able to create and publish a Post in the new post page
     Given the user is logged in to Admin page with "<User Role>" role
     When the user goes to New Post page
     And the user publishes a new Post with the following values
@@ -141,3 +156,17 @@ Feature: Posts
       | author        | Eating People is Wrong | BTW, this is title of a real book |
       | editor        | I Yam What I Yam       | And Dats What I Yam!              |
 
+  @CreateDraftPost
+  Scenario Outline: A user with proper role should be able to create a Draft Post in the new post page
+    Given the user is logged in to Admin page with "<User Role>" role
+    When the user goes to New Post page
+    And the user creates a new Draft Post with the following values
+      | title   | content   |
+      | <Title> | <Content> |
+    Then the Post should have been saved as a Draft successfully
+
+    Examples:
+      | User Role     | Title                  | Content                           |
+      | administrator | Insert Funny Title     | Insert Funny Comment              |
+      | author        | Eating People is Wrong | BTW, this is title of a real book |
+      | editor        | I Yam What I Yam       | And Dats What I Yam!              |
