@@ -8,9 +8,10 @@ Feature: API Comments
     Then the user should get a "<Status Line>" response
     And the user should get a valid response and have a body
 
-    Examples: 
+    Examples:
       | User Role     | Status Line     |
       | administrator | HTTP/1.1 200 OK |
+      | author        | HTTP/1.1 200 OK |
 
   @GetCommentsWithPagination
   Scenario Outline: A user with a proper role should be able to retrieve two comments per page
@@ -19,7 +20,7 @@ Feature: API Comments
     Then the user should get a "<Status Line>" response
     And the user should get a list with two comments
 
-    Examples: 
+    Examples:
       | User Role     | Status Line     |
       | administrator | HTTP/1.1 200 OK |
 
@@ -44,7 +45,7 @@ Feature: API Comments
     And the user should get a valid response and have a body
     And a new comment should have been publish
 
-    Examples: 
+    Examples:
       | User Role     | Status Line          |
       | administrator | HTTP/1.1 201 Created |
 
@@ -56,7 +57,7 @@ Feature: API Comments
     And the user should get a valid response and have a body
     And a comment should have been retrieved
 
-    Examples: 
+    Examples:
       | User Role     | Status Line     |
       | administrator | HTTP/1.1 200 OK |
 
@@ -70,13 +71,12 @@ Feature: API Comments
     And the user should get a valid response and have a body
     And a comment should have been updated with the proper params
 
-    Examples: 
+    Examples:
       | User Role     | Status Line     |
       | administrator | HTTP/1.1 200 OK |
 
-
   @UpdateACommentNonexistent
-  Scenario Outline: A user with proper role should't be able to update a  comment Nonexistent
+  Scenario Outline: A user with proper role should't be able to update a comment nonexistent
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to update a comment nonexistent
       | id   |
@@ -87,9 +87,9 @@ Feature: API Comments
 
     Examples:
       | Id     | User Role     | Status Line            | Message                                                 |
-      |     -4 | administrator | HTTP/1.1 404 Not Found | No route was found matching the URL and request method. |
+      | -4     | administrator | HTTP/1.1 404 Not Found | No route was found matching the URL and request method. |
       | I'm ID | administrator | HTTP/1.1 404 Not Found | No route was found matching the URL and request method. |
-      |   1000 | administrator | HTTP/1.1 404 Not Found | Invalid comment ID.                                     |
+      | 1000   | administrator | HTTP/1.1 404 Not Found | Invalid comment ID.                                     |
 
 
   @DeleteAComment
@@ -100,7 +100,7 @@ Feature: API Comments
     And the user should get a valid response and have a body
     And the comment should have been deleted
 
-    Examples: 
+    Examples:
       | User Role     | Status Line     |
       | administrator | HTTP/1.1 200 OK |
 
@@ -112,7 +112,7 @@ Feature: API Comments
     And the user should get a valid response and have a body
     And the comment should be moved to the trash
 
-    Examples: 
+    Examples:
       | User Role     | Status Line     |
       | administrator | HTTP/1.1 200 OK |
 
@@ -127,8 +127,8 @@ Feature: API Comments
     And the user should get a invalid response and have a body
     And the comment shouldn't have been created and the response has a error "<Message>"
 
-    Examples: 
+    Examples:
       | Id     | User Role     | Status Line            | Message                                                 |
-      |     -4 | administrator | HTTP/1.1 404 Not Found | No route was found matching the URL and request method. |
+      | -4     | administrator | HTTP/1.1 404 Not Found | No route was found matching the URL and request method. |
       | I'm ID | administrator | HTTP/1.1 404 Not Found | No route was found matching the URL and request method. |
-      |   1000 | administrator | HTTP/1.1 404 Not Found | Invalid comment ID.                                     |
+      | 1000   | administrator | HTTP/1.1 404 Not Found | Invalid comment ID.                                     |

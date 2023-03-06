@@ -35,7 +35,7 @@ public class APICommentsHook {
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "comment was not published");
     }
 
-    @After("@PublishAComment or @RetrieveAComment or @UpdateAComment or @GetAllCommentsOfAPost")
+    @After("@PublishAComment or @RetrieveAComment or @UpdateAComment or @GetAllCommentsOfAPost or @SimplyDeleteAComment")
     public void deleteACommentById() {
         String id = controller.getResponse().jsonPath().getString("id");
         Response requestResponse = APICommentsMethods.deleteACommentById(id);

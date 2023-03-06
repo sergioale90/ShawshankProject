@@ -88,9 +88,7 @@ public class APIConfig {
         return getAPISetting("api.endpoint.users");
     }
 
-    public String getUsersByIdEndpoint() {
-        return getAPISetting("api.endpoint.usersById");
-    }
+    public String getUsersByIdEndpoint() { return getAPISetting("api.endpoint.usersById"); }
 
     public String getTagsEndpoint() {
         return getAPISetting("api.endpoint.tags");
@@ -99,6 +97,7 @@ public class APIConfig {
     public String getTagsEndpointById() {
         return getAPISetting("api.endpoint.tagsById");
     }
+
     public String getCommentsEndpoint() {
         return getAPISetting("api.endpoint.comments");
     }
@@ -106,6 +105,5 @@ public class APIConfig {
     public String getCommentsByIdEndpoint() {
         return getAPISetting("api.endpoint.commentsById");
     }
-
 
 }

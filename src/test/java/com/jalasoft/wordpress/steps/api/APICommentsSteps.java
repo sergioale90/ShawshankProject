@@ -84,11 +84,8 @@ public class APICommentsSteps {
     @And("a new comment should have been publish")
     public void newCommentPublish() {
         String expectedContent = (String) params.get("content");
-
         String actualContent = controller.getResponse().jsonPath().getString("content.raw");
-
         Assert.assertEquals(actualContent, expectedContent, "wrong content value returned");
-
     }
 
     @When("the user makes a request to retrieve a comment")
@@ -127,7 +124,6 @@ public class APICommentsSteps {
         Assert.assertEquals(actualPost, expectedPost, "wrong post value returned");
         Assert.assertEquals(actualAuthor, expectedAuthor, "wrong author value returned");
         Assert.assertEquals(actualContent, expectedContent, "wrong content value returned");
-
     }
 
     @When("the user makes a request to update a comment with the following params")
@@ -141,7 +137,6 @@ public class APICommentsSteps {
         params = new HashMap<>(queryParams);
         params.put("id", id);
         controller.setResponse(requestResponse);
-
     }
 
     @And("a comment should have been updated with the proper params")
@@ -247,16 +242,13 @@ public class APICommentsSteps {
         String id = queryParams.get("id").toString();
         Header authHeader = controller.getHeader("Authorization");
         Response requestResponse = API_MANAGER.delete(commentsByIdEndpoint.replace("<id>", id), authHeader);
-
         controller.setResponse(requestResponse);
     }
 
     @And("the comment shouldn't have been created and the response has a error {string}")
     public void commentDoNotHaveBeenCreated(String message) {
-
         String actualMessage = controller.getResponse().jsonPath().getString("message");
         Assert.assertEquals(actualMessage, message, "The message error is not the correctly");
-
     }
 
     @When("the user makes a request to update a comment nonexistent")
@@ -267,7 +259,6 @@ public class APICommentsSteps {
         String id = queryParams.get("id").toString();
         Header authHeader = controller.getHeader("Authorization");
         Response requestResponse = API_MANAGER.delete(commentsByIdEndpoint.replace("<id>", id), authHeader);
-
         controller.setResponse(requestResponse);
     }
 

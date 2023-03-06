@@ -63,7 +63,6 @@ public class APICommentsMethods {
     }
 
     public static Response deleteACommentById(String id) {
-
         String commentsByIdEndpoint = API_CONFIG.getCommentsByIdEndpoint().replace("<id>", id.replaceAll("\\[|\\]", ""));
         Header authHeader = APIAuthMethods.getAuthHeader("administrator");
         Map<String, Object> jsonAsMap = new HashMap<>();
