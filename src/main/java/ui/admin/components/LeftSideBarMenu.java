@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2023 Jala University.
- *
+ * <p>
  * This software is the confidential and proprieraty information of Jala University
  * ("Confidential Information"). You shall not disclose such Confidential
  * Information and shall use it only in accordance with the terms of the
@@ -17,10 +17,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.BasePageObject;
 
 import ui.admin.pages.CategoriesPage;
-import ui.admin.pages.PagesPage;
-
 import ui.admin.pages.NewPostPage;
+import ui.admin.pages.NewUsersPage;
+import ui.admin.pages.PagesPage;
 import ui.admin.pages.PostsPage;
+import ui.admin.pages.ProfilePage;
+import ui.admin.pages.UsersPage;
 
 public class LeftSideBarMenu extends BasePageObject {
     @FindBy(id = "menu-posts")
@@ -35,6 +37,16 @@ public class LeftSideBarMenu extends BasePageObject {
     @FindBy(xpath = "//a[@href='edit-tags.php?taxonomy=category']")
     private WebElement categoriesButton;
     private Actions hoverPostMenu;
+
+    @FindBy(id = "menu-users")
+    private WebElement usersMenuButton;
+
+    @FindBy(xpath = "//li[@id='menu-users']/descendant::a[text()='Add New']")
+    private WebElement addNewUsersButton;
+
+    @FindBy(xpath = "//li[@id='menu-users']/descendant::a[text()='Profile']")
+    private WebElement profileUsersButton;
+
 
     public LeftSideBarMenu() {
         PageFactory.initElements(driver, this);
@@ -71,15 +83,18 @@ public class LeftSideBarMenu extends BasePageObject {
         clickAddNewPostButton();
         return new NewPostPage();
     }
+
     public void hoverPostMenu() {
         hoverPostMenu = new Actions(driver);
         hoverPostMenu.moveToElement(postsMenu).perform();
     }
+
     public void clickCategoriesButton() {
         hoverPostMenu.moveToElement(categoriesButton).perform();
         categoriesButton.click();
 
     }
+
     public boolean categoriesButtonIsNotAvailable() {
         hoverPostMenu();
         try {
@@ -89,6 +104,7 @@ public class LeftSideBarMenu extends BasePageObject {
             return false;
         }
     }
+
     public boolean postMenuIsNotAvailable() {
         try {
             postsMenu.isDisplayed();
@@ -97,9 +113,29 @@ public class LeftSideBarMenu extends BasePageObject {
             return false;
         }
     }
+
     public CategoriesPage goToCategoriesPage() {
         hoverPostMenu();
         clickCategoriesButton();
         return new CategoriesPage();
     }
+
+    public UsersPage goToUsersPage() {
+        usersMenuButton = wait.until(ExpectedConditions.elementToBeClickable(usersMenuButton));
+        usersMenuButton.click();
+        return new UsersPage();
+    }
+
+    public NewUsersPage goToNewUsersPage() {
+        addNewUsersButton = wait.until(ExpectedConditions.elementToBeClickable(addNewUsersButton));
+        addNewUsersButton.click();
+        return new NewUsersPage();
+    }
+
+    public ProfilePage goToProfilePage() {
+        profileUsersButton = wait.until(ExpectedConditions.elementToBeClickable(profileUsersButton));
+        profileUsersButton.click();
+        return new ProfilePage();
+    }
+
 }
