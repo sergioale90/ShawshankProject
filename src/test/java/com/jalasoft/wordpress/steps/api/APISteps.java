@@ -9,11 +9,7 @@
 package com.jalasoft.wordpress.steps.api;
 
 import api.controller.APIController;
-<<<<<<< HEAD
-import io.cucumber.java.en.And;
-=======
 import io.cucumber.datatable.DataTable;
->>>>>>> 3be197c (add negative retrieval for posts, no access)
 import io.cucumber.java.en.Then;
 import io.restassured.http.ContentType;
 import io.restassured.internal.http.Status;
@@ -57,7 +53,7 @@ public class APISteps {
         Assert.assertEquals(actualContentType, expectedContentType, "wrong content type returned");
     }
 
-    @And("the user should get a invalid response and have a body")
+    @Then("the user should get a invalid response and have a body")
     public void theUserShouldGetAInvalidResponseAndHaveABody() {
         String expectedContentType = ContentType.JSON.withCharset(StandardCharsets.UTF_8);
         Assert.assertTrue(Status.FAILURE.matches(controller.getResponse()
