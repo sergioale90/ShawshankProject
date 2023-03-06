@@ -91,7 +91,6 @@ public class TagsSteps {
         tagsPage = tagsPage.viewTagUsingLink(id, name);
     }
 
-
     @Then("^the user deletes the tag using the Delete link$")
     public void deleteTagFromEditPage() {
         editTagPage.deleteTagLink();
@@ -122,6 +121,28 @@ public class TagsSteps {
     public void searchInvalidTag(String tagName) {
         tagsPage.setTextboxSearch(tagName);
         tagsPage.getSearchTagsButton();
+    }
+
+    @Then("^the user creates a new tag with the same name and slug$")
+    public void createTagWithTheSameSlug() {
+        String name = controller.getName();
+        String slug = controller.getSlug();
+        String description = "Testing tag with the same slug: " + slug;
+        newTagPage.addNewTag(name, slug, description);
+    }
+
+    @Then("^the user should review that an error \"(.*?)\" message is displayed$")
+    public void verifyThatATagWithTheSameNameAndSlugIsNotCreated(String message) {
+        boolean isErrorMessageDisplayed = newTagPage.isErrorMessageDisplayedForTagCreatedWithTheSameName(message);
+        Assert.assertTrue(isErrorMessageDisplayed, "wrong error message is not displayed");
+    }
+
+    @Then("^the user creates a new tag with the same name$")
+    public void createTagWithTheSameName() {
+        String name = controller.getName();
+        String slug = "newslug";
+        String description = "Testing tag with the same name: " + name;
+        newTagPage.addNewTag(name, slug, description);
     }
 
     @Then("^the user should review a \"(.*?)\" message$")

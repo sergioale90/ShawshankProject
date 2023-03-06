@@ -91,3 +91,26 @@ Feature: Tags
       | administrator | noneexisttagadmin   | No tags found.     |
       | editor        | noneexisttagedit    | No tags found.     |
 
+  @CreateTagSameNameAndSlug @Bug @ST-77
+  Scenario Outline: A user with a proper role should not be able to create a tag with the same name and slug
+    Given the user is logged in to Admin page with "<User Role>" role
+    When the user goes to Tags page
+    And the user creates a new tag with the same name and slug
+    Then the user should review that an error "<Expected Result>" message is displayed
+
+    Examples:
+      | User Role       | Expected Result      |
+      | administrator   | A term with the name provided already exists in this taxonomy.  |
+      | editor          | A term with the name provided already exists in this taxonomy.  |
+
+
+  @CreateTagSameName @Bug @ST-80
+  Scenario Outline: A user with a proper role should not be able to create a tag with the same name
+    Given the user is logged in to Admin page with "<User Role>" role
+    When the user goes to Tags page
+    And the user creates a new tag with the same name
+    Then the user should review that an error "<Expected Result>" message is displayed
+    Examples:
+      | User Role       | Expected Result                                 |
+      | administrator   | A tag with the name provided already exists     |
+      | editor          | A tag with the name provided already exists     |
