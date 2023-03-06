@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2023 Jala University.
- * <p>
+ *
  * This software is the confidential and proprieraty information of Jala University
  * ("Confidential Information"). You shall not disclose such Confidential
  * Information and shall use it only in accordance with the terms of the
@@ -46,7 +46,6 @@ public class LeftSideBarMenu extends BasePageObject {
 
     @FindBy(xpath = "//li[@id='menu-users']/descendant::a[text()='Profile']")
     private WebElement profileUsersButton;
-
 
     public LeftSideBarMenu() {
         PageFactory.initElements(driver, this);

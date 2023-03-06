@@ -184,7 +184,7 @@ public class UsersSteps {
         String fisrtName = (String) values.get("lastName");
         String lastName = (String) values.get("lastName");
         String email = (String) values.get("email");
-        profilePage.FieldsToEdit(fisrtName, lastName, email);
+        profilePage.fieldsToEdit(fisrtName, lastName, email);
     }
 
     @Then("the profile should have been updated successfully")

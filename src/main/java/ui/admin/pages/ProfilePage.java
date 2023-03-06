@@ -1,6 +1,13 @@
+/**
+ * Copyright (c) 2023 Jala University.
+ *
+ * This software is the confidential and proprieraty information of Jala University
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * Licence agreement you entered into with Jala University.
+ */
 package ui.admin.pages;
 
-import framework.selenium.UIMethods;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -37,7 +44,7 @@ public class ProfilePage extends BaseAdminPage {
     public void waitUntilPageObjectIsLoaded() {
     }
 
-    public void FieldsToEdit(String firstName, String lastName, String email) {
+    public void fieldsToEdit(String firstName, String lastName, String email) {
         firstNameField.clear();
         firstNameField.sendKeys(firstName);
         lastNameField.clear();
@@ -47,7 +54,7 @@ public class ProfilePage extends BaseAdminPage {
         submitUpdate.click();
     }
 
-    public boolean getMsgUpdated(){
+    public boolean getMsgUpdated() {
         return wait.until(ExpectedConditions.
                 presenceOfElementLocated(By.xpath(msgUpdated))).isDisplayed();
     }

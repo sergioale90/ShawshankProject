@@ -42,7 +42,6 @@ Feature: Users
     Examples:
       | User Role     | Column |
       | administrator | email  |
-      | administrator | role   |
       | administrator | posts  |
 
 

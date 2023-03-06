@@ -1,7 +1,14 @@
+/**
+ * Copyright (c) 2023 Jala University.
+ *
+ * This software is the confidential and proprieraty information of Jala University
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * Licence agreement you entered into with Jala University.
+ */
 package ui.admin.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -70,15 +77,15 @@ public class UsersPage extends BaseAdminPage {
                 presenceOfElementLocated(By.xpath(userName.replace("user", userX)))).isDisplayed();
     }
 
-    public String getIdUser(String userX){
+    public String getIdUser(String userX) {
         WebElement idUsers = driver.findElement(By.xpath(idUser.replace("user", userX)));
         String idValue = idUsers.getAttribute("id");
         return idValue.substring(idValue.indexOf("-") + 1);
     }
 
-    public void filterARole(String role) {
+    public void filterARole(String roleFilter) {
         WebElement filterRole = wait.until(ExpectedConditions
-                .presenceOfElementLocated(By.xpath(barRole.replace("option", role))));
+                .presenceOfElementLocated(By.xpath(barRole.replace("option", roleFilter))));
         filterRole.click();
     }
 
@@ -87,22 +94,22 @@ public class UsersPage extends BaseAdminPage {
         List<WebElement> rows = tableElement.findElements(By.tagName("tr"));
 
         for (WebElement row : rows) {
-            WebElement role = row.findElement(By.xpath("//td[@data-colname='Role']"));
-            String roleLower = role.getText().substring(0, 1).toLowerCase() + role.getText().substring(1);
-            if (!roleLower.equals(roles))
+            WebElement roleTable = row.findElement(By.xpath("//td[@data-colname='Role']"));
+            String roleLower = roleTable.getText().substring(0, 1).toLowerCase() + roleTable.getText().substring(1);
+            if (!roleLower.equals(roles)) {
                 return false;
+            }
         }
         return true;
     }
-
 
     public void searchUser(String searchName) {
         searchUser.sendKeys(searchName);
         searchUserButton.click();
     }
 
-    public String ifExistUser(String searchUser) {
-        List<WebElement> elements = driver.findElements(By.xpath(userResult.replace("as", searchUser)));
+    public String ifExistUser(String search) {
+        List<WebElement> elements = driver.findElements(By.xpath(userResult.replace("as", search)));
         return elements.size() > 0 ? "exist" : "notExist";
     }
 
@@ -116,7 +123,6 @@ public class UsersPage extends BaseAdminPage {
     }
 
     public boolean verifyHideColumn() {
-
         return wait.until(ExpectedConditions.
                 presenceOfElementLocated(By.xpath(tableColumn.replace("column", auxColumn)))).isDisplayed();
     }
@@ -127,19 +133,17 @@ public class UsersPage extends BaseAdminPage {
 
         String href = columnElement.getAttribute("href");
         driver.get(href);
-
         return new EditUsersPage();
     }
 
-    public void chageRolFromList(String role, String user) {
-        auxColumn=role;
+    public void chageRolFromList(String roleList, String user) {
+        auxColumn = roleList;
         WebElement check = driver.findElement(By.xpath(userCheck.replace("value", user)));
         check.click();
 
         WebElement selectElement = driver.findElement(By.id("new_role"));
         Select select = new Select(selectElement);
-        select.selectByValue(role);
-
+        select.selectByValue(roleList);
         changeRoleButton.click();
     }
 
@@ -148,9 +152,10 @@ public class UsersPage extends BaseAdminPage {
         String roleLower = selectElement.getText().substring(0, 1).toLowerCase() + selectElement.getText().substring(1);
         return roleLower;
     }
+
     public boolean verifyRoleChanged(String user) {
         return wait.until(ExpectedConditions.
-                presenceOfElementLocated(By.xpath(userRoleRow.replace("value",user)))).isDisplayed();
+                presenceOfElementLocated(By.xpath(userRoleRow.replace("value", user)))).isDisplayed();
     }
 
     public void goToDelete(String user) {
@@ -160,11 +165,9 @@ public class UsersPage extends BaseAdminPage {
         String href = columnElement.getAttribute("href");
         driver.get(href);
         deleteButton.click();
-
     }
 
     public void chageToDeleteBulkActions(String user) {
-//        auxColumn=role;
         WebElement check = driver.findElement(By.xpath(userCheck.replace("value", user)));
         check.click();
 
@@ -180,14 +183,4 @@ public class UsersPage extends BaseAdminPage {
         return wait.until(ExpectedConditions.
                 presenceOfElementLocated(By.xpath(msgDeleted))).isDisplayed();
     }
-
-    public void times() {
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-
 }
