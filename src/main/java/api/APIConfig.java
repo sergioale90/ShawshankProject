@@ -88,7 +88,9 @@ public class APIConfig {
         return getAPISetting("api.endpoint.users");
     }
 
-    public String getUsersByIdEndpoint() { return getAPISetting("api.endpoint.usersById"); }
+    public String getUsersByIdEndpoint() {
+        return getAPISetting("api.endpoint.usersById");
+    }
 
     public String getTagsEndpoint() {
         return getAPISetting("api.endpoint.tags");
