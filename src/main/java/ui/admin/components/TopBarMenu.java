@@ -30,7 +30,6 @@ public class TopBarMenu extends BasePageObject {
 
     @Override
     public void waitUntilPageObjectIsLoaded() {
-        //myAccountButton = wait.until(ExpectedConditions.elementToBeClickable(myAccountButton));
     }
 
     public void clickLogoutButton() {
