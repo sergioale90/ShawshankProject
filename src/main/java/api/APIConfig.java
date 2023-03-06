@@ -60,6 +60,15 @@ public class APIConfig {
         return getAPISetting("api.endpoint.token");
     }
 
+    public String getSchemaPathByUserRole(String userRole) {
+        return getAPISetting("api.path." + userRole);
+    }
+
+    public String getInvalidTokenByType(String type) {
+        type = type.replaceAll(" ", ".");
+        return getAPISetting("api.token.jwt." + type);
+    }
+
     public String getPostsEndpoint() {
         return getAPISetting("api.endpoint.posts");
     }

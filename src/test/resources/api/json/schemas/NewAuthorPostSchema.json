@@ -1,0 +1,409 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Generated schema for Root",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "number"
+    },
+    "date": {
+      "type": "string"
+    },
+    "date_gmt": {
+      "type": "string"
+    },
+    "guid": {
+      "type": "object",
+      "properties": {
+        "rendered": {
+          "type": "string"
+        },
+        "raw": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "rendered",
+        "raw"
+      ]
+    },
+    "modified": {
+      "type": "string"
+    },
+    "modified_gmt": {
+      "type": "string"
+    },
+    "password": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "link": {
+      "type": "string"
+    },
+    "title": {
+      "type": "object",
+      "properties": {
+        "raw": {
+          "type": "string"
+        },
+        "rendered": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "raw",
+        "rendered"
+      ]
+    },
+    "content": {
+      "type": "object",
+      "properties": {
+        "raw": {
+          "type": "string"
+        },
+        "rendered": {
+          "type": "string"
+        },
+        "protected": {
+          "type": "boolean"
+        },
+        "block_version": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "raw",
+        "rendered",
+        "protected",
+        "block_version"
+      ]
+    },
+    "excerpt": {
+      "type": "object",
+      "properties": {
+        "raw": {
+          "type": "string"
+        },
+        "rendered": {
+          "type": "string"
+        },
+        "protected": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "raw",
+        "rendered",
+        "protected"
+      ]
+    },
+    "author": {
+      "type": "number"
+    },
+    "featured_media": {
+      "type": "number"
+    },
+    "comment_status": {
+      "type": "string"
+    },
+    "ping_status": {
+      "type": "string"
+    },
+    "sticky": {
+      "type": "boolean"
+    },
+    "template": {
+      "type": "string"
+    },
+    "format": {
+      "type": "string"
+    },
+    "meta": {
+      "type": "array",
+      "items": {}
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {}
+    },
+    "permalink_template": {
+      "type": "string"
+    },
+    "generated_slug": {
+      "type": "string"
+    },
+    "_links": {
+      "type": "object",
+      "properties": {
+        "self": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "href": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "href"
+            ]
+          }
+        },
+        "collection": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "href": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "href"
+            ]
+          }
+        },
+        "about": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "href": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "href"
+            ]
+          }
+        },
+        "author": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "embeddable": {
+                "type": "boolean"
+              },
+              "href": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "embeddable",
+              "href"
+            ]
+          }
+        },
+        "replies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "embeddable": {
+                "type": "boolean"
+              },
+              "href": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "embeddable",
+              "href"
+            ]
+          }
+        },
+        "version-history": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "count": {
+                "type": "number"
+              },
+              "href": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "count",
+              "href"
+            ]
+          }
+        },
+        "wp:attachment": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "href": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "href"
+            ]
+          }
+        },
+        "wp:term": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "taxonomy": {
+                "type": "string"
+              },
+              "embeddable": {
+                "type": "boolean"
+              },
+              "href": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "taxonomy",
+              "embeddable",
+              "href"
+            ]
+          }
+        },
+        "wp:action-publish": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "href": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "href"
+            ]
+          }
+        },
+        "wp:action-assign-categories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "href": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "href"
+            ]
+          }
+        },
+        "wp:action-create-tags": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "href": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "href"
+            ]
+          }
+        },
+        "wp:action-assign-tags": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "href": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "href"
+            ]
+          }
+        },
+        "curies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "href": {
+                "type": "string"
+              },
+              "templated": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "name",
+              "href",
+              "templated"
+            ]
+          }
+        }
+      },
+      "required": [
+        "self",
+        "collection",
+        "about",
+        "author",
+        "replies",
+        "version-history",
+        "wp:attachment",
+        "wp:term",
+        "wp:action-publish",
+        "wp:action-assign-categories",
+        "wp:action-create-tags",
+        "wp:action-assign-tags",
+        "curies"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "date",
+    "date_gmt",
+    "guid",
+    "modified",
+    "modified_gmt",
+    "password",
+    "slug",
+    "status",
+    "type",
+    "link",
+    "title",
+    "content",
+    "excerpt",
+    "author",
+    "featured_media",
+    "comment_status",
+    "ping_status",
+    "sticky",
+    "template",
+    "format",
+    "meta",
+    "categories",
+    "tags",
+    "permalink_template",
+    "generated_slug",
+    "_links"
+  ]
+}
