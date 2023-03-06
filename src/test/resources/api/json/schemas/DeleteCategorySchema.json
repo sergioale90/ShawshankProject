@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "deleted": {
+      "type": "boolean"
+    },
+    "previous": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "count": {
+          "type": "integer"
+        },
+        "description": {
+          "type": "string"
+        },
+        "link": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "taxonomy": {
+          "type": "string"
+        },
+        "parent": {
+          "type": "integer"
+        },
+        "meta": {
+          "type": "array",
+          "items": {}
+        }
+      },
+      "required": [
+        "id",
+        "count",
+        "description",
+        "link",
+        "name",
+        "slug",
+        "taxonomy",
+        "parent",
+        "meta"
+      ]
+    }
+  },
+  "required": [
+    "deleted",
+    "previous"
+  ]
+}
+

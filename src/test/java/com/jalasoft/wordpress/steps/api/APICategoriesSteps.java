@@ -15,12 +15,16 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.restassured.http.Header;
 import io.restassured.internal.http.Status;
+import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import utils.StringManager;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class APICategoriesSteps {
     private static final APIConfig API_CONFIG = APIConfig.getInstance();
@@ -98,12 +102,22 @@ public class APICategoriesSteps {
     }
     @Then("^response should have a proper amount of categories$")
     public void verifyIfResponseHasTheListOfCategories() {
+        String schemaFilePath = "src|test|resources|api|json|schemas|ListCategoriesSchema.json".replace("|", File.separator);
+        File schemaFile = new File(schemaFilePath);
+        Response response = controller.getResponse();
+
         int expectedAmountOfCategories = Integer.parseInt(controller.getResponse().getHeaders().getValue("X-WP-Total"));
         int actualAmountOfCategories = controller.getResponse().jsonPath().getList("$").size();
+
         Assert.assertEquals(actualAmountOfCategories, expectedAmountOfCategories, "wrong amount of categories returned");
+        response.then().assertThat().body(JsonSchemaValidator.matchesJsonSchema(schemaFile));
     }
     @Then("^category should have been created correctly$")
     public void verifyIfCategoryWasCreatedProperly() {
+        String schemaFilePath = "src|test|resources|api|json|schemas|NewCategorySchema.json".replace("|", File.separator);
+        File schemaFile = new File(schemaFilePath);
+        Response response = controller.getResponse();
+
         String expectedCategoryName = (String) params.get("name");
         String expectedCategorySlug = (String) params.get("slug");
         expectedCategorySlug = expectedCategorySlug.toLowerCase();
@@ -116,6 +130,7 @@ public class APICategoriesSteps {
         Assert.assertEquals(actualCategoryName, expectedCategoryName, "The category was not created with the properly name");
         Assert.assertEquals(actualCategorySlug, expectedCategorySlug, "The category was not created with the properly slug");
         Assert.assertEquals(actualCategoryDescription, expectedCategoryDescription, "The category was not created with the properly description");
+        response.then().assertThat().body(JsonSchemaValidator.matchesJsonSchema(schemaFile));
     }
     @Then ("^response should display the information of the category$")
     public void verifyIfCategoryIsRetrievedProperly() {
@@ -142,10 +157,15 @@ public class APICategoriesSteps {
     }
     @Then("^category should have been deleted$")
     public void verifyIfCategoryWasDeletedSuccessfully() {
+        String schemaFilePath = "src|test|resources|api|json|schemas|DeleteCategorySchema.json".replace("|", File.separator);
+        File schemaFile = new File(schemaFilePath);
+        Response response = controller.getResponse();
+
         Boolean expectedStatus = true;
         Boolean actualStatus = controller.getResponse().jsonPath().getBoolean("deleted");
 
         Assert.assertEquals(actualStatus, expectedStatus, "wrong status value returned");
+        response.then().assertThat().body(JsonSchemaValidator.matchesJsonSchema(schemaFile));
     }
     @Then("^category should have been updated")
     public void verifyIfCategoryWasUpdatedSuccessfully() {

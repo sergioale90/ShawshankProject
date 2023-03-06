@@ -63,7 +63,7 @@ Feature: API Categories
       | editor        | HTTP/1.1 200 OK |
 
   @RetrieveACategory @Bug
-  Scenario Outline:A user with proper role should be able to retrieve the information of a category
+  Scenario Outline:A user without proper role should be able to retrieve the information of a category
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to retrieve a category
     Then the user should get a "<Status Line>" response
