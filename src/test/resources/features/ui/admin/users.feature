@@ -89,7 +89,7 @@ Feature: Users
     Examples:
       | User Role     | First Name | Last Name | Email            |
       | administrator | pablito    | pelaez    | pablito@mail.com |
-#      | administrator | First juan | pere N    | juan@mail.com |
+      | administrator | juan       | perez     | juan@mail.com    |
 
 
   @UpdateAProfile
