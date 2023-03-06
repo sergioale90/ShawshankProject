@@ -8,6 +8,7 @@
  */
 package com.jalasoft.wordpress.steps.api;
 
+import api.APIConfig;
 import api.controller.APIController;
 import api.methods.APIAuthMethods;
 import api.methods.APIUsersMethods;
@@ -17,6 +18,7 @@ import org.testng.Assert;
 
 public class AuthorizationSteps {
     private final APIController controller;
+    private static final APIConfig API_CONFIG = APIConfig.getInstance();
 
     public AuthorizationSteps(APIController controller) {
         this.controller = controller;
@@ -34,5 +36,10 @@ public class AuthorizationSteps {
         Header authHeader = APIUsersMethods.loginAUser();
         controller.addHeader(authHeader);
         Assert.assertNotNull(authHeader, "Unable to retrieve authorization header for user with role --> " + userRole);
+    }
+
+    @Given("^the user is using an authorization token with \"(.*?)\" value$")
+    public void getInvalidToken(String tokenValue) {
+        controller.addHeader(new Header("Authorization", API_CONFIG.getInvalidTokenByType(tokenValue)));
     }
 }

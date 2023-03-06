@@ -10,11 +10,13 @@ package ui.admin.components;
 
 import framework.selenium.UIMethods;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.BasePageObject;
 
+import ui.admin.pages.CategoriesPage;
 import ui.admin.pages.PagesPage;
 
 import ui.admin.pages.NewPostPage;
@@ -23,11 +25,16 @@ import ui.admin.pages.PostsPage;
 public class LeftSideBarMenu extends BasePageObject {
     @FindBy(id = "menu-posts")
     private WebElement postsMenuButton;
-
     @FindBy(id = "menu-pages")
     private WebElement pagesMenuButton;
+
     @FindBy(xpath = "//li[@id='menu-posts']/descendant::a[text()='Add New']")
     private WebElement addNewPostButton;
+    @FindBy(xpath = "//div[@class='wp-menu-name' and text()='Posts']")
+    private WebElement postsMenu;
+    @FindBy(xpath = "//a[@href='edit-tags.php?taxonomy=category']")
+    private WebElement categoriesButton;
+    private Actions hoverPostMenu;
 
     public LeftSideBarMenu() {
         PageFactory.initElements(driver, this);
@@ -63,5 +70,36 @@ public class LeftSideBarMenu extends BasePageObject {
         UIMethods.moveToWebElement(postsMenuButton);
         clickAddNewPostButton();
         return new NewPostPage();
+    }
+    public void hoverPostMenu() {
+        hoverPostMenu = new Actions(driver);
+        hoverPostMenu.moveToElement(postsMenu).perform();
+    }
+    public void clickCategoriesButton() {
+        hoverPostMenu.moveToElement(categoriesButton).perform();
+        categoriesButton.click();
+
+    }
+    public boolean categoriesButtonIsNotAvailable() {
+        hoverPostMenu();
+        try {
+            categoriesButton.isDisplayed();
+            return true;
+        } catch (org.openqa.selenium.NoSuchElementException e) {
+            return false;
+        }
+    }
+    public boolean postMenuIsNotAvailable() {
+        try {
+            postsMenu.isDisplayed();
+            return true;
+        } catch (org.openqa.selenium.NoSuchElementException e) {
+            return false;
+        }
+    }
+    public CategoriesPage goToCategoriesPage() {
+        hoverPostMenu();
+        clickCategoriesButton();
+        return new CategoriesPage();
     }
 }

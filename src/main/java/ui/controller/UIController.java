@@ -12,6 +12,10 @@ public class UIController {
     private String id;
     private String title;
     private String content;
+    private String name;
+    private String slug;
+    private String description;
+    private String message;
 
     public String getId() {
         return id;
@@ -35,5 +39,37 @@ public class UIController {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
