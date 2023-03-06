@@ -33,7 +33,7 @@ public class APIUsersFeatureHook {
     }
 
     @After("@CreateAUser or @RetrieveAUser or @UpdateAUser or @RetrieveCurrentUser or @UpdateCurrentUser ")
-    public void deleteAPostById() {
+    public void deleteAUserById() {
         String id = controller.getResponse().jsonPath().getString("id");
         Response requestResponse = APIUsersMethods.deleteAUsersById(id);
 
