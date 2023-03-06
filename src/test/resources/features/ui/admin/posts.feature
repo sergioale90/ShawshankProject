@@ -1,4 +1,4 @@
-@Posts @UI
+@PostsUI @UI
 Feature: Posts
 
   @CreatePublishPost

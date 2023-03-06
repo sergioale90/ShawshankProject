@@ -66,8 +66,9 @@ public class DriverManager {
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
                 chromeOptions.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
-
                 chromeOptions.addArguments("--password-store=basic");
+                chromeOptions.setAcceptInsecureCerts(true);
+
                 Map<String, Object> prefs = new HashMap<String, Object>();
                 prefs.put("credentials_enable_service", false);
                 prefs.put("profile.password_manager_enabled", false);
@@ -86,8 +87,8 @@ public class DriverManager {
                 EdgeOptions edgeOptions = new EdgeOptions();
                 edgeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
                 edgeOptions.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
-
                 edgeOptions.addArguments("--password-store=basic");
+                edgeOptions.setAcceptInsecureCerts(true);
                 Map<String, Object> prefs = new HashMap<String, Object>();
                 prefs.put("credentials_enable_service", false);
                 prefs.put("profile.password_manager_enabled", false);
@@ -108,6 +109,7 @@ public class DriverManager {
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
                 firefoxOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
                 firefoxOptions.setLogLevel(FirefoxDriverLogLevel.FATAL);
+                firefoxOptions.setAcceptInsecureCerts(true);
                 if (DRIVER_CONFIG.getHeadlessMode()) {
                     firefoxOptions.addArguments("--headless");
                 }

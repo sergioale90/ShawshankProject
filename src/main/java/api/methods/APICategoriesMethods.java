@@ -16,6 +16,7 @@ import utils.LoggerManager;
 import utils.StringManager;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class APICategoriesMethods {
@@ -23,6 +24,7 @@ public class APICategoriesMethods {
     public static final APIManager API_MANAGER = APIManager.getInstance();
     private static final APIConfig API_CONFIG = APIConfig.getInstance();
     private static final int STRING_LENGHT = 4;
+    private static final int PER_PAGE = 100;
 
     public static Response createACategory() {
         String categoriesEndpoint = API_CONFIG.getCategoriesEndpoint();
@@ -42,5 +44,26 @@ public class APICategoriesMethods {
         queryParams.put("force", true);
 
         return API_MANAGER.delete(categoriesEndpointById, queryParams, authHeader);
+    }
+    public static Response getAllCategoriesCreated() {
+        String categoriesEndpoint = API_CONFIG.getCategoriesEndpoint();
+        Header authHeader = APIAuthMethods.getAuthHeader("administrator");
+        Map<String, Object> queryParams = new HashMap<>();
+        queryParams.put("per_page", PER_PAGE);
+
+        return API_MANAGER.get(categoriesEndpoint, queryParams, authHeader);
+    }
+    public static String getTheIdByName(String name) {
+        List<Object> objects = getAllCategoriesCreated().jsonPath().getList("$");
+        int index = 0;
+        String categoryId = null;
+        for (Object object : objects) {
+            if (object.toString().contains(name)) {
+                categoryId = getAllCategoriesCreated().jsonPath().getList("id", String.class).get(index);
+                break;
+            }
+            index++;
+        }
+        return categoryId;
     }
 }

@@ -42,12 +42,14 @@ public class LoginAdminPage extends BasePageObject {
     }
 
     public void setUserNameTextBox(String userName) {
+        userNameTextBox = wait.until(ExpectedConditions.elementToBeClickable(userNameTextBox));
         userNameTextBox.click();
         userNameTextBox.clear();
         userNameTextBox.sendKeys(userName);
     }
 
     public void setPasswordTextBox(String password) {
+        passwordTextBox = wait.until(ExpectedConditions.elementToBeClickable(passwordTextBox));
         passwordTextBox.click();
         passwordTextBox.clear();
         passwordTextBox.sendKeys(password);

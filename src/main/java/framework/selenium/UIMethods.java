@@ -89,4 +89,8 @@ public class UIMethods {
                 element.style.display = 'none';
                 }""", cssLocator);
     }
+    public static void scrollDownUntilElement(WebElement element) {
+        JavascriptExecutor js = (JavascriptExecutor) DRIVER;
+        js.executeScript("arguments[0].scrollIntoView();", element);
+    }
 }
