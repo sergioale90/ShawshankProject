@@ -60,6 +60,15 @@ public class APIConfig {
         return getAPISetting("api.endpoint.token");
     }
 
+    public String getSchemaPathByUserRole(String userRole) {
+        return getAPISetting("api.path." + userRole);
+    }
+
+    public String getInvalidTokenByType(String type) {
+        type = type.replaceAll(" ", ".");
+        return getAPISetting("api.token.jwt." + type);
+    }
+
     public String getPostsEndpoint() {
         return getAPISetting("api.endpoint.posts");
     }
@@ -99,4 +108,13 @@ public class APIConfig {
     public String getTagsEndpointById() {
         return getAPISetting("api.endpoint.tagsById");
     }
+
+    public String getCommentsEndpoint() {
+        return getAPISetting("api.endpoint.comments");
+    }
+
+    public String getCommentsByIdEndpoint() {
+        return getAPISetting("api.endpoint.commentsById");
+    }
+
 }

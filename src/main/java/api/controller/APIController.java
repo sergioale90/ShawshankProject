@@ -40,11 +40,11 @@ public class APIController {
         return response;
     }
 
-    public String getIdAux() {
-        return idAux;
-    }
-
     public void setIdAux(String idAux) {
         this.idAux = idAux;
+    }
+
+    public String getIdAux() {
+        return idAux;
     }
 }

@@ -27,6 +27,7 @@ public class LeftSideBarMenu extends BasePageObject {
     private WebElement postsMenuButton;
     @FindBy(id = "menu-pages")
     private WebElement pagesMenuButton;
+
     @FindBy(xpath = "//li[@id='menu-posts']/descendant::a[text()='Add New']")
     private WebElement addNewPostButton;
     @FindBy(xpath = "//div[@class='wp-menu-name' and text()='Posts']")
