@@ -104,6 +104,11 @@ def setHeadlessMode() {
 
 def setCredentials() {
     ant.properties(file:"environments.properties") {
+        entry(key: "local.baseURL", value: project.findProperty("baseURL"))
+        entry(key: "local.admin.loginURL", value: project.findProperty("logURL"))
+        entry(key: "local.adminURL", value: project.findProperty("adminURL"))
+        entry(key: "local.admin.newPostURL", value: project.findProperty("nPostURL"))
+        entry(key: "local.admin.newTagURL", value: project.findProperty("nTagURL"))
         entry(key: "local.administrator.username", value: project.findProperty("adminUser"))
         entry(key: "local.administrator.password", value: project.findProperty("adminPass"))
         entry(key: "local.author.username", value: project.findProperty("authUser"))
