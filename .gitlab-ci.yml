@@ -1,0 +1,15 @@
+image: openjdk:17
+stages:
+  - Build
+  - Check
+build:
+  stage: Build
+  script:
+    - chmod +x gradlew
+    - ./gradlew clean assemble
+check:
+  stage: Check
+  script:
+    - chmod +x gradlew
+    - ./gradlew checkstyleMain
+    - ./gradlew checkstyleTest
