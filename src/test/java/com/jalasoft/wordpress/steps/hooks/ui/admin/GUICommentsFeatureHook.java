@@ -58,4 +58,6 @@ public class GUICommentsFeatureHook {
         CommonMethods.logout();
         APIPostsMethods.deleteAPostById(controller.getPostId());
     }
+
+
 }
