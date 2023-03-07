@@ -28,11 +28,11 @@ Feature: Posts
     Then the Post should have been saved as a Draft successfully
 
     Examples:
-      | User Role     | Title                            | Content                           |
-      | administrator | Insert Funny Title               | Insert Funny Comment              |
-      | author        | Eating People is Wrong           | BTW, this is title of a real book |
-      | contributor   | Eating People well don't do that | as simple as that                 |
-      | editor        | I Yam What I Yam                 | And Dats What I Yam!              |
+      | User Role     | Title                                                          | Content                           |
+      | administrator | Insert Funny Title                                             | Insert Funny Comment              |
+      | author        | Eating People is Wrong                                         | BTW, this is title of a real book |
+      | contributor   | Eating People well don't do that                               | As simple as that                 |
+      | editor        | Just because it's free doesn't mean that I will give it to you | And that's how we met             |
 
   @OpenPublishPost
   Scenario Outline: A user with a proper role should be able to open a Published Post with the title
@@ -69,9 +69,9 @@ Feature: Posts
     Then the Post should have been updated successfully
 
     Examples:
-      | User Role     | Title                                          | Content                                                                    |
-      | administrator | My Homer is not a Communist                    | He may be a liar, a pig, an idiot, a Communist, but he is NOT a porn star! |
-      | editor        | Doctor say Nordberg has 50-50 chance of living | Though there's only a 10 percent chance of that                            |
+      | User Role     | Title                                                          | Content               |
+      | administrator | My Homer is not a Communist                                    | He may be a liar      |
+      | editor        | Just because it's free doesn't mean that I will give it to you | And that's how we met |
 
   @EditDraftPost
   Scenario Outline: A user with proper role should be able to edit and publish a Draft Post
@@ -84,9 +84,9 @@ Feature: Posts
     Then the Post should have been published successfully
 
     Examples:
-      | User Role     | Title                                          | Content                                                                    |
-      | administrator | My Homer is not a Communist                    | He may be a liar, a pig, an idiot, a Communist, but he is NOT a porn star! |
-      | editor        | Doctor say Nordberg has 50-50 chance of living | Though there's only a 10 percent chance of that                            |
+      | User Role     | Title                                                          | Content               |
+      | administrator | My Homer is not a Communist                                    | He may be a liar      |
+      | editor        | Just because it's free doesn't mean that I will give it to you | And that's how we met |
 
   @EditOwnPublishPost
   Scenario Outline: A user with proper role should be able to edit and publish his own Post
@@ -103,10 +103,10 @@ Feature: Posts
     Then the Post should have been updated successfully
 
     Examples:
-      | User Role     | Title                                          | Content                                                                    |
-      | administrator | My Homer is not a Communist                    | He may be a liar, a pig, an idiot, a Communist, but he is NOT a porn star! |
-      | author        | Doctor say Nordberg has 50-50 chance of living | Though there's only a 10 percent chance of that                            |
-      | editor        | Doctor say Nordberg has 50-50 chance of living | Though there's only a 10 percent chance of that                            |
+      | User Role     | Title                                                          | Content                                         |
+      | administrator | My Homer is not a Communist                                    | He may be a liar                                |
+      | author        | Doctor say Nordberg has 50-50 chance of living                 | Though there's only a 10 percent chance of that |
+      | editor        | Just because it's free doesn't mean that I will give it to you | And that's how we met                           |
 
   @EditOwnDraftPost
   Scenario Outline: A user with proper role should be able to edit and publish his own draft Post
@@ -123,11 +123,11 @@ Feature: Posts
     Then the Post should have been saved as a Draft successfully
 
     Examples:
-      | User Role     | Title                                          | Content                                                                    |
-      | administrator | My Homer is not a Communist                    | He may be a liar, a pig, an idiot, a Communist, but he is NOT a porn star! |
-      | author        | Doctor say Nordberg has 50-50 chance of living | Though there's only a 10 percent chance of that                            |
-      | contributor   | Doctor say Nordberg has 50-50 chance of living | Though there's only a 10 percent chance of that                            |
-      | editor        | Doctor say Nordberg has 50-50 chance of living | Though there's only a 10 percent chance of that                            |
+      | User Role     | Title                                                          | Content                                         |
+      | administrator | My Homer is not a Communist                                    | He may be a liar                                |
+      | author        | Yeah 4:00 am and I'm still going                               | I will need a coffee                            |
+      | contributor   | Doctor say Nordberg has 50-50 chance of living                 | Though there's only a 10 percent chance of that |
+      | editor        | Just because it's free doesn't mean that I will give it to you | And that's how we met                           |
 
   @DeletePublishPost
   Scenario Outline: A user with proper role should be able to delete a Post
@@ -163,10 +163,10 @@ Feature: Posts
     Then the Post should have been published successfully
 
     Examples:
-      | User Role     | Title                  | Content                           |
-      | administrator | Insert Funny Title     | Insert Funny Comment              |
-      | author        | Eating People is Wrong | BTW, this is title of a real book |
-      | editor        | I Yam What I Yam       | And Dats What I Yam!              |
+      | User Role     | Title                                                          | Content                           |
+      | administrator | Insert Funny Title                                             | Insert Funny Comment              |
+      | author        | Eating People is Wrong                                         | BTW, this is title of a real book |
+      | editor        | Just because it's free doesn't mean that I will give it to you | And that's how we met             |
 
   @CreateDraftPost
   Scenario Outline: A user with proper role should be able to create a Draft Post with the submenu
@@ -178,11 +178,11 @@ Feature: Posts
     Then the Post should have been saved as a Draft successfully
 
     Examples:
-      | User Role     | Title                        | Content                           |
-      | administrator | Insert Funny Title           | Insert Funny Comment              |
-      | author        | Eating People is Wrong       | BTW, this is title of a real book |
-      | contributor   | Eating People is Wrong twice | now think about what you did      |
-      | editor        | I Yam What I Yam             | And Dats What I Yam!              |
+      | User Role     | Title                            | Content                      |
+      | administrator | Insert Funny Title               | Insert Funny Comment         |
+      | author        | Yeah 4:00 am and I'm still going | I will need a coffee         |
+      | contributor   | Eating People is Wrong twice     | now think about what you did |
+      | editor        | I Yam What I Yam                 | And Dats What I Yam!         |
 
   @CreatePublishPost
   Scenario Outline: A user with proper role should be able to create and publish a Post in the new post page
@@ -194,10 +194,10 @@ Feature: Posts
     Then the Post should have been published successfully
 
     Examples:
-      | User Role     | Title                  | Content                           |
-      | administrator | Insert Funny Title     | Insert Funny Comment              |
-      | author        | Eating People is Wrong | BTW, this is title of a real book |
-      | editor        | I Yam What I Yam       | And Dats What I Yam!              |
+      | User Role     | Title                                                          | Content                           |
+      | administrator | Insert Funny Title                                             | Insert Funny Comment              |
+      | author        | Eating People is Wrong                                         | BTW, this is title of a real book |
+      | editor        | Just because it's free doesn't mean that I will give it to you | And that's how we met             |
 
   @CreateDraftPost
   Scenario Outline: A user with proper role should be able to create a Draft Post in the new post page
@@ -209,8 +209,8 @@ Feature: Posts
     Then the Post should have been saved as a Draft successfully
 
     Examples:
-      | User Role     | Title                        | Content                           |
-      | administrator | Insert Funny Title           | Insert Funny Comment              |
-      | author        | Eating People is Wrong       | BTW, this is title of a real book |
-      | contributor   | Eating People is Wrong twice | now think about what you did      |
-      | editor        | I Yam What I Yam             | And Dats What I Yam!              |
+      | User Role     | Title                                                          | Content                           |
+      | administrator | Insert Funny Title                                             | Insert Funny Comment              |
+      | author        | Eating People is Wrong                                         | BTW, this is title of a real book |
+      | contributor   | Eating People is Wrong twice                                   | now think about what you did      |
+      | editor        | Just because it's free doesn't mean that I will give it to you | And that's how we met             |
