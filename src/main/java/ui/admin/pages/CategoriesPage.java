@@ -19,10 +19,14 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.admin.BaseAdminPage;
 import utils.StringManager;
 
+/**
+ * This class contains all methods, attributes and locators to interact in to the Categories Page.
+ */
+
 public class CategoriesPage extends BaseAdminPage {
     private String categoryName;
     private Actions hoverRowCategory;
-    private final int stringLenght = 7;
+    private static final int STRING_LENGHT = 7;
     @FindBy(xpath = "//h1[@class='wp-heading-inline' and text()='Categories']")
     private WebElement categoriesPageTitle;
     @FindBy(id="tag-name")
@@ -35,8 +39,6 @@ public class CategoriesPage extends BaseAdminPage {
     private WebElement addNewCategoryButton;
     @FindBy(xpath = "//div[@class='notice notice-success is-dismissible']")
     private WebElement successCreatedCategoryMessage;
-    @FindBy(id = "parent")
-    WebElement parentCategoryButton;
     @FindBy(xpath = "//div[@class='notice notice-error']")
     private WebElement errorMessage;
     @FindBy(xpath = "//button[@class='save button button-primary']")
@@ -66,7 +68,7 @@ public class CategoriesPage extends BaseAdminPage {
     }
     public String fillCategoryNameField() {
         categoryNameField = wait.until(ExpectedConditions.visibilityOf(categoryNameField));
-        categoryName = StringManager.generateAlphanumericString(stringLenght);
+        categoryName = StringManager.generateAlphanumericString(STRING_LENGHT);
         categoryNameField.clear();
         categoryNameField.sendKeys(categoryName);
         return categoryName;
@@ -78,14 +80,14 @@ public class CategoriesPage extends BaseAdminPage {
     }
     public String fillCategorySlugField() {
         categorySlugField = wait.until(ExpectedConditions.visibilityOf(categorySlugField));
-        String slug = StringManager.generateAlphanumericString(stringLenght);
+        String slug = StringManager.generateAlphanumericString(STRING_LENGHT);
         categorySlugField.clear();
         categorySlugField.sendKeys(slug);
         return slug;
     }
     public String fillCategoryDescriptionField() {
         categoryDescriptionField = wait.until(ExpectedConditions.visibilityOf(categoryDescriptionField));
-        String description = StringManager.generateAlphanumericString(stringLenght);
+        String description = StringManager.generateAlphanumericString(STRING_LENGHT);
         categoryDescriptionField.clear();
         categoryDescriptionField.sendKeys(description);
         return description;
@@ -189,7 +191,7 @@ public class CategoriesPage extends BaseAdminPage {
         return quickEditFormLocator.isDisplayed();
     }
     public String quickEditCategoryName(String id) {
-        String newCategoryName = StringManager.generateAlphanumericString(stringLenght);
+        String newCategoryName = StringManager.generateAlphanumericString(STRING_LENGHT);
         String nameTextBoxString = String.format("//tr[@id='edit-%s']/descendant::input[@name='name']", id);
         WebElement nameTextBoxLocator = driver.findElement(By.xpath(nameTextBoxString));
         nameTextBoxLocator = wait.until(ExpectedConditions.visibilityOf(nameTextBoxLocator));
@@ -198,7 +200,7 @@ public class CategoriesPage extends BaseAdminPage {
         return newCategoryName;
     }
     public String quickEditCategorySlug(String id) {
-        String newCategorySlug = StringManager.generateAlphanumericString(stringLenght);
+        String newCategorySlug = StringManager.generateAlphanumericString(STRING_LENGHT);
         String slugTextBoxString = String.format("//tr[@id='edit-%s']/descendant::input[@name='slug']", id);
         WebElement slugTextBoxLocator = driver.findElement(By.xpath(slugTextBoxString));
         slugTextBoxLocator.clear();

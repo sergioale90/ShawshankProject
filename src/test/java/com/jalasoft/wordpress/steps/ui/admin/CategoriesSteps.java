@@ -17,16 +17,21 @@ import ui.admin.pages.EditCategoryPage;
 import ui.admin.pages.HomeAdminPage;
 import ui.controller.UIController;
 
+/**
+ * This class contains all methods, to perform the actions for categories test.
+ */
+
+
 public class CategoriesSteps {
     private final UIController controller;
     private final HomeAdminPage homeAdminPage;
     private CategoriesPage categoriesPage;
     private EditCategoryPage editCategoryPage;
+
     public CategoriesSteps(UIController controller, HomeAdminPage homeAdminPage) {
         this.controller = controller;
         this.homeAdminPage = homeAdminPage;
     }
-
 
     @Given("^the user hover over of Posts menu in the left side bar menu and click on the categories button$")
     public void enterToCategoriesPage() {

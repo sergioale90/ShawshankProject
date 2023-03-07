@@ -16,6 +16,10 @@ import io.restassured.internal.http.Status;
 import io.restassured.response.Response;
 import org.testng.Assert;
 
+/**
+ * This class is the hook to create and delete categories.
+ */
+
 public class APICategoriesFeatureHook {
     private final APIController controller;
 

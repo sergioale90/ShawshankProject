@@ -113,13 +113,13 @@ public class TagsSteps {
     @Then("^the user searches a valid name tag$")
     public void searchValidTag() {
         String name = controller.getName();
-        tagsPage.setTextboxSearch(name);
+        tagsPage.setTextBoxSearch(name);
         tagsPage.getSearchTagsButton();
     }
 
     @Then("^the user searches a invalid tag name \"(.*?)\"$")
     public void searchInvalidTag(String tagName) {
-        tagsPage.setTextboxSearch(tagName);
+        tagsPage.setTextBoxSearch(tagName);
         tagsPage.getSearchTagsButton();
     }
 

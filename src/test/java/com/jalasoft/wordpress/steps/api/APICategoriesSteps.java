@@ -24,7 +24,9 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.hamcrest.MatcherAssert.assertThat;
+/**
+ * This class contains all methods, to perform the API testing for categories feature.
+ */
 
 public class APICategoriesSteps {
     private static final APIConfig API_CONFIG = APIConfig.getInstance();

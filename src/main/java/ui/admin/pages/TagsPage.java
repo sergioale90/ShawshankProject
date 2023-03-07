@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class TagsPage extends BaseAdminPage {
     @FindBy(css = "input#tag-search-input")
-    private WebElement textboxSearch;
+    private WebElement textBoxSearch;
 
     @FindBy(css = "input#search-submit")
     private WebElement searchTagsButton;
@@ -37,10 +37,10 @@ public class TagsPage extends BaseAdminPage {
     public void waitUntilPageObjectIsLoaded() {
     }
 
-    public void setTextboxSearch(String nameTagSearch) {
-        textboxSearch.click();
-        textboxSearch.click();
-        textboxSearch.sendKeys(nameTagSearch);
+    public void setTextBoxSearch(String nameTagSearch) {
+        textBoxSearch.click();
+        textBoxSearch.click();
+        textBoxSearch.sendKeys(nameTagSearch);
     }
 
     public void getSearchTagsButton() {
