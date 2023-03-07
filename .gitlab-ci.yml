@@ -1,4 +1,6 @@
 image: openjdk:17
+variables:
+  JAVA_HOME: /lib/jvm/java-17-openjdk-amd64
 stages:
   - Build
   - Check
