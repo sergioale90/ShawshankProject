@@ -26,4 +26,4 @@ test:
   artifacts:
     when: always
     paths:
-      - build/test-results/
+      - reports/
