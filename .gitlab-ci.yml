@@ -18,7 +18,7 @@ check:
     - chmod +x gradlew
     - ./gradlew checkstyleMain
     - ./gradlew checkstyleTest
-TestAPI:
+Test:
   allow_failure: true
   stage: TestAPI
   script:
@@ -29,9 +29,6 @@ TestAPI:
     when: always
     paths:
       - reports/
-
-  TestGUI:
-    allow_failure: true
     stage: TestGUI
     script:
       - pwd
