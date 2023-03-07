@@ -34,6 +34,9 @@ TestAPI:
       - reports/
 
 TestUI:
+  only:
+    refs:
+      - develop
   allow_failure: true
   stage: TestGUI
   script:
