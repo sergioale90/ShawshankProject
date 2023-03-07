@@ -16,6 +16,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.BasePageObject;
 
+import ui.admin.pages.AdminCommentPage;
 import ui.admin.pages.CategoriesPage;
 import ui.admin.pages.NewPostPage;
 import ui.admin.pages.NewUsersPage;
@@ -29,7 +30,8 @@ public class LeftSideBarMenu extends BasePageObject {
     private WebElement postsMenuButton;
     @FindBy(id = "menu-pages")
     private WebElement pagesMenuButton;
-
+    @FindBy(id = "menu-comments")
+    private WebElement commentsMenuButton;
     @FindBy(xpath = "//li[@id='menu-posts']/descendant::a[text()='Add New']")
     private WebElement addNewPostButton;
     @FindBy(xpath = "//div[@class='wp-menu-name' and text()='Posts']")
@@ -86,6 +88,11 @@ public class LeftSideBarMenu extends BasePageObject {
     public void hoverPostMenu() {
         hoverPostMenu = new Actions(driver);
         hoverPostMenu.moveToElement(postsMenu).perform();
+    }
+    public AdminCommentPage goToCommentsPage() {
+        commentsMenuButton = wait.until(ExpectedConditions.elementToBeClickable(commentsMenuButton));
+        commentsMenuButton.click();
+        return new AdminCommentPage();
     }
 
     public void clickCategoriesButton() {

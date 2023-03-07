@@ -14,14 +14,14 @@ import io.cucumber.java.Before;
 import io.restassured.internal.http.Status;
 import io.restassured.response.Response;
 import org.testng.Assert;
-import ui.controller.UserController;
+import ui.controller.UIUserController;
 import utils.LoggerManager;
 
 public class GUIUsersFeatureHook {
     private static final LoggerManager LOG = LoggerManager.getInstance();
-    private final UserController controller;
+    private final UIUserController controller;
 
-    public GUIUsersFeatureHook(UserController controller) {
+    public GUIUsersFeatureHook(UIUserController controller) {
         this.controller = controller;
     }
 
