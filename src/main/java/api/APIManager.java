@@ -19,6 +19,13 @@ import utils.LoggerManager;
 
 import java.util.Map;
 
+/**
+ * This class is responsible for initializing and providing the required methods to make the api requests
+ * and returning the responses it to the classes that consume those requests
+ *
+ * @version 1.0
+ */
+
 public class APIManager {
     private static final LoggerManager LOG = LoggerManager.getInstance();
     private static final CredentialsManager CREDENTIALS_MANAGER = CredentialsManager.getInstance();

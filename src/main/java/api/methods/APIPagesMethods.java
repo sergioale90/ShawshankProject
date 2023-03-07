@@ -18,6 +18,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class is responsible for providing the required methods for the classes that consume the API requests for the
+ * Pages feature with a provided user role and Id
+ *
+ * @version 1.0
+ */
+
 public class APIPagesMethods {
     public static final LoggerManager LOG = LoggerManager.getInstance();
     public static final APIManager API_MANAGER = APIManager.getInstance();

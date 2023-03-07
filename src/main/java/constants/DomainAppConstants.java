@@ -8,6 +8,12 @@
  */
 package constants;
 
+/**
+ * This class is responsible for naming all the browsers that could be configured to run the testing
+ *
+ * @version 1.0
+ */
+
 public class DomainAppConstants {
     public static final String CHROME = "chrome";
     public static final String EDGE = "edge";
