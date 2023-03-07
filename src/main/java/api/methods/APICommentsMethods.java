@@ -50,25 +50,6 @@ public class APICommentsMethods {
         return API_MANAGER.post(commentEndpoint, jsonAsMap, authHeader);
     }
 
-    public static Header loginAUser() {
-        Map<String, Object> jsonAsMap = new HashMap<>();
-        jsonAsMap.put("username", "James");
-        jsonAsMap.put("password", "James123");
-        String tokenEndpoint = API_CONFIG.getTokenEndpoint();
-        Response response = API_MANAGER.post(tokenEndpoint, ContentType.JSON, jsonAsMap);
-
-        if (Status.SUCCESS.matches(response.getStatusCode())) {
-            LOG.info("Authentication Token retrieved");
-            String tokenType = response.jsonPath().getString("token_type");
-            String token = response.jsonPath().getString("jwt_token");
-            String authorization = tokenType + " " + token;
-            return new Header("Authorization", authorization);
-        } else {
-            LOG.error("Failed to retrieve Authentication Token");
-            return null;
-        }
-    }
-
     public static Response deleteACommentById(String id) {
         String commentsByIdEndpoint = API_CONFIG.getCommentsByIdEndpoint().replace("<id>", id.replaceAll("\\[|\\]", ""));
         Header authHeader = APIAuthMethods.getAuthHeader("administrator");

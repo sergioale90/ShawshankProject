@@ -42,7 +42,7 @@ public class GUICommentsFeatureHook {
         controller.setPostLink(link);
     }
 
-    @Before("@AdminTrashComment")
+    @Before("@AdminTrashComment or @AdminApproveComment or @AdminSpamComment")
     public void createCommentToAPost() {
         createPost();
         Response requestResponse = APICommentsMethods.createComment(controller.getPostId());

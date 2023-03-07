@@ -55,6 +55,17 @@ public class CommentsSteps {
         String commentId = controller.getIdComment();
         commentsPage.moveCommentUserToTrash(commentId);
     }
+    @Then("^the user moves a comment to approve using the approve link on the Comments table$")
+    public void userMovesCommentToApprove() {
+        String commentId = controller.getIdComment();
+        commentsPage.moveCommentUserToApprove(commentId);
+    }
+
+    @Then("^the user moves a comment to spam using the spam link on the Comments table$")
+    public void userMovesCommentToSpam() {
+        String commentId = controller.getIdComment();
+        commentsPage.moveCommentUserToSpam(commentId);
+    }
 
     @Then("^the user should review that his comment \"(.*?)\" was added$")
     public void verifyCommentAdded(String comment) {
@@ -70,4 +81,23 @@ public class CommentsSteps {
         boolean isCommentOnTrash = commentsPage.isCommentOnTable(comment);
         Assert.assertTrue(isCommentOnTrash, "wrong the comment is not in trash");
     }
+
+    @Then("^the user should see that the comment was moved to approve successfully$")
+    public void verifyCommentMovedToApprove() {
+        String approveUrl = commentsPage.goToApprove();
+        Assert.assertTrue(approveUrl.contains("approved"), "current url is not for approve page");
+        String comment = controller.getCommentUser();
+        boolean isCommentOnApprove = commentsPage.isCommentOnTable(comment);
+        Assert.assertTrue(isCommentOnApprove, "wrong the comment is not in approve");
+    }
+
+    @Then("^the user should see that the comment was moved to spam successfully$")
+    public void verifyCommentMovedToSpam() {
+        String approveUrl = commentsPage.goToSpam();
+        Assert.assertTrue(approveUrl.contains("spam"), "current url is not for spam page");
+        String comment = controller.getCommentUser();
+        boolean isCommentOnSpam = commentsPage.isCommentOnTable(comment);
+        Assert.assertTrue(isCommentOnSpam, "wrong the comment is not in spam");
+    }
+
 }

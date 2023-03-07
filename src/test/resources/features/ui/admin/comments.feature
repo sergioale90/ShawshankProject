@@ -27,4 +27,30 @@ Feature: Comments
       | administrator       |
       | editor              |
 
+  @AdminApproveComment
+  Scenario Outline: A user with a proper role should be able to approve a comment
+    Given the user is logged in to Admin page with "<User Role>" role
+    When the user goes to Comments page
+    And the user moves a comment to approve using the approve link on the Comments table
+    Then the user should see that the comment was moved to approve successfully
+
+    Examples:
+      | User Role           |
+      | administrator       |
+      #| editor              |
+
+  @AdminSpamComment
+  Scenario Outline: A user with a proper role should be able to move a comment to spam
+    Given the user is logged in to Admin page with "<User Role>" role
+    When the user goes to Comments page
+    And the user moves a comment to spam using the spam link on the Comments table
+    Then the user should see that the comment was moved to spam successfully
+
+    Examples:
+      | User Role           |
+      | administrator       |
+      | editor              |
+
+
+
 
