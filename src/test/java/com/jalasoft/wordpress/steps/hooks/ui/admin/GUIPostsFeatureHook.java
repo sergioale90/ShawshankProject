@@ -8,6 +8,7 @@
  */
 package com.jalasoft.wordpress.steps.hooks.ui.admin;
 
+import api.controller.APIController;
 import api.methods.APIPostsMethods;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -21,9 +22,11 @@ import utils.LoggerManager;
 public class GUIPostsFeatureHook {
     private static final LoggerManager LOG = LoggerManager.getInstance();
     private final UIController controller;
+    private final APIController apiController;
 
-    public GUIPostsFeatureHook(UIController controller) {
+    public GUIPostsFeatureHook(UIController controller, APIController apiController) {
         this.controller = controller;
+        this.apiController = apiController;
     }
 
     @Before("@OpenPublishPost or @EditPublishPost or @DeletePublishPost")
@@ -66,7 +69,7 @@ public class GUIPostsFeatureHook {
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "post with title -> " + title + " was not deleted");
     }
 
-    @After("@OpenPublishPost or @OpenDraftPost or @EditPublishPost or @EditDraftPost or @DeletePublishPost or @DeleteDraftPost")
+    @After("@OpenPublishPost or @OpenDraftPost or @EditPublishPost or @EditDraftPost or @EditOwnPublishPost or @EditOwnDraftPost or @DeletePublishPost or @DeleteDraftPost")
     public void afterCreateAPost() {
         CommonMethods.logout();
         String id = controller.getId();

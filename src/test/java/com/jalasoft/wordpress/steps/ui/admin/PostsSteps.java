@@ -84,7 +84,7 @@ public class PostsSteps {
         newPostPage.publishPost(title, content);
     }
 
-    @Given("the user creates a new Draft Post with the following values")
+    @Given("^the user(?: creates a new | edits a )Draft Post with the following params$")
     public void createDraftPost(DataTable table) {
         List<Map<String, Object>> queryParamsList = table.asMaps(String.class, Object.class);
         Map<String, Object> values = queryParamsList.get(0);
