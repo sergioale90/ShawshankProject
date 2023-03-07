@@ -67,6 +67,8 @@ public class DriverManager {
                 chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
                 chromeOptions.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
                 chromeOptions.addArguments("--password-store=basic");
+                chromeOptions.addArguments("--no-sandbox");
+                chromeOptions.addArguments("--disable-dev-shm-usage");
                 chromeOptions.setAcceptInsecureCerts(true);
 
                 Map<String, Object> prefs = new HashMap<String, Object>();
@@ -94,6 +96,8 @@ public class DriverManager {
                 prefs.put("credentials_enable_service", false);
                 prefs.put("profile.password_manager_enabled", false);
                 edgeOptions.setExperimentalOption("prefs", prefs);
+                edgeOptions.addArguments("--no-sandbox");
+                edgeOptions.addArguments("--disable-dev-shm-usage");
                 edgeOptions.addArguments("--window-size=1280,720");
 
                 if (DRIVER_CONFIG.getHeadlessMode()) {
