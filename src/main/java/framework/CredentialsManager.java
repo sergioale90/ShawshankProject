@@ -15,6 +15,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * This class is responsible for providing the required methods for the user info storage and further use in the authentication
+ * in the classes that consume the token authentication with a provided user role in API authentication requests, it retrieves
+ * information from the environment properties file
+ *
+ * @version 1.0
+ */
+
 public class CredentialsManager {
     private Properties properties;
     private static final LoggerManager LOG = LoggerManager.getInstance();

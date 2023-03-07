@@ -21,6 +21,7 @@ import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.testng.Assert;
+import ui.controller.UIController;
 
 import java.io.File;
 import java.util.HashMap;
@@ -33,14 +34,15 @@ public class APIPostsSteps {
     private static final APIConfig API_CONFIG = APIConfig.getInstance();
     private static final APIManager API_MANAGER = APIManager.getInstance();
     private final APIController controller;
+    private final UIController uiController;
     private final String postsEndpoint = API_CONFIG.getPostsEndpoint();
-
     private final String postByIdEndpoint = API_CONFIG.getPostsByIdEndpoint();
     private Map<String, Object> params;
     private static final int PER_PAGE = 100;
 
-    public APIPostsSteps(APIController controller) {
+    public APIPostsSteps(APIController controller, UIController uiController) {
         this.controller = controller;
+        this.uiController = uiController;
     }
 
     @Given("^(?:I make|the user makes) a request to retrieve all posts$")
@@ -60,10 +62,13 @@ public class APIPostsSteps {
         Map<String, Object> queryParams = new HashMap<>();
         queryParams.put("status", "publish");
         queryParams.putAll(queryParamsList.get(0));
-
         Response requestResponse = API_MANAGER.post(postsEndpoint, queryParams, controller.getHeader("Authorization"));
         controller.setResponse(requestResponse);
         params = queryParams;
+        String id = controller.getResponse().jsonPath().getString("id");
+        uiController.setId(id);
+        uiController.setTitle((String) params.get("title"));
+        uiController.setContent((String) params.get("content"));
     }
 
     @Given("^the user makes a request to create a draft post with the following params$")
@@ -72,10 +77,13 @@ public class APIPostsSteps {
         Map<String, Object> queryParams = new HashMap<>();
         queryParams.put("status", "draft");
         queryParams.putAll(queryParamsList.get(0));
-
         Response requestResponse = API_MANAGER.post(postsEndpoint, queryParams, controller.getHeader("Authorization"));
         controller.setResponse(requestResponse);
         params = queryParams;
+        String id = controller.getResponse().jsonPath().getString("id");
+        uiController.setId(id);
+        uiController.setTitle((String) params.get("title"));
+        uiController.setContent((String) params.get("content"));
     }
 
     @Given("^the user makes a request to retrieve a post$")

@@ -15,6 +15,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * This class is responsible for initializing and providing the required methods for the information retrieval in APIConfig file
+ * and returning it to the classes that consume said stored info
+ *
+ * @version 1.0
+ */
+
 public class APIConfig {
     private Properties properties;
     private static final LoggerManager LOG = LoggerManager.getInstance();

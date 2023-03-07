@@ -16,6 +16,13 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.Properties;
 
+/**
+ * This class is responsible for initializing and providing the required methods for setting up the web driver in a specific browser
+ * and perform the testing in UI o headless mode, it also retrieves the information stored in the webdriver properties file
+ *
+ * @version 1.0
+ */
+
 public class DriverConfig {
     private static final LoggerManager LOG = LoggerManager.getInstance();
     private static final String WEB_DRIVER_FILE_PATH = System.getProperty("user.dir") + File.separator + "webdriver.properties";

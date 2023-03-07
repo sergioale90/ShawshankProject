@@ -12,6 +12,13 @@ import io.restassured.http.Header;
 import io.restassured.http.Headers;
 import io.restassured.response.Response;
 
+/**
+ * This class is responsible for initializing the API controller and store all needed information
+ * so it can be retrieved in the tests
+ *
+ * @version 1.0
+ */
+
 import java.util.ArrayList;
 import java.util.List;
 

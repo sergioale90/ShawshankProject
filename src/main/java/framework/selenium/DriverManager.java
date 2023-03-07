@@ -37,6 +37,13 @@ import static constants.DomainAppConstants.CHROME;
 import static constants.DomainAppConstants.EDGE;
 import static constants.DomainAppConstants.FIREFOX;
 
+/**
+ * This class is responsible for initializing a specific browser with its configurations and returning the driver
+ * initialization for consumption it also retrieves the information stored in the webdriver properties file for the waiters
+ *
+ * @version 1.0
+ */
+
 public class DriverManager {
     private static final LoggerManager LOG = LoggerManager.getInstance();
     public static final DriverConfig DRIVER_CONFIG = DriverConfig.getInstance();

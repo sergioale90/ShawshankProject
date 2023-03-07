@@ -20,6 +20,13 @@ import utils.LoggerManager;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class is responsible for providing the required methods for the classes that consume the token authentication
+ * with a provided user role in the API authentication request
+ *
+ * @version 1.0
+ */
+
 public class APIAuthMethods {
     private static final LoggerManager LOG = LoggerManager.getInstance();
     private static final APIManager API_MANAGER = APIManager.getInstance();

@@ -8,6 +8,13 @@
  */
 package ui.controller;
 
+/**
+ * This class is responsible for initializing the UI controller and store all needed information
+ * so it can be retrieved in the tests
+ *
+ * @version 1.0
+ */
+
 public class UIController {
     private String id;
     private String title;

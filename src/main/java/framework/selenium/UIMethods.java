@@ -15,6 +15,13 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Wait;
 import utils.LoggerManager;
 
+/**
+ * This class is responsible for providing the required methods for the classes that consume the UI navigation and actions
+ * it provides also js methods for more flexibility in the navigation
+ *
+ * @version 1.0
+ */
+
 public class UIMethods {
     private static final LoggerManager LOG = LoggerManager.getInstance();
     private static final WebDriver DRIVER = DriverManager.getInstance().getWebDriver();
