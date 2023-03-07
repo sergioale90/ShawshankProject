@@ -4,6 +4,7 @@ variables:
 stages:
   - Build
   - Check
+  - Test
 build:
   stage: Build
   script:
@@ -15,3 +16,10 @@ check:
     - chmod +x gradlew
     - ./gradlew checkstyleMain
     - ./gradlew checkstyleTest
+test:
+  allow_failure: true
+  stage: Test
+  script:
+    - pwd
+    - chmod +x gradlew
+    - ./gradlew clean executeFeatures -PcucumberOptions="@API" -PenvId="local" -PbaseURL="$baseURL" -PlogURL="$loginURL" -PadminURL="$adminURL" -PnPostURL="$newPostURL" -PnTagURL="$editTagURL" -PadminUser="$adminUsername" -PadminPass="$adminUserPassword" -PauthUser="$authorUsername" -PauthPass="$authorUserPassword" -PcontrUser="$contributorUsername" -PcontrPass="$contributorUserPassword" PeditUser="$editorUsername" PeditPass="$editorUserPassword" PsubsUser="$subscriberUsername" PsubsPass="$subscriberUserPassword"
