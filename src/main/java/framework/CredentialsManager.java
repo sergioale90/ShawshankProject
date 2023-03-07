@@ -101,4 +101,7 @@ public class CredentialsManager {
         return getAdminURL() + getEnvironmentSetting(getEnvId() + ".admin.newTagURL");
     }
 
+    public String getCommentURL() {
+        return getAdminURL() + getEnvironmentSetting(getEnvId() + ".admin.commentURL");
+    }
 }

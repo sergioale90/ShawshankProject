@@ -11,6 +11,7 @@ package ui;
 import framework.CredentialsManager;
 import framework.selenium.DriverManager;
 import org.openqa.selenium.WebDriver;
+import ui.admin.pages.CommentsPage;
 import ui.admin.pages.LoginAdminPage;
 import ui.admin.pages.NewPostPage;
 import ui.admin.pages.NewTagPage;
@@ -30,6 +31,7 @@ public class PageTransporter {
     private String adminURL;
     private String adminAddNewPostURL;
     private String adminAddNewTagURL;
+    private String adminCommentURL;
     private static PageTransporter instance;
     private PublishedPostPage publishedPostPage;
 
@@ -50,6 +52,7 @@ public class PageTransporter {
         this.adminURL = CREDENTIALS_MANAGER.getAdminURL();
         this.adminAddNewPostURL = CREDENTIALS_MANAGER.getAdminNewPostURL();
         this.adminAddNewTagURL = CREDENTIALS_MANAGER.getAdminNewTagURL();
+        this.adminCommentURL = CREDENTIALS_MANAGER.getCommentURL();
         this.driver = DriverManager.getInstance().getWebDriver();
     }
 
@@ -96,5 +99,13 @@ public class PageTransporter {
     public PublishedPostPage goToPublishedPost(String url) {
         goToURL(url);
         return new PublishedPostPage();
+    }
+
+    public CommentsPage navigateToCommentsPage() {
+        if (!isOnAdminNewTagPage()) {
+            goToURL(adminCommentURL);
+        }
+        return new CommentsPage();
+
     }
 }

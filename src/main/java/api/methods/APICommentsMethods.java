@@ -78,25 +78,14 @@ public class APICommentsMethods {
         return API_MANAGER.delete(commentsByIdEndpoint, jsonAsMap, authHeader);
     }
 
-    public static Response createADraftPost() {
-        String postsEndpoint = API_CONFIG.getPostsEndpoint();
-        Header authHeader = APIAuthMethods.getAuthHeader("administrator");
+    public static Response createComment(String postId) {
+        Header authHeader = APIAuthMethods.getAuthHeader("author");
+        String commentsEndpoint = API_CONFIG.getCommentsEndpoint();
+
         Map<String, Object> jsonAsMap = new HashMap<>();
-        jsonAsMap.put("content", "Draft Test WAPI Post Content");
-        jsonAsMap.put("title", "Draft Test WAPI Title");
-        jsonAsMap.put("excerpt", "Draft Test WAPI Excerpt");
-        jsonAsMap.put("status", "draft");
+        jsonAsMap.put("post", postId);
+        jsonAsMap.put("content", "Message from api");
 
-        return API_MANAGER.post(postsEndpoint, jsonAsMap, authHeader);
+        return API_MANAGER.post(commentsEndpoint, jsonAsMap, authHeader);
     }
-
-    public static Response getAllPosts() {
-        String postsEndpoint = API_CONFIG.getPostsEndpoint();
-        Header authHeader = APIAuthMethods.getAuthHeader("administrator");
-        Map<String, Object> jsonAsMap = new HashMap<>();
-        jsonAsMap.put("per_page", PER_PAGE);
-
-        return API_MANAGER.get(postsEndpoint, jsonAsMap, authHeader);
-    }
-
 }

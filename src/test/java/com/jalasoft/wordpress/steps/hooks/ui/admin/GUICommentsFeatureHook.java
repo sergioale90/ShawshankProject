@@ -8,6 +8,7 @@
  */
 package com.jalasoft.wordpress.steps.hooks.ui.admin;
 
+import api.methods.APICommentsMethods;
 import api.methods.APIPostsMethods;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -28,7 +29,7 @@ public class GUICommentsFeatureHook {
     }
 
     @Before("@UserComments")
-    public void createAPost() {
+    public void createPost() {
         Response requestResponse = APIPostsMethods.createAPost();
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "post was not created");
 
@@ -39,6 +40,17 @@ public class GUICommentsFeatureHook {
         controller.setPostId(id);
         controller.setPostTitle(title);
         controller.setPostLink(link);
+    }
+
+    @Before("@AdminTrashComment")
+    public void createCommentToAPost() {
+        createPost();
+        Response requestResponse = APICommentsMethods.createComment(controller.getPostId());
+        String idComment = requestResponse.jsonPath().getString("id");
+        String messageUser = requestResponse.jsonPath().getString("content.rendered").replaceAll("<[^>]*>", "").strip();
+
+        controller.setIdComment(idComment);
+        controller.setCommentUser(messageUser);
     }
 
     @After(value = "@Comments", order = ORDER)

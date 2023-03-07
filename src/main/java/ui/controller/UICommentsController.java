@@ -1,17 +1,18 @@
 package ui.controller;
 
 public class UICommentsController {
-    private String id;
+    private String idComment;
     private String postId;
     private String postTitle;
     private String postLink;
+    private String commentUser;
 
-    public String getId() {
-        return id;
+    public String getIdComment() {
+        return idComment;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIdComment(String idComment) {
+        this.idComment = idComment;
     }
 
     public void setPostId(String postId) {
@@ -21,7 +22,6 @@ public class UICommentsController {
     public String getPostId() {
         return postId;
     }
-
 
     public void setPostTitle(String postTitle) {
         this.postTitle = postTitle;
@@ -37,6 +37,14 @@ public class UICommentsController {
 
     public String getPostLink() {
         return postLink;
+    }
+
+    public String getCommentUser() {
+        return commentUser;
+    }
+
+    public void setCommentUser(String commentUser) {
+        this.commentUser = commentUser;
     }
 }
 

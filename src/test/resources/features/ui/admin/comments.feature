@@ -2,7 +2,7 @@
 Feature: Comments
 
   @UserComments
-  Scenario Outline: A user with the proper role should be able to create a comment
+  Scenario Outline: A user with a proper role should be able to create a comment
     Given the user is logged in to Admin page with "<User Role>" role
     When the user goes to Post page
     And the user comments "<Comment User>" on the post page
@@ -14,3 +14,17 @@ Feature: Comments
       | author        | This is my comment as author        |
       | contributor   | This is my comment as contributor   |
       | subscriber    | This is my comment as subscriber    |
+
+  @AdminTrashComment
+  Scenario Outline: A user with a proper role should be able to move a comment to trash
+    Given the user is logged in to Admin page with "<User Role>" role
+    When the user goes to Comments page
+    And the user moves a comment to trash using the trash link on the Comments table
+    Then the user should see that the comment was moved to trash successfully
+
+    Examples:
+      | User Role           |
+      | administrator       |
+      | editor              |
+
+
