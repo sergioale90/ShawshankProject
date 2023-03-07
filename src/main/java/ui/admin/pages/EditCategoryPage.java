@@ -20,17 +20,17 @@ public class EditCategoryPage extends BaseAdminPage {
     private final int stringLenght = 6;
     @FindBy(xpath = "//div[@class='wrap']//h1")
     private WebElement editCategoryTitle;
-    @FindBy(xpath = "//form[@id='edittag']")
+    @FindBy(id="edittag")
     private WebElement editCategoryForm;
-    @FindBy(xpath = "//input[@id='name']")
+    @FindBy(id="name")
     private WebElement nameTextBox;
-    @FindBy(xpath = "//input[@id='slug']")
+    @FindBy(id="slug")
     private WebElement slugTextBox;
-    @FindBy(xpath = "//textarea[@id='description']")
+    @FindBy(id="description")
     private WebElement descriptionTexBox;
     @FindBy(xpath = "//input[@class='button button-primary']")
     private WebElement updateButton;
-    @FindBy(xpath = "//div[@id='message']")
+    @FindBy(id="message")
     private WebElement categoryUpdatedMessage;
     @FindBy(xpath = "//div[@id='message']/descendant::a")
     private WebElement goToCategoriesPageButton;

@@ -25,29 +25,31 @@ public class CategoriesPage extends BaseAdminPage {
     private final int stringLenght = 7;
     @FindBy(xpath = "//h1[@class='wp-heading-inline' and text()='Categories']")
     private WebElement categoriesPageTitle;
-    @FindBy(xpath = "//input[@id='tag-name']")
+    @FindBy(id="tag-name")
     private WebElement categoryNameField;
-    @FindBy(xpath = "//input[@id='tag-slug']")
+    @FindBy(id="tag-slug")
     private WebElement categorySlugField;
-    @FindBy(xpath = "//textarea[@id='tag-description']")
+    @FindBy(id="tag-description")
     private WebElement categoryDescriptionField;
-    @FindBy(xpath = "//input[@id='submit']")
+    @FindBy(id="submit")
     private WebElement addNewCategoryButton;
     @FindBy(xpath = "//div[@class='notice notice-success is-dismissible']")
     private WebElement successCreatedCategoryMessage;
+    @FindBy(id = "parent")
+    WebElement parentCategoryButton;
     @FindBy(xpath = "//div[@class='notice notice-error']")
     private WebElement errorMessage;
     @FindBy(xpath = "//button[@class='save button button-primary']")
     private WebElement updateButton;
-    @FindBy(xpath = "//input[@id='tag-search-input']")
+    @FindBy(id="tag-search-input")
     private WebElement searchBox;
-    @FindBy(xpath = "//input[@id='search-submit']")
+    @FindBy(id="search-submit")
     private WebElement searchButton;
-    @FindBy(xpath = "//select[@id='bulk-action-selector-top']")
+    @FindBy(id="bulk-action-selector-top")
     private WebElement bulkActionMenu;
     @FindBy(xpath = "//select[@id='bulk-action-selector-top']/descendant::option[@value='delete']")
     private WebElement deleteOptionBulkMenu;
-    @FindBy(xpath = "//input[@id='doaction']")
+    @FindBy(id="doaction")
     private WebElement applyButton;
     @FindBy(xpath = "//div[@class='updated notice is-dismissible']")
     private WebElement deleteMessage;
@@ -220,7 +222,7 @@ public class CategoriesPage extends BaseAdminPage {
     public boolean isCategoryPresentOnTheList(String argument) {
         try {
             String resultsOfSearchString = String
-                    .format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::a[contains(text(),'%s')]", argument);
+                    .format("//table[contains(@class, 'table-view-list tags')]//td//a[text()='%s']", argument);
             WebElement resultsOfSearchLocator = driver.findElement(By.xpath(resultsOfSearchString));
             resultsOfSearchLocator.isDisplayed();
             return true;

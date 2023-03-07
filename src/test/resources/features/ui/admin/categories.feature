@@ -46,11 +46,12 @@ Feature: Categories
     When the user hover over of Posts menu in the left side bar menu and click on the categories button
     And the user can create a new category with all params
     Then the page displays a successful "<message>"
-    And the page is created with all values correctly
+    And the category is created with all values correctly
     Examples:
       | User Role       |      message    |
       | administrator   | Category added. |
       | editor          | Category added. |
+
 
   @NotCreateANewCategory
   Scenario Outline: A user with the proper role shouldn't be able to create a new category without name
