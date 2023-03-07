@@ -75,6 +75,12 @@ public class NewTagPage extends BaseAdminPage {
         return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(tagMessageLocator))).isDisplayed();
     }
 
+    public boolean isErrorMessageDisplayedForTagCreatedWithTheSameName(String message) {
+        String messageLocator = String.format("//div[@id='message']//p[contains(.,'%s')]", message);
+        WebElement messageElement = driver.findElement(By.xpath(messageLocator));
+        return messageElement.isDisplayed();
+    }
+
     public void updateTag(String name, String slug, String description) {
         setNameTextBox(name);
         setDescriptionTextArea(description);
