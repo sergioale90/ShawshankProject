@@ -18,7 +18,7 @@ check:
     - chmod +x gradlew
     - ./gradlew checkstyleMain
     - ./gradlew checkstyleTest
-Test:
+TestAPI:
   allow_failure: true
   stage: TestAPI
   script:
@@ -29,8 +29,11 @@ Test:
     when: always
     paths:
       - reports/
-    stage: TestGUI
-    script:
+
+TestUI:
+  allow_failure: true
+  stage: TestGUI
+  script:
       - pwd
       - chmod +x gradlew
       - ./gradlew clean executeFeatures -PcucumberOptions="@UI" -PenvId="local" -PbuildNumber="10" -Pbrowser="chrome" -PheadlessMode="true" -PbaseURL="$baseURL" -PlogURL="$loginURL" -PadminURL="$adminURL" -PnPostURL="$newPostURL" -PnTagURL="$editTagURL" -PadminUser="$adminUsername" -PadminPass="$adminUserPassword" -PauthUser="$authorUsername" -PauthPass="$authorUserPassword" -PcontrUser="$contributorUsername" -PcontrPass="$contributorUserPassword" -PeditUser="$editorUsername" -PeditPass="$editorUserPassword" -PsubsUser="$subscriberUsername" -PsubsPass="$subscriberUserPassword"
