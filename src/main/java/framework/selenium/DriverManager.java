@@ -124,7 +124,6 @@ public class DriverManager {
                 firefoxOptions.setLogLevel(FirefoxDriverLogLevel.FATAL);
                 firefoxOptions.setAcceptInsecureCerts(true);
                 firefoxOptions.addArguments("--window-size=1280,720");
-
                 if (DRIVER_CONFIG.getHeadlessMode()) {
                     firefoxOptions.addArguments("--headless");
                 }
