@@ -35,6 +35,8 @@ public class CategoriesPage extends BaseAdminPage {
     private WebElement addNewCategoryButton;
     @FindBy(xpath = "//div[@class='notice notice-success is-dismissible']")
     private WebElement successCreatedCategoryMessage;
+    @FindBy(id = "parent")
+    WebElement parentCategoryButton;
     @FindBy(xpath = "//div[@class='notice notice-error']")
     private WebElement errorMessage;
     @FindBy(xpath = "//button[@class='save button button-primary']")
@@ -220,7 +222,7 @@ public class CategoriesPage extends BaseAdminPage {
     public boolean isCategoryPresentOnTheList(String argument) {
         try {
             String resultsOfSearchString = String
-                    .format("//table[@class='wp-list-table widefat fixed striped table-view-list tags']/descendant::a[contains(text(),'%s')]", argument);
+                    .format("//table[contains(@class, 'table-view-list tags')]//td//a[text()='%s']", argument);
             WebElement resultsOfSearchLocator = driver.findElement(By.xpath(resultsOfSearchString));
             resultsOfSearchLocator.isDisplayed();
             return true;

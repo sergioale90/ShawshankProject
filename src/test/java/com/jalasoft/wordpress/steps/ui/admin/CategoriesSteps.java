@@ -160,7 +160,7 @@ public class CategoriesSteps {
         Assert.assertEquals(actualName, expectedName, "The name of the category is not set correctly");
         Assert.assertEquals(actualSlug, expectedSlug, "The slug of the category is not set correctly");
     }
-    @Then("^the page is created with all values correctly$")
+    @Then("^the category is created with all values correctly$")
     public void verifyIfCategoryWasCreatedProperlyWithAllValues() {
         String expectedName = controller.getName();
         String actualName = categoriesPage.categoryNameCreated();
