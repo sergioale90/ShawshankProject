@@ -31,12 +31,12 @@ import java.util.Map;
 public class APICategoriesSteps {
     private static final APIConfig API_CONFIG = APIConfig.getInstance();
     private static final APIManager API_MANAGER = APIManager.getInstance();
+    private static final int PER_PAGE = 100;
+    private static final int STRING_LENGHT = 5;
     private final APIController controller;
     private final String categoriesEndpoint = API_CONFIG.getCategoriesEndpoint();
     private final String categoriesEndpointById = API_CONFIG.getCategoriesEndpointById();
     private Map<String, Object> params;
-    private static final int PER_PAGE = 100;
-    private static final int STRING_LENGHT = 5;
 
 
     public APICategoriesSteps(APIController controller) {
@@ -52,6 +52,7 @@ public class APICategoriesSteps {
         Response requestResponse = API_MANAGER.get(categoriesEndpoint, queryParams, authHeader);
         controller.setResponse(requestResponse);
     }
+
     @Given("^the user makes a request to create a category$")
     public void createANewCategory() {
         Map<String, Object> queryRequest = new HashMap<>();
@@ -63,6 +64,7 @@ public class APICategoriesSteps {
         controller.setResponse(requestResponse);
         params = queryRequest;
     }
+
     @Given("^the user makes a request to delete a existent category$")
     public void deleteACategory() {
         String id = controller.getResponse().jsonPath().getString("id");
@@ -73,7 +75,8 @@ public class APICategoriesSteps {
         controller.setIdAux(id);
         controller.setResponse(requestResponse);
     }
-    @Given ("^the user makes a request to update a existent category$")
+
+    @Given("^the user makes a request to update a existent category$")
     public void updateACategory() {
         String id = controller.getResponse().jsonPath().getString("id");
         Header authHeader = controller.getHeader("Authorization");
@@ -86,6 +89,7 @@ public class APICategoriesSteps {
         controller.setIdAux(id);
         controller.setResponse(requestResponse);
     }
+
     @Given("^the user makes a request to retrieve a category")
     public void retrieveACategory() {
         String id = controller.getResponse().jsonPath().getString("id");
@@ -102,6 +106,7 @@ public class APICategoriesSteps {
         params = queryParams;
         controller.setResponse(requestResponse);
     }
+
     @Then("^response should have a proper amount of categories$")
     public void verifyIfResponseHasTheListOfCategories() {
         String schemaFilePath = "src|test|resources|api|json|schemas|ListCategoriesSchema.json".replace("|", File.separator);
@@ -114,6 +119,7 @@ public class APICategoriesSteps {
         Assert.assertEquals(actualAmountOfCategories, expectedAmountOfCategories, "wrong amount of categories returned");
         response.then().assertThat().body(JsonSchemaValidator.matchesJsonSchema(schemaFile));
     }
+
     @Then("^category should have been created correctly$")
     public void verifyIfCategoryWasCreatedProperly() {
         String schemaFilePath = "src|test|resources|api|json|schemas|NewCategorySchema.json".replace("|", File.separator);
@@ -134,7 +140,8 @@ public class APICategoriesSteps {
         Assert.assertEquals(actualCategoryDescription, expectedCategoryDescription, "The category was not created with the properly description");
         response.then().assertThat().body(JsonSchemaValidator.matchesJsonSchema(schemaFile));
     }
-    @Then ("^response should display the information of the category$")
+
+    @Then("^response should display the information of the category$")
     public void verifyIfCategoryIsRetrievedProperly() {
         String expectedName = (String) params.get("name");
         String expectedSlug = (String) params.get("slug");
@@ -148,15 +155,18 @@ public class APICategoriesSteps {
         Assert.assertEquals(actualSlug, expectedSlug, "Wrong category slug retrieved");
         Assert.assertEquals(actualDescription, expectedDescription, "Wrong category description retrieved");
     }
+
     @Then("^the user should not get a valid response$")
     public void theResponseIsNotValid() {
         Assert.assertFalse(Status.SUCCESS.matches(controller.getResponse().getStatusCode()));
     }
+
     @Then("^category shouldn't have been created and the response has a error \"(.*?)\"$")
     public void verifyIfCategoryNotCreated(String message) {
         String actualMessage = controller.getResponse().jsonPath().getString("message");
         Assert.assertEquals(actualMessage, message, "Error message in response is not equal to expected");
     }
+
     @Then("^category should have been deleted$")
     public void verifyIfCategoryWasDeletedSuccessfully() {
         String schemaFilePath = "src|test|resources|api|json|schemas|DeleteCategorySchema.json".replace("|", File.separator);
@@ -169,6 +179,7 @@ public class APICategoriesSteps {
         Assert.assertEquals(actualStatus, expectedStatus, "wrong status value returned");
         response.then().assertThat().body(JsonSchemaValidator.matchesJsonSchema(schemaFile));
     }
+
     @Then("^category should have been updated")
     public void verifyIfCategoryWasUpdatedSuccessfully() {
         String expectedName = (String) params.get("name");
@@ -184,11 +195,13 @@ public class APICategoriesSteps {
         Assert.assertEquals(actualSlug, expectedSlug, "The category slug was not updated correctly");
         Assert.assertEquals(actualDescription, expectedDescription, "The category description was not updated correctly");
     }
+
     @Then("^category shouldn't have been updated and the response has a error \"(.*?)\"")
     public void verifyIfCategoryWasNotUpdated(String message) {
         String actualMessage = controller.getResponse().jsonPath().getString("message");
         Assert.assertEquals(actualMessage, message, "The message error is not the correctly");
     }
+
     @Then("^category shouldn't have been deleted and the response has a error \"(.*?)\"")
     public void verifyIfCategoryWasNotDeleted(String message) {
         String actualMessage = controller.getResponse().jsonPath().getString("message");
