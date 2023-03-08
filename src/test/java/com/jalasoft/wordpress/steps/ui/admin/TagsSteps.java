@@ -98,7 +98,6 @@ public class TagsSteps {
         boolean alertIsPresent = newTagPage.alertIsPresent();
         newTagPage.acceptAlert();
         Assert.assertTrue(alertIsPresent, "alert message was not displayed");
-
     }
 
     @Then("^the user deletes the tag using the Delete link on the Tag page table$")
