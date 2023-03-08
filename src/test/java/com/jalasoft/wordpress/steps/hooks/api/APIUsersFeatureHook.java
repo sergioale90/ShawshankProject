@@ -16,7 +16,6 @@ import io.restassured.internal.http.Status;
 import io.restassured.response.Response;
 import org.testng.Assert;
 
-import java.util.List;
 
 /**
  * This class is in charge of preparing the test environment, with the preconditions and post conditions
@@ -48,17 +47,5 @@ public class APIUsersFeatureHook {
 
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()),
                 "post with id -> " + id + " was not deleted");
-    }
-    @After("@GetUsersWithPagination")
-    public void deleteAUsersById() {
-        List<Integer> objects = APIUsersMethods.getAllUsers().jsonPath().getList("id");
-        for (Integer id : objects) {
-            if (id.toString().equals("1")) {
-                continue;
-            }
-            Response requestResponse = APIUsersMethods.deleteAUsersById(id.toString());
-            Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()),
-                    "post with id -> " + id + " was not deleted");
-        }
     }
 }
