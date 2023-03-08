@@ -18,14 +18,19 @@ import ui.admin.pages.HomeAdminPage;
 import ui.admin.pages.NewUsersPage;
 import ui.admin.pages.ProfilePage;
 import ui.admin.pages.UsersPage;
-import ui.controller.UserController;
+import ui.controller.UIUserController;
 
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class is responsible for providing all the methods needed for the API tests of the user feature.
+ *
+ * @version 1.0
+ */
 public class UsersSteps {
 
-    private final UserController controller;
+    private final UIUserController controller;
     private final HomeAdminPage homeAdminPage;
     private UsersPage usersPage;
     private NewUsersPage newUsersPage;
@@ -34,7 +39,7 @@ public class UsersSteps {
     private ProfilePage profilePage;
 
 
-    public UsersSteps(UserController controller, HomeAdminPage homeAdminPage) {
+    public UsersSteps(UIUserController controller, HomeAdminPage homeAdminPage) {
         this.controller = controller;
         this.homeAdminPage = homeAdminPage;
     }

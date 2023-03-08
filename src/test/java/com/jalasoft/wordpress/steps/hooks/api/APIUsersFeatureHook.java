@@ -16,6 +16,14 @@ import io.restassured.internal.http.Status;
 import io.restassured.response.Response;
 import org.testng.Assert;
 
+import java.util.List;
+
+/**
+ * This class is in charge of preparing the test environment, with the preconditions and post conditions
+ * for the user feature used in its API.
+ *
+ * @version 1.0
+ */
 public class APIUsersFeatureHook {
 
     private final APIController controller;
@@ -24,7 +32,7 @@ public class APIUsersFeatureHook {
         this.controller = controller;
     }
 
-    @Before("@RetrieveAUser or @UpdateAUser or @DeleteAUser or @RetrieveCurrentUser or @UpdateCurrentUser or @DeleteCurrentUser")
+    @Before("@GetUsersWithPagination or @RetrieveAUser or @UpdateAUser or @DeleteAUser or @RetrieveCurrentUser or @UpdateCurrentUser or @DeleteCurrentUser")
     public void createAUser() {
         Response requestResponse = APIUsersMethods.createAUser();
         controller.setResponse(requestResponse);
@@ -35,9 +43,22 @@ public class APIUsersFeatureHook {
     @After("@CreateAUser or @RetrieveAUser or @UpdateAUser or @RetrieveCurrentUser or @UpdateCurrentUser ")
     public void deleteAUserById() {
         String id = controller.getResponse().jsonPath().getString("id");
+        System.out.println(id);
         Response requestResponse = APIUsersMethods.deleteAUsersById(id);
 
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()),
                 "post with id -> " + id + " was not deleted");
+    }
+    @After("@GetUsersWithPagination")
+    public void deleteAUsersById() {
+        List<Integer> objects = APIUsersMethods.getAllUsers().jsonPath().getList("id");
+        for (Integer id : objects) {
+            if (id.toString().equals("1")) {
+                continue;
+            }
+            Response requestResponse = APIUsersMethods.deleteAUsersById(id.toString());
+            Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()),
+                    "post with id -> " + id + " was not deleted");
+        }
     }
 }

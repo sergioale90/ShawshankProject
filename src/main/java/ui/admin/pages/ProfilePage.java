@@ -15,6 +15,12 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.admin.BaseAdminPage;
 
+/**
+ * This class is responsible for identifying each web element
+ * that contains the user profile page by using methods and locators
+ *
+ * @version 1.0
+ */
 public class ProfilePage extends BaseAdminPage {
 
     private String editHover = "//a[text()='value']/ancestor::td/descendant::div/span[@class='edit']/a";

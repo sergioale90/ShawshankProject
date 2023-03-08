@@ -15,6 +15,12 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import ui.admin.BaseAdminPage;
 
+/**
+ * This class is responsible for identifying each web element
+ * that contains the new user's page using methods and locators
+ *
+ * @version 1.0
+ */
 public class NewUsersPage extends BaseAdminPage {
 
     @FindBy(id = "user_login")

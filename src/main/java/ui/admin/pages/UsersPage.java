@@ -18,6 +18,12 @@ import ui.admin.BaseAdminPage;
 
 import java.util.List;
 
+/**
+ * This class is responsible for identifying each web element that
+ * contains the user's administrator page, methods and locators.
+ *
+ * @version 1.0
+ */
 public class UsersPage extends BaseAdminPage {
 
     private String idUser = "//a[text()='user']/ancestor::tr";
@@ -40,6 +46,9 @@ public class UsersPage extends BaseAdminPage {
 
     @FindBy(id = "user-search-input")
     private WebElement searchUser;
+
+    @FindBy(xpath = "//td[text()='No users found.']")
+    private WebElement noUserFound;
 
     @FindBy(id = "search-submit")
     private WebElement searchUserButton;
@@ -109,8 +118,15 @@ public class UsersPage extends BaseAdminPage {
     }
 
     public String ifExistUser(String search) {
-        List<WebElement> elements = driver.findElements(By.xpath(userResult.replace("as", search)));
-        return elements.size() > 0 ? "exist" : "notExist";
+        WebElement searchedUser = wait.until(ExpectedConditions.
+                presenceOfElementLocated(By.xpath(userResult.replace("as", search))));
+
+        if (searchedUser.isDisplayed()) {
+            return "exist";
+        } else if (noUserFound.isDisplayed()) {
+            return "notExist";
+        }
+        return "Wrong in search";
     }
 
     public void hideColumn(String column) {

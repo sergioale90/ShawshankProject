@@ -50,25 +50,6 @@ public class APICommentsMethods {
         return API_MANAGER.post(commentEndpoint, jsonAsMap, authHeader);
     }
 
-    public static Header loginAUser() {
-        Map<String, Object> jsonAsMap = new HashMap<>();
-        jsonAsMap.put("username", "James");
-        jsonAsMap.put("password", "James123");
-        String tokenEndpoint = API_CONFIG.getTokenEndpoint();
-        Response response = API_MANAGER.post(tokenEndpoint, ContentType.JSON, jsonAsMap);
-
-        if (Status.SUCCESS.matches(response.getStatusCode())) {
-            LOG.info("Authentication Token retrieved");
-            String tokenType = response.jsonPath().getString("token_type");
-            String token = response.jsonPath().getString("jwt_token");
-            String authorization = tokenType + " " + token;
-            return new Header("Authorization", authorization);
-        } else {
-            LOG.error("Failed to retrieve Authentication Token");
-            return null;
-        }
-    }
-
     public static Response deleteACommentById(String id) {
         String commentsByIdEndpoint = API_CONFIG.getCommentsByIdEndpoint().replace("<id>", id.replaceAll("\\[|\\]", ""));
         Header authHeader = APIAuthMethods.getAuthHeader("administrator");
@@ -78,25 +59,16 @@ public class APICommentsMethods {
         return API_MANAGER.delete(commentsByIdEndpoint, jsonAsMap, authHeader);
     }
 
-    public static Response createADraftPost() {
-        String postsEndpoint = API_CONFIG.getPostsEndpoint();
-        Header authHeader = APIAuthMethods.getAuthHeader("administrator");
-        Map<String, Object> jsonAsMap = new HashMap<>();
-        jsonAsMap.put("content", "Draft Test WAPI Post Content");
-        jsonAsMap.put("title", "Draft Test WAPI Title");
-        jsonAsMap.put("excerpt", "Draft Test WAPI Excerpt");
-        jsonAsMap.put("status", "draft");
+    public static Response createComment(String postId) {
+        Header authHeader = APIAuthMethods.getAuthHeader("author");
+        String commentsEndpoint = API_CONFIG.getCommentsEndpoint();
 
-        return API_MANAGER.post(postsEndpoint, jsonAsMap, authHeader);
+        Map<String, Object> jsonAsMap = new HashMap<>();
+        jsonAsMap.put("post", postId);
+        jsonAsMap.put("content", "Message from api");
+
+        return API_MANAGER.post(commentsEndpoint, jsonAsMap, authHeader);
     }
 
-    public static Response getAllPosts() {
-        String postsEndpoint = API_CONFIG.getPostsEndpoint();
-        Header authHeader = APIAuthMethods.getAuthHeader("administrator");
-        Map<String, Object> jsonAsMap = new HashMap<>();
-        jsonAsMap.put("per_page", PER_PAGE);
-
-        return API_MANAGER.get(postsEndpoint, jsonAsMap, authHeader);
-    }
 
 }

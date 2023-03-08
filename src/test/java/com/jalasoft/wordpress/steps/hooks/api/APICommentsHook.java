@@ -17,6 +17,12 @@ import io.restassured.internal.http.Status;
 import io.restassured.response.Response;
 import org.testng.Assert;
 
+/**
+ * This class is in charge of preparing the test environment by configuring the pre conditions and post conditions
+ * for the comments feature used in your API.
+ *
+ * @version 1.0
+ */
 public class APICommentsHook {
     private final APIController controller;
 

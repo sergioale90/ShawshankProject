@@ -24,19 +24,27 @@ public class StringManager {
     public static final int CHAR_RANGE_3 = 90;
     public static final int CHAR_RANGE_4 = 97;
 
+    public static final int USER_LENGTH = 7;
+
+    public static final int DOMAIN_LENGTH = 4;
+
 
     public static String convertStringUsingRegex(String text, String regex, String replacementText) {
         return text.replace(regex, replacementText);
     }
+
     public static String removeWhiteSpaces(String text) {
         return convertStringUsingRegex(text, ALL_WHITE_SPACES_REGEX, "");
     }
+
     public static String removeParenthesis(String text) {
         return convertStringUsingRegex(text, PARENTHESIS_REGEX, "");
     }
+
     public static String removeHTMLTags(String text) {
         return convertStringUsingRegex(text, HTML_TAGS_REGEX, "");
     }
+
     public static String generateStringDate() {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
@@ -52,5 +60,20 @@ public class StringManager {
                 .limit(length)
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
+    }
+
+    public static String generateEmailString() {
+        Random random = new Random();
+
+        String randomUser = random.ints(CHAR_RANGE_4, BOUND + 1)
+                .limit(USER_LENGTH)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+
+        String randomDomain = random.ints(CHAR_RANGE_4, BOUND + 1)
+                .limit(DOMAIN_LENGTH)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+        return randomUser + '@' + randomDomain + ".com";
     }
 }
