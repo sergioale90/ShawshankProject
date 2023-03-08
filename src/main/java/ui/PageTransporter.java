@@ -16,6 +16,10 @@ import ui.admin.pages.NewPostPage;
 import ui.admin.pages.NewTagPage;
 import utils.LoggerManager;
 
+/**
+ * This class contains the methods to move between different pages.
+ */
+
 public class PageTransporter {
     private static final LoggerManager LOG = LoggerManager.getInstance();
     private static final CredentialsManager CREDENTIALS_MANAGER = CredentialsManager.getInstance();

@@ -16,8 +16,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.admin.BaseAdminPage;
 import utils.StringManager;
 
+/**
+ * This class contains all methods, attributes and locators to interact in to the Edit Categories Page.
+ */
+
 public class EditCategoryPage extends BaseAdminPage {
-    private final int stringLenght = 6;
+    private static final int STRING_LENGHT = 6;
     @FindBy(xpath = "//div[@class='wrap']//h1")
     private WebElement editCategoryTitle;
     @FindBy(id="edittag")
@@ -50,21 +54,21 @@ public class EditCategoryPage extends BaseAdminPage {
     }
     public String editNameTextBox() {
         nameTextBox = wait.until(ExpectedConditions.visibilityOf(nameTextBox));
-        String newName = StringManager.generateAlphanumericString(stringLenght);
+        String newName = StringManager.generateAlphanumericString(STRING_LENGHT);
         nameTextBox.clear();
         nameTextBox.sendKeys(newName);
         return newName;
     }
     public String editSlugTextBox() {
         slugTextBox = wait.until(ExpectedConditions.visibilityOf(slugTextBox));
-        String newSlug = StringManager.generateAlphanumericString(stringLenght);
+        String newSlug = StringManager.generateAlphanumericString(STRING_LENGHT);
         slugTextBox.clear();
         slugTextBox.sendKeys(newSlug);
         return newSlug;
     }
     public String editDescriptionTextBox() {
         descriptionTexBox = wait.until(ExpectedConditions.visibilityOf(descriptionTexBox));
-        String newDescription = StringManager.generateAlphanumericString(stringLenght);
+        String newDescription = StringManager.generateAlphanumericString(STRING_LENGHT);
         descriptionTexBox.clear();
         descriptionTexBox.sendKeys(newDescription);
         return newDescription;

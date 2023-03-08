@@ -18,6 +18,10 @@ import org.openqa.selenium.support.ui.Wait;
 
 import java.util.Objects;
 
+/**
+ * This class is the base for all pages and contains the methods to handle alerts.
+ */
+
 public abstract class BasePageObject {
     protected WebDriver driver;
     protected Wait<WebDriver> wait;
