@@ -2,7 +2,7 @@
 Feature: Tags
 
   @CreateTag
-  Scenario Outline: A user with the proper role should be able to create a tag
+  Scenario Outline: A user with a proper role should be able to create a tag
     Given the user is logged in to Admin page with "<User Role>" role
     When the user goes to Tags page
     And the user creates a new tag with the following values
@@ -28,7 +28,7 @@ Feature: Tags
       | editor        |
 
   @UpdateTag
-  Scenario Outline: A user with proper role should be able to update a tag
+  Scenario Outline: A user with a proper role should be able to update a tag
     Given the user is logged in to Admin page with "<User Role>" role
     When the user goes to Tags page
     And the user opens the tag using the tag name link on the Tag page table
@@ -68,7 +68,7 @@ Feature: Tags
       | editor        |
 
   @FindValidTag
-  Scenario Outline: A user with proper role should be able to find a correct name tag
+  Scenario Outline: A user with a proper role should be able to find a correct name tag
     Given the user is logged in to Admin page with "<User Role>" role
     When the user goes to Tags page
     And the user searches a valid name tag

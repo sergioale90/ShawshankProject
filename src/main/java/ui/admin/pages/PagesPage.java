@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2023 Jala University.
- *
+ * <p>
  * This software is the confidential and proprieraty information of Jala University
  * ("Confidential Information"). You shall not disclose such Confidential
  * Information and shall use it only in accordance with the terms of the
@@ -16,6 +16,9 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.admin.BaseAdminPage;
 
+/**
+ * This class provides actions for a WordPress page
+ */
 public class PagesPage extends BaseAdminPage {
     @FindBy(xpath = "//a[@class='page-title-action'][text()='Add New']")
     private WebElement addNewPageButton;
@@ -56,13 +59,6 @@ public class PagesPage extends BaseAdminPage {
         return this;
     }
 
-    public PagesPage switchToDraftPagePublished(String title) {
-        String titleLocator = String.format("//a[text()='%s']", title);
-        WebElement pagesTitleLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(titleLocator)));
-        UIMethods.moveToWebElement(pagesTitleLink);
-
-        return this;
-    }
     public PagesPage deletePagePermanentlyUsingLink(String title) {
         String titleLocator = String.format("//td[contains(@class, 'column-title')]//span[contains(.,'%s')]", title);
         WebElement pagesTitleLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(titleLocator)));
@@ -95,7 +91,6 @@ public class PagesPage extends BaseAdminPage {
         return UIMethods.isWebElementNotPresentByXpathJs(titleLocator);
     }
 
-
     public boolean isPagePermanentlyDeleteMessageDisplayed() {
         String deleteMessageLocator = "//div[@id='message']/p[contains(text(), 'page permanently deleted.')]";
         return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(deleteMessageLocator))).isDisplayed();
@@ -115,5 +110,4 @@ public class PagesPage extends BaseAdminPage {
         String titleLocator = String.format("//tr[contains(@class, 'no-items')]//td", title);
         return UIMethods.isWebElementNotPresentByXpathJs(titleLocator);
     }
-
 }

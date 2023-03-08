@@ -28,15 +28,10 @@ import java.util.Map;
  */
 
 public class APICommentsMethods {
-
     public static final LoggerManager LOG = LoggerManager.getInstance();
-
     public static final APIManager API_MANAGER = APIManager.getInstance();
-
     private static final APIConfig API_CONFIG = APIConfig.getInstance();
-
     private static final int PER_PAGE = 100;
-
     private static final int STRING_LENGHT = 15;
 
     public static Response publishAComment(String id) {
@@ -69,6 +64,4 @@ public class APICommentsMethods {
 
         return API_MANAGER.post(commentsEndpoint, jsonAsMap, authHeader);
     }
-
-
 }

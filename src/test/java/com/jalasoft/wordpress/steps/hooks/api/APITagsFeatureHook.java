@@ -19,6 +19,10 @@ import org.testng.Assert;
 
 import java.util.List;
 
+/**
+ * This class is the hook for tags scenarios from API.
+ */
+
 public class APITagsFeatureHook {
     private final APIController controller;
     private static final int ORDER = 100;

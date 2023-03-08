@@ -13,28 +13,29 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.testng.Assert;
 import ui.PageTransporter;
-import ui.admin.pages.TagsPage;
-import ui.admin.pages.NewTagPage;
 import ui.admin.pages.EditTagPage;
+import ui.admin.pages.NewTagPage;
+import ui.admin.pages.TagsPage;
 import ui.admin.pages.ViewTagPage;
-import ui.admin.pages.HomeAdminPage;
 import ui.controller.UIController;
 
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class has the methods of the steps for Tags scenarios.
+ */
+
 public class TagsSteps {
     private final UIController controller;
     private final PageTransporter pageTransporter;
-    private HomeAdminPage homeAdminPage;
     private TagsPage tagsPage;
     private NewTagPage newTagPage;
     private EditTagPage editTagPage;
     private ViewTagPage viewTagPage;
 
-    public TagsSteps(UIController controller, HomeAdminPage homeAdminPage) {
+    public TagsSteps(UIController controller) {
         this.pageTransporter = PageTransporter.getInstance();
-        this.homeAdminPage = homeAdminPage;
         this.controller = controller;
         this.tagsPage = new TagsPage();
         this.viewTagPage = new ViewTagPage();

@@ -15,6 +15,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.admin.BaseEditPage;
 import ui.sections.PublishPanel;
 
+/**
+ * This class provides actions for a WordPress New Page
+ */
 public class NewPagesPage extends BaseEditPage {
     public NewPagesPage() {
         PageFactory.initElements(driver, this);

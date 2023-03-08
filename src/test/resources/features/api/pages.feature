@@ -15,7 +15,7 @@ Feature: API Pages
       | editor        | HTTP/1.1 200 OK |
 
   @CreateAPagePublish
-  Scenario Outline: A user with proper role should be able to create a page with publish status
+  Scenario Outline: A user with a proper role should be able to create a page with publish status
     Given the user is authenticated with "<User Role>" role
     When the user creates a page with the following values
       | title                     | status         |  content                    | excerpt                |
@@ -30,7 +30,7 @@ Feature: API Pages
       | editor           | HTTP/1.1 201 Created |
 
   @CreateAPageDraft
-  Scenario Outline: A user with proper role should be able to create a page with draft status
+  Scenario Outline: A user with a proper role should be able to create a page with draft status
     Given the user is authenticated with "<User Role>" role
     When the user creates a page with the following values
       | title                           |  content                          | excerpt                      |
@@ -45,7 +45,7 @@ Feature: API Pages
       | editor           | HTTP/1.1 201 Created |
 
   @RetrieveAPage
-  Scenario Outline: A user with proper role should be able to retrieve a page
+  Scenario Outline: A user with a proper role should be able to retrieve a page
     Given the user is authenticated with "<User Role>" role
     When the user tries to retrieve a page
     Then the user should get a "<Status Line>" response
@@ -58,7 +58,7 @@ Feature: API Pages
       | editor        | HTTP/1.1 200 OK |
 
   @UpdateAPagePublished
-  Scenario Outline: A user with proper role should be able to update a page
+  Scenario Outline: A user with a proper role should be able to update a page
     Given the user is authenticated with "<User Role>" role
     When the user updates a page with the following params
       | title                           | status         |  content                          | excerpt                      |
@@ -73,7 +73,7 @@ Feature: API Pages
       | editor        | HTTP/1.1 200 OK |
 
   @MoveAPageToTrash
-  Scenario Outline: A user with proper role should be able to move a page to trash status
+  Scenario Outline: A user with a proper role should be able to move a page to trash status
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to move a page a trash
     Then the user should get a "<Status Line>" response
@@ -86,7 +86,7 @@ Feature: API Pages
       | editor        | HTTP/1.1 200 OK |
 
   @DeleteAPage
-  Scenario Outline: A user with proper role should be able to delete a page permanently
+  Scenario Outline: A user with a proper role should be able to delete a page permanently
     Given the user is authenticated with "<User Role>" role
     When the user makes a request to delete permanently a page
     Then the user should get a "<Status Line>" response
@@ -125,7 +125,7 @@ Feature: API Pages
     And the user should see the response returned and have a body with the following values
       | code   | message   | data   |
       | <Code> | <Message> | <Data> |
-    # | author      | HTTP/1.1 403 Forbidden | rest_cannot_retrieve | Sorry, you are not allowed to get tags as this user. | [status:403] |
+
     Examples:
       | User Role     | Status Line               | Code                  | Message                                                | Data         |
       | author        | HTTP/1.1 403 Forbidden    | rest_cannot_retrieve  | Sorry, you are not allowed to get pages as this user.  | [status:403] |
@@ -133,7 +133,7 @@ Feature: API Pages
       | subscriber    | HTTP/1.1 403 Forbidden    | rest_cannot_retrieve  | Sorry, you are not allowed to get pages as this user.  | [status:403] |
 
   @UnableCreateAPageWithoutTitle @Bug @ST-64
-  Scenario Outline: A user with proper role should not able to create a page without title
+  Scenario Outline: A user with a proper role should not able to create a page without title
     Given the user is authenticated with "<User Role>" role
     When the user creates a page with the following values
       | status         |  content                    | excerpt                |

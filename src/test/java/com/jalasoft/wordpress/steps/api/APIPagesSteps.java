@@ -25,18 +25,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class has the steps methods for pages scenarios.
+ */
 public class APIPagesSteps {
-
     private static final APIConfig API_CONFIG = APIConfig.getInstance();
-
     private static final APIManager API_MANAGER = APIManager.getInstance();
-
     private final APIController controller;
-
     private final String pagesEndpoint = API_CONFIG.getPagesEndpoint();
-
     private final String pagesByIdEndpoint = API_CONFIG.getPagesByIdEndpoint();
-
     private Map<String, Object> params;
 
     private static final int PER_PAGE = 100;

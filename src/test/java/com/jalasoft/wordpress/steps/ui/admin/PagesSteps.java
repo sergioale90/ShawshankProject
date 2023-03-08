@@ -23,6 +23,10 @@ import ui.controller.UIController;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class has the methods of the steps for Pages scenarios.
+ */
+
 public class PagesSteps {
     private final UIController controller;
     private final HomeAdminPage homeAdminPage;
