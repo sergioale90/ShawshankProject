@@ -115,7 +115,7 @@ public class TagsPage extends BaseAdminPage {
     }
 
     public boolean isMessageNoTagsFoundDisplayed(String message) {
-        String messageLocator = String.format("//div[@id='message']//p[contains(.,'%s')]", message);
+        String messageLocator = String.format("//tr[@class='no-items']//td[contains(.,'%s')]", message);
         WebElement messageElement = driver.findElement(By.xpath(messageLocator));
         return messageElement.isDisplayed();
     }
