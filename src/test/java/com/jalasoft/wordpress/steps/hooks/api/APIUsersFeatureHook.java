@@ -16,7 +16,6 @@ import io.restassured.internal.http.Status;
 import io.restassured.response.Response;
 import org.testng.Assert;
 
-import java.util.List;
 
 /**
  * This class is in charge of preparing the test environment, with the preconditions and post conditions
