@@ -25,6 +25,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * this class is responsible for providing all the necessary methods for
+ * the API tests to be performed by the commenting feature.
+ *
+ * @version 1.0
+ */
 public class APICommentsSteps {
     private static final APIConfig API_CONFIG = APIConfig.getInstance();
     private static final APIManager API_MANAGER = APIManager.getInstance();

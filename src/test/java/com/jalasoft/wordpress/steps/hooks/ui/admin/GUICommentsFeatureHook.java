@@ -19,6 +19,12 @@ import ui.controller.UICommentsController;
 import ui.methods.CommonMethods;
 import utils.LoggerManager;
 
+/**
+ * This class is responsible for preparing the test environment by configuring the preconditions
+ * and post conditions for the comment feature used in UI.
+ *
+ * @version 1.0
+ */
 public class GUICommentsFeatureHook {
     private static final LoggerManager LOG = LoggerManager.getInstance();
     private final UICommentsController controller;

@@ -16,6 +16,12 @@ import io.restassured.internal.http.Status;
 import io.restassured.response.Response;
 import org.testng.Assert;
 
+/**
+ * This class is in charge of preparing the test environment, with the preconditions and post conditions
+ * for the user feature used in its API.
+ *
+ * @version 1.0
+ */
 public class APIUsersFeatureHook {
 
     private final APIController controller;

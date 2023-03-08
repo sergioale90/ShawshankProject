@@ -18,6 +18,12 @@ import ui.admin.BaseAdminPage;
 
 import java.util.List;
 
+/**
+ * This class is responsible for identifying each web element that
+ * contains the user's administrator page, methods and locators.
+ *
+ * @version 1.0
+ */
 public class UsersPage extends BaseAdminPage {
 
     private String idUser = "//a[text()='user']/ancestor::tr";
@@ -115,7 +121,7 @@ public class UsersPage extends BaseAdminPage {
         WebElement searchedUser = wait.until(ExpectedConditions.
                 presenceOfElementLocated(By.xpath(userResult.replace("as", search))));
 
-        if(searchedUser.isDisplayed()){
+        if (searchedUser.isDisplayed()) {
             return "exist";
         } else if (noUserFound.isDisplayed()) {
             return "notExist";

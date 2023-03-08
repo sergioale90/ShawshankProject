@@ -17,6 +17,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.BasePageObject;
 import utils.StringManager;
 
+/**
+ * This class is responsible for identifying each web element that contains
+ * the comment page using methods and locators.
+ *
+ * @version 1.0
+ */
 public class CommentsPage extends BasePageObject {
     @FindBy(css = "li.moderated a")
     WebElement pendingLink;

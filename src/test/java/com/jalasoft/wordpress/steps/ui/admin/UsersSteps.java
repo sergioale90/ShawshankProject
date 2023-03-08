@@ -23,6 +23,11 @@ import ui.controller.UIUserController;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class is responsible for providing all the methods needed for the API tests of the user feature.
+ *
+ * @version 1.0
+ */
 public class UsersSteps {
 
     private final UIUserController controller;

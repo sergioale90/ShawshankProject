@@ -14,6 +14,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+/**
+ * This class is responsible for identifying each web element
+ * that contains the user edit page by using methods and locators
+ *
+ * @version 1.0
+ */
 public class EditUsersPage extends BaseAdminPage {
 
     @FindBy(id = "first_name")

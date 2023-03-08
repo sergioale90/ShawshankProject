@@ -21,6 +21,12 @@ import ui.sections.PublishedPostPage;
 
 import java.util.Map;
 
+/**
+ * This class is responsible for providing all the necessary methods for
+ * the UI tests to be performed by the commenting feature.
+ *
+ * @version 1.0
+ */
 public class CommentsSteps {
     private final UICommentsController controller;
     private final PageTransporter pageTransporter;
@@ -134,8 +140,6 @@ public class CommentsSteps {
     public void goesToAEditFrom() {
         String commentId = controller.getIdComment();
         commentsPage.moveCommentUserToEdit(commentId);
-
-        // commentsPage.goToEdit();
     }
 
     @And("the user replace the old comment with a new one")

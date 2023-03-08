@@ -17,6 +17,12 @@ import org.testng.Assert;
 import ui.controller.UIUserController;
 import utils.LoggerManager;
 
+/**
+ * This class is responsible for preparing the test environment, with the pre conditions and post
+ * conditions for the user feature used in UI.
+ *
+ * @version 1.0
+ */
 public class GUIUsersFeatureHook {
     private static final LoggerManager LOG = LoggerManager.getInstance();
     private final UIUserController controller;

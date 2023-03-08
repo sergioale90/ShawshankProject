@@ -18,11 +18,17 @@ import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
 import org.testng.Assert;
+
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class is responsible for providing all the methods needed for the UI tests of the user feature.
+ *
+ * @version 1.0
+ */
 public class APIUsersSteps {
 
     private static final APIConfig API_CONFIG = APIConfig.getInstance();

@@ -12,6 +12,12 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.PageFactory;
 import ui.admin.BaseAdminPage;
 
+/**
+ * This class is responsible for identifying each web element
+ * contained in the public post page for commenting using methods and locators.
+ *
+ * @version 1.0
+ */
 public class UserCommentPage extends BaseAdminPage {
     public UserCommentPage() {
         PageFactory.initElements(driver, this);
