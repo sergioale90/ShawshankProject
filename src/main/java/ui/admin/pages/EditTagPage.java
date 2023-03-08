@@ -15,6 +15,9 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.admin.BaseAdminPage;
 
+/**
+ * This class provides actions for a WordPress Edit Tag page
+ */
 public class EditTagPage extends BaseAdminPage {
     private String nameLocator = "input#name";
     private String slugLocator = "input#slug";
@@ -25,7 +28,6 @@ public class EditTagPage extends BaseAdminPage {
 
     @FindBy(css = "span#delete-link a")
     private WebElement deleteLink;
-
 
     public EditTagPage() {
         PageFactory.initElements(driver, this);
@@ -55,29 +57,6 @@ public class EditTagPage extends BaseAdminPage {
         descriptionTextArea.click();
         descriptionTextArea.clear();
         descriptionTextArea.sendKeys(description);
-    }
-
-    public String getNameText() {
-        WebElement nameTextBox = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(nameLocator)));
-        return nameTextBox.getText();
-    }
-
-    public String getSlugText() {
-        WebElement slugTextBox = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(slugLocator)));
-        return slugTextBox.getText();
-    }
-
-    public String getDescriptionText() {
-        WebElement descriptionTextArea = wait
-                .until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(descriptionLocator)));
-        return descriptionTextArea.getText();
-    }
-
-    public void addNewTag(String name, String slug, String description) {
-        setNameTextBox(name);
-        setSlugTextBox(slug);
-        setDescriptionTextArea(description);
-        updateEditTagButton.submit();
     }
 
     public boolean isTagUpdatedMessageDisplayed() {

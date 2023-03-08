@@ -18,6 +18,10 @@ import ui.controller.UIController;
 import ui.methods.CommonMethods;
 import utils.LoggerManager;
 
+/**
+ * This class is the hook for pages scenarios.
+ */
+
 public class GUIPagesFeatureHook {
     private static final LoggerManager LOG = LoggerManager.getInstance();
     private final UIController controller;

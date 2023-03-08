@@ -21,6 +21,10 @@ import ui.admin.BaseAdminPage;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class provides actions for a WordPress Tag.
+ */
+
 public class TagsPage extends BaseAdminPage {
     @FindBy(css = "input#tag-search-input")
     private WebElement textBoxSearch;
@@ -97,6 +101,7 @@ public class TagsPage extends BaseAdminPage {
         deleteLink.click();
         return this;
     }
+
     public boolean isNameTagLinkNotPresent(String name) {
         String titleLocator = String.format("//a[text()='%s']", name);
         return wait.until(webDriver -> UIMethods.isWebElementNotPresentByXpathJs(titleLocator));
@@ -108,6 +113,7 @@ public class TagsPage extends BaseAdminPage {
         WebElement tagNameLink = driver.findElement(By.cssSelector(link));
         return tagNameLink.isDisplayed();
     }
+
     public boolean isMessageNoTagsFoundDisplayed(String message) {
         String messageLocator = String.format("//div[@id='message']//p[contains(.,'%s')]", message);
         WebElement messageElement = driver.findElement(By.xpath(messageLocator));

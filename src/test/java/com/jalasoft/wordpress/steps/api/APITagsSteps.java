@@ -29,6 +29,10 @@ import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
+/**
+ * This class has the steps methods for tag scenarios.
+ */
+
 public class APITagsSteps {
     private static final APIConfig API_CONFIG = APIConfig.getInstance();
     private static final APIManager API_MANAGER = APIManager.getInstance();

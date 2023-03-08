@@ -13,6 +13,9 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.admin.BaseAdminPage;
 
+/**
+ * This class provides actions for a WordPress View Tag page.
+ */
 public class ViewTagPage extends BaseAdminPage {
     public ViewTagPage() {
         PageFactory.initElements(driver, this);

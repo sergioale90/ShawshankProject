@@ -18,12 +18,18 @@ import org.testng.Assert;
 
 import java.util.List;
 
+/**
+ * This class is the hook for pages scenarios from API.
+ */
+
 public class APIPagesFeatureHook {
     private final APIController controller;
     private static final int ORDER = 100;
+
     public APIPagesFeatureHook(APIController controller) {
         this.controller = controller;
     }
+
     @Before("@RetrieveAPage or @DeleteAPage or @MoveAPageToTrash or @DeleteAPage")
     public void createADrafPage() {
         Response requestResponse = APIPagesMethods.createADraftPage();

@@ -20,6 +20,9 @@ import utils.LoggerManager;
 
 import java.util.List;
 
+/**
+ * This class is the hook for tags scenarios.
+ */
 public class GUITagsFeatureHook {
     private static final LoggerManager LOG = LoggerManager.getInstance();
     private final UIController controller;
