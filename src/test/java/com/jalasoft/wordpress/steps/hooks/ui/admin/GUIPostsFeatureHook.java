@@ -63,7 +63,7 @@ public class GUIPostsFeatureHook {
         CommonMethods.logout();
     }
 
-    @After("@CreatePublishPost or @CreateDraftPost")
+    @After("@CreatePublishPost")
     public void afterPosts() {
         CommonMethods.logout();
         String title = controller.getTitle();
