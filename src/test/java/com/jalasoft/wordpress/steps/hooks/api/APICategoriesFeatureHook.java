@@ -41,6 +41,7 @@ public class APICategoriesFeatureHook {
         Response requestResponse = APICategoriesMethods.deleteACategory(id);
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "category with id -> " + id + " was not deleted");
     }
+
     @After("@NotUpdateACategory or @NotDeleteACategory")
     public void deleteACategoryInvalidResponse() {
         String id = controller.getIdAux();

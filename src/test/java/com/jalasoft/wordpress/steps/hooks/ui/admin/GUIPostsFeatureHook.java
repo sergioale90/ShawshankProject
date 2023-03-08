@@ -19,10 +19,13 @@ import ui.controller.UIController;
 import ui.methods.CommonMethods;
 import utils.LoggerManager;
 
+import java.util.List;
+
 public class GUIPostsFeatureHook {
     private static final LoggerManager LOG = LoggerManager.getInstance();
     private final UIController controller;
     private final APIController apiController;
+    private static final int ORDER = 100;
 
     public GUIPostsFeatureHook(UIController controller, APIController apiController) {
         this.controller = controller;
@@ -60,12 +63,11 @@ public class GUIPostsFeatureHook {
         CommonMethods.logout();
     }
 
-    @After("@CreatePublishPost or @CreateDraftPost")
+    @After("@CreatePublishPost")
     public void afterPosts() {
         CommonMethods.logout();
         String title = controller.getTitle();
         Response requestResponse = APIPostsMethods.deleteAPostByTitle(title);
-        Assert.assertNotNull(requestResponse, "post with title -> " + title + " was not found");
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "post with title -> " + title + " was not deleted");
     }
 
@@ -75,5 +77,14 @@ public class GUIPostsFeatureHook {
         String id = controller.getId();
         Response requestResponse = APIPostsMethods.deleteAPostById(id);
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()), "post with id -> " + id + " was not deleted");
+    }
+
+    @After(value = "@PostsUI", order = ORDER)
+    public void afterPostsAll() {
+        CommonMethods.logout();
+        List<Integer> objects = APIPostsMethods.getAllPosts().jsonPath().getList("id");
+        for (Integer id : objects) {
+            APIPostsMethods.deleteAPostById(id.toString());
+        }
     }
 }
