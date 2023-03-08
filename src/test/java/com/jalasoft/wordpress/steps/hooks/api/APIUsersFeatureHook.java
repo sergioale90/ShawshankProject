@@ -49,16 +49,4 @@ public class APIUsersFeatureHook {
         Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()),
                 "post with id -> " + id + " was not deleted");
     }
-    @After("@GetUsersWithPagination")
-    public void deleteAUsersById() {
-        List<Integer> objects = APIUsersMethods.getAllUsers().jsonPath().getList("id");
-        for (Integer id : objects) {
-            if (id.toString().equals("1")) {
-                continue;
-            }
-            Response requestResponse = APIUsersMethods.deleteAUsersById(id.toString());
-            Assert.assertTrue(Status.SUCCESS.matches(requestResponse.getStatusCode()),
-                    "post with id -> " + id + " was not deleted");
-        }
-    }
 }
